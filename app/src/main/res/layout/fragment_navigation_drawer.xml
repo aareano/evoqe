@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_floating_material_dark"
+    android:orientation="vertical" >
+
+    <!-- The header at the top -->
+    <TextView
+        android:id="@+id/TV_subscription_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="32sp"
+        android:text="@string/zero"
+        android:textColor="@color/grey_light"
+        android:onClick="onSubscriptionClick" />
+
+    <TextView
+        android:id="@+id/TV_subscription_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="14sp"
+        android:text="@string/subscriptions_label"
+        android:textColor="@color/grey_light"
+        android:onClick="onSubscriptionClick" />
+
+    <!-- 1st divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_dark" />
+    
+    <!-- Status bar, height is 80 + 16*2 -->
+    <RelativeLayout 
+        android:id="@+id/status_bar_container"
+        android:layout_width="wrap_content"
+        android:layout_height="112dp" >
+        
+        <ImageView 
+	        android:id="@+id/IV_thumbnail"
+	        android:layout_height="80dp"
+	        android:layout_width="80dp"
+	        android:layout_marginLeft="16dp"
+	        android:layout_marginStart="16dp"
+	        android:layout_marginTop="16dp"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentStart="true"
+	        android:layout_alignParentTop="true"
+	        android:onClick="refreshDrawer"
+	        
+	        android:src="@drawable/logo"
+	        android:contentDescription="Contact thumbnail" />
+        
+        <TextView
+            android:id="@+id/TV_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/IV_thumbnail"
+            android:layout_toEndOf="@id/IV_thumbnail"
+            android:layout_alignTop="@id/IV_thumbnail"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            
+            android:text="@string/basic_error"
+            android:textSize="14sp"
+            android:textColor="@color/grey_light" />
+        
+        <TextView 
+            android:id="@+id/TV_user_school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/IV_thumbnail"
+            android:layout_toEndOf="@id/IV_thumbnail"
+            android:layout_below="@id/TV_user_name"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            
+            android:text="@string/basic_error"
+            android:textSize="14sp"
+            android:textColor="@color/grey_light" />
+        
+        <TextView 
+            android:id="@+id/TV_user_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/IV_thumbnail"
+            android:layout_toEndOf="@id/IV_thumbnail"
+            android:layout_below="@id/TV_user_school"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            
+            android:text="@string/basic_error"
+            android:textSize="14sp"
+            android:textColor="@color/grey_light" />
+        
+    </RelativeLayout>
+    
+    <!-- 2nd divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_dark"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp" />
+    
+    <!-- List of the navigation options -->
+	<ListView
+	    android:id="@+id/LV_drawer_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:choiceMode="singleChoice"
+	    android:divider="@color/grey_dark"
+	    android:dividerHeight="1dp"
+	    tools:context="com.evoqe.NavigationDrawerFrag" />
+        
+</LinearLayout>
