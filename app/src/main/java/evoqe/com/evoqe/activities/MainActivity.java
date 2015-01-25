@@ -117,7 +117,7 @@ public class MainActivity extends ActionBarActivity
     /** Temp hack solution to refresh the drawer
      */
     public void refreshDrawer (View view) {
-        mNavigationDrawerFragment.setText(R.id.TV_subscription_count, R.string.subscriptions, ParseUser.getCurrentUser());   // subscription count
+        mNavigationDrawerFragment.setText(R.id.TV_subscription_count, R.string.subscriptions_key, ParseUser.getCurrentUser());   // subscription count
     }
 
     @Override

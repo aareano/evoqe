@@ -33,7 +33,10 @@ public class JamboreeAdapter extends ArrayAdapter<ParseObject>{
     private Context mContext;
     private int layoutResourceId;
     private JamboreeClickListener mCallback;
-    
+
+    private static String TITLE_KEY;
+    private static String HOST_KEY;
+
     private final String TAG = "JamboreeAdapter";
     
     public JamboreeAdapter(Context context, int layoutResourceId, List<ParseObject> jamborees, Activity activity) {
@@ -44,6 +47,10 @@ public class JamboreeAdapter extends ArrayAdapter<ParseObject>{
         this.mContext = context;
         this.layoutResourceId = layoutResourceId;
         this.mCallback = (JamboreeClickListener) activity;
+
+        // initialize ParseObject Jamboree keys
+        TITLE_KEY = mContext.getResources().getString(R.string.title_key);
+        HOST_KEY = mContext.getResources().getString(R.string.owner_full_name_key);
     }
     
     @Override
@@ -74,8 +81,7 @@ public class JamboreeAdapter extends ArrayAdapter<ParseObject>{
 
             @Override
             public void onClick(View v) {
-                String key = mContext.getResources().getString(R.string.title);
-                Log.d(TAG, "rowJamboreeClick - '" + jamboree.getString(key) + "'");
+                Log.d(TAG, "rowJamboreeClick - '" + jamboree.getString(TITLE_KEY) + "'");
                 mCallback.onJamboreeClicked(jamboree);
             }
         });
@@ -84,13 +90,11 @@ public class JamboreeAdapter extends ArrayAdapter<ParseObject>{
         if (jamboree != null) {
             // title
             TextView title = (TextView) row.findViewById(R.id.TV_title);
-            String key = mContext.getResources().getString(R.string.title);
-            title.setText(jamboree.getString(key));
+            title.setText(jamboree.getString(TITLE_KEY));
             
             // host
             TextView hostName = (TextView) row.findViewById(R.id.TV_host);
-            key = mContext.getResources().getString(R.string.owner_full_name);
-            hostName.setText("Hosted by: " + jamboree.getString(key));
+            hostName.setText("Hosted by: " + jamboree.getString(HOST_KEY));
 
             // *** Date and time ***
             TextView date = (TextView) row.findViewById(R.id.TV_date);
@@ -110,9 +114,8 @@ public class JamboreeAdapter extends ArrayAdapter<ParseObject>{
                 public void onClick(View v) {
                     try {
                         Log.i(TAG, "Setting up intent to send text.");
-                        String key = mContext.getResources().getString(R.string.title);
                         String sms = "Hey! Check this out - " +
-                        		jamborees.get(position).getString(key) +
+                        		jamborees.get(position).getString(TITLE_KEY) +
                         		" is at " + timeString + " on " + dateString + ".";
                         
                         // set up intent

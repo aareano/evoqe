@@ -68,12 +68,12 @@ public class RestaurantAdapter extends ArrayAdapter<ParseObject> {
         if (restaurant != null) {
             // name
             TextView title = (TextView) row.findViewById(R.id.TV_name);
-            String key = context.getResources().getString(R.string.name);
+            String key = context.getResources().getString(R.string.name_key);
             title.setText(restaurant.getString(key));
             
             // description
             TextView description = (TextView) row.findViewById(R.id.TV_description);
-            key = context.getResources().getString(R.string.details);
+            key = context.getResources().getString(R.string.details_key);
             description.setText(restaurant.getString(key));
             
             // open times
@@ -87,7 +87,7 @@ public class RestaurantAdapter extends ArrayAdapter<ParseObject> {
 
             // TextView list of discounts
             TextView disc = (TextView) row.findViewById(R.id.TV_discounts);
-            key = context.getResources().getString(R.string.discounts);
+            key = context.getResources().getString(R.string.discounts_key);
             disc.setText(restaurant.getString(key));
         }
         
@@ -100,7 +100,7 @@ public class RestaurantAdapter extends ArrayAdapter<ParseObject> {
      * @return e.g. "11AM - 11PM" or "9:30AM - 10PM"
      */
     private String getTimesForToday(ParseObject restaurant) {
-        String key = context.getResources().getString(R.string.open_times);
+        String key = context.getResources().getString(R.string.open_times_key);
         String openTimes = restaurant.getString(key);
         Calendar now = Calendar.getInstance();
         int day = (now.get(Calendar.DAY_OF_WEEK) - 1); // SUNDAY = 1

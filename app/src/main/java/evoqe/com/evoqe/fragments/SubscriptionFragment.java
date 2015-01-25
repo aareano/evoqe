@@ -61,7 +61,7 @@ public class SubscriptionFragment extends ListFragment {
         // The current user is actually saved to disc at this point
         ParseUser me = ParseUser.getCurrentUser();
         // Get the relationship between current user (me) and my subscriptions
-        String subKey = getActivity().getResources().getString(R.string.subscriptions);
+        String subKey = getActivity().getResources().getString(R.string.subscriptions_key);
         // A relation between current user and other users (one-to-many?)
         ParseRelation<ParseUser> relation = me.getRelation(subKey);
         if (relation != null) {

@@ -216,18 +216,21 @@
     <string name="action_sign_in_short">Sign in</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="add_to_cal">Add to cal</string>
     <string name="app_name">evoqe</string>
     <string name="basic_error">Error, that\'s our bad.</string>
+    <string name="buy_tickets">Buy tickets</string>
     <string name="changing_fragments">Changing Fragments</string>
     <string name="closed">NA-NA</string>
     <string name="closed_message">Closed today :( sorry</string>
     <string name="confirmPasswordHint">Confirm Password</string>
     <string name="createAccount">Create Account</string>
-    <string name="description">description</string>
-    <string name="details">details</string>
+    <string name="description_key">description</string>
+    <string name="details_key">details</string>
     <string name="discount_header">Discounts:</string>
-    <string name="discounts">discounts</string>
+    <string name="discounts_key">discounts</string>
     <string name="emailHint">Email</string>
+    <string name="email_host">Email host</string>
     <string name="errorPage">This is awkward…</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
@@ -241,11 +244,10 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="example">Example</string>
-    <string name="full_name">fullName</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="full_name_key">fullName</string>
     <string name="image_description">Thumbnail</string>
     <string name="joy">YES!</string>
-    <string name="location">location</string>
+    <string name="location_key">location</string>
     <string name="location_label">Location:</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
@@ -255,15 +257,17 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="menu_settings">Settings</string>
-    <string name="name">name</string>
+    <string name="name_key">name</string>
     <string name="navigation_drawer_close">close drawer</string>
     <string name="navigation_drawer_open">open drawer</string>
     <string name="no_description">No description available.</string>
     <string name="no_discounts">To be announced</string>
-    <string name="open_times">openTimes</string>
+    <string name="open_times_key">openTimes</string>
     <string name="orText">Or</string>
-    <string name="owner_full_name">ownerFullName</string>
+    <string name="owner_full_name_key">ownerFullName</string>
+    <string name="owner_key">owner</string>
     <string name="passwordHint">Password</string>
+    <string name="privacy_key">privacy</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="prompt_email">Email</string>
@@ -271,21 +275,23 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="save_event">Save to MyEvents</string>
-    <string name="school">school</string>
+    <string name="school_key">school</string>
+    <string name="share">Share</string>
     <string name="signIn">Sign In</string>
-    <string name="start_time">startTime</string>
+    <string name="start_time_key">startTime</string>
     <string name="submit">Submit</string>
     <string name="subscribe">Subscribe to host</string>
-    <string name="subscriptions">subscriptions</string>
+    <string name="subscriptions_key">subscriptions</string>
     <string name="subscriptions_label">Subscriptions</string>
     <string name="text_friend">Text a friend</string>
-    <string name="title">title</string>
     <string name="title_activity_create_account">CreateAccountActivity</string>
     <string name="title_activity_launcher">LauncherActivity</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="userType">userType</string>
+    <string name="title_key">title</string>
+    <string name="userType_key">userType</string>
     <string name="usernameHint">Username</string>
-    <string name="year">year</string>
+    <string name="weather">Weather</string>
+    <string name="year_key">year</string>
     <string name="zero">0</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/styles.xml -->
     <eat-comment/>

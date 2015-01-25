@@ -14,19 +14,21 @@ import android.widget.RelativeLayout;
 import com.parse.ParseObject;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.adapters.JamboreeInfoAdapter_1;
-import evoqe.com.evoqe.objects.Jamboree;
+import evoqe.com.evoqe.adapters.JamboreeInfoAdapter;
+import evoqe.com.evoqe.objects.ParseProxyObject;
 
 public class JamboreeInfoFragment extends Fragment {
 
     private RelativeLayout mLayout;
-    private ParseObject mJamboree;
+    private ParseProxyObject mJamboree;
     private String TAG = "JamboreeInfoFragment";
+    private static final String JAMBOREE_KEY = "jamboree";
 
     public static JamboreeInfoFragment newInstance(ParseObject jamboree) {
         JamboreeInfoFragment frag = new JamboreeInfoFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("jamboree", new Jamboree(jamboree));
+        // bundle.putParcelable("jamboree", new Jamboree(jamboree));
+        bundle.putSerializable(JAMBOREE_KEY, new ParseProxyObject(jamboree));
         frag.setArguments(bundle); // put a Parcelable Jamboree in a bundle
         return frag;
     }
@@ -34,8 +36,8 @@ public class JamboreeInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Bundle bundle = this.getArguments(); // get the Jamboree from the bundle
-        Jamboree jam = (Jamboree) bundle.getParcelable("jamboree");
-        mJamboree = jam.getJamboree(); // get the actual (non-parcelable) jamboree
+        // Jamboree jam = (Jamboree) bundle.getParcelable(JAMBOREE_KEY);
+        mJamboree = (ParseProxyObject) bundle.getSerializable(JAMBOREE_KEY);
         Log.d(TAG, "after bundle, title = " + mJamboree.getString("title"));
         super.onCreate(savedInstanceState);
     }
@@ -56,7 +58,7 @@ public class JamboreeInfoFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        JamboreeInfoAdapter_1 adapter = new JamboreeInfoAdapter_1(mJamboree, getActivity());
+        JamboreeInfoAdapter adapter = new JamboreeInfoAdapter(mJamboree, getActivity());
         recList.setAdapter(adapter);
 
         super.onActivityCreated(savedInstanceState);

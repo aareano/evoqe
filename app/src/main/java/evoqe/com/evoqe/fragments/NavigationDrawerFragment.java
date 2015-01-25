@@ -112,10 +112,10 @@ public class NavigationDrawerFragment extends Fragment {
             }
         }); // set the user-specific textviews
         ParseUser user = ParseUser.getCurrentUser();
-        setText(R.id.TV_subscription_count, R.string.subscriptions, user);   // subscription count
-        setText(R.id.TV_user_name, R.string.full_name, user);   // name
-        setText(R.id.TV_user_school, R.string.school, user);    // school
-        setText(R.id.TV_user_type, R.string.year, user);        // year -- TODO, should be a different attribute?
+        setText(R.id.TV_subscription_count, R.string.subscriptions_key, user);   // subscription count
+        setText(R.id.TV_user_name, R.string.full_name_key, user);   // name
+        setText(R.id.TV_user_school, R.string.school_key, user);    // school
+        setText(R.id.TV_user_type, R.string.year_key, user);        // year -- TODO, should be a different attribute?
         
         DrawerAdapter adapter = new DrawerAdapter(
                         getActivity(),

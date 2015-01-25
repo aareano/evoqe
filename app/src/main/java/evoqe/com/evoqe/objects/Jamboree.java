@@ -18,7 +18,7 @@ public class Jamboree implements Parcelable {
     private ParseObject mJamboree;
 
     /** Enum used to convert ints to Strings (e.g. 2 becomes "Tuesday") */
-    public enum Day {
+    private enum Day {
         MONDAY {
             public String getDay() {
                 return "Monday";
@@ -61,6 +61,9 @@ public class Jamboree implements Parcelable {
     public Jamboree(ParseObject jamboree) {
         mJamboree = jamboree;
     }
+    public Jamboree(ParseProxyObject jamboree) {
+        mJamboree = jamboree;
+    }
 
     public ParseObject getJamboree() {
         return mJamboree;
@@ -80,8 +83,8 @@ public class Jamboree implements Parcelable {
      *         if appropriate (e.g. "Tuesday (today)" or "Sunday (tomorrow)").
      */
     public String getDays(boolean areCaps) {
-        Calendar startCal = dateToCalendar(mJamboree.getDate("startTime"));
-        Calendar endCal = dateToCalendar(mJamboree.getDate("endTime"));
+        Calendar startCal = dateToCalendar((Date) mJamboree.get("startTime")); // have to do funky casting because of using ParseProxyObject
+        Calendar endCal = dateToCalendar((Date) mJamboree.get("endTime"));
 
         // error handling
         if (startCal == null || endCal == null) {

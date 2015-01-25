@@ -99,7 +99,7 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
         if (host != null) {
             // *** title *** //
             TextView title = (TextView) row.findViewById(R.id.TV_name);
-            String nameKey = mContext.getResources().getString(R.string.full_name);
+            String nameKey = mContext.getResources().getString(R.string.full_name_key);
             String currHostName = host.getString(nameKey);
             if (currHostName == null || currHostName.equals("")) {
                 currHostName = mContext.getResources().getString(R.string.basic_error);
@@ -154,7 +154,7 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
             @Override
             public void onClick(View checkBox) {
                 ParseUser me = ParseUser.getCurrentUser();
-                String subKey = mContext.getResources().getString(R.string.subscriptions);
+                String subKey = mContext.getResources().getString(R.string.subscriptions_key);
                 ParseRelation<ParseObject> rel = me.getRelation(subKey);
                 
                 // was the box just checked or unchecked?
