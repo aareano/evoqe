@@ -20,15 +20,13 @@ import android.widget.Toast;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.objects.Jamboree;
+import evoqe.com.evoqe.objects.DateTimeParser;
 import evoqe.com.evoqe.objects.ParseProxyObject;
 
 /**
@@ -46,6 +44,7 @@ public class JamboreeInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static String HOST_KEY;
     private static String OWNER_KEY;
     private static String PRIVACY_KEY;
+    private static final String OBJECT_ID_KEY = "objectId";
     private static final String TAG = "JamboreeInfoAdapter";
     private final int NUM_OF_CARDS = 2;
     private static ParseProxyObject mJamboree; // only static so it can be used in enum Card
@@ -126,10 +125,10 @@ public class JamboreeInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder.vPrivacy.setText(mJamboree.getString(PRIVACY_KEY));
 
                 // Date (e.g. "Wednesday 4/12/14") and Time (e.g. "4:30pm - 6:30pm")
-                // make a new Jamboree class object to handle date/time formatting
-                Jamboree jam = new Jamboree(mJamboree);
-                final String dateString = jam.getDays(false);
-                final String timeString = jam.getTimes(false);
+                final String dateString = DateTimeParser.getDays(mJamboree.getDate("startTime"),
+                        mJamboree.getDate("endTime"), false);
+                final String timeString = DateTimeParser.getDays(mJamboree.getDate("startTime"),
+                        mJamboree.getDate("endTime"), false);
                 viewHolder.vDate.setText(dateString);
                 viewHolder.vTime.setText(timeString);
                 // Description
@@ -144,15 +143,15 @@ public class JamboreeInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // Subscribe to host button
                 viewHolder.vSubscribe.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        final ParseObject host = mJamboree.getParseObject(OWNER_KEY); // get host user (returns as a ParseObject)
+                    public void onClick(View v) {  // TODO - this no longer works
+                        final ParseProxyObject host = mJamboree.getParseUser(OWNER_KEY);
                         HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
-                        map.put("objectId", host.getObjectId());
+                        map.put(OBJECT_ID_KEY, host.getString(OBJECT_ID_KEY));
                         ParseCloud.callFunctionInBackground("addSubscription", map, // does all relation logic
                             new FunctionCallback<String>() {
                                 @Override
                                 public void done(String response, ParseException e) {
-                                    Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getObjectId() + ")");
+                                    Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getString(OBJECT_ID_KEY) + ")");
                                     if (e == null) { // success!
                                         Toast.makeText(mContext, "Subscription added", Toast.LENGTH_SHORT).show();
                                     } else { // failure!
@@ -294,20 +293,22 @@ public class JamboreeInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * Sends simple text to another application
      */
     private static void shareEvent() {
-            // make a new Jamboree class object to handle date/time formatting
-            Jamboree jam = new Jamboree(mJamboree);
-            // Message to send to another application
-            String text = mJamboree.getString(TITLE_KEY) +
-                    " at " + jam.getTimes(false) + " on " + jam.getDays(false) + ".";
-            // TODO - passing the date, like "1/14/13" would be way better than the day here.
+        String dateString = DateTimeParser.getDays(mJamboree.getDate("startTime"),
+                mJamboree.getDate("endTime"), false);
+        String timeString = DateTimeParser.getDays(mJamboree.getDate("startTime"),
+                mJamboree.getDate("endTime"), false);
+        // Message to send to another application
+        String text = mJamboree.getString(TITLE_KEY) +
+                " at " + timeString + " on " + dateString + ".";
+        // TODO - passing the date, like "1/14/13" would be way better than the day here.
 
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
-            sendIntent.setType("text/plain");
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+        sendIntent.setType("text/plain");
 
-            // Verify it resolves
-            boolean isIntentSafe = intentIsSafe(sendIntent);
+        // Verify it resolves
+        boolean isIntentSafe = intentIsSafe(sendIntent);
         try {
             // Start activity if it is safe
             if (isIntentSafe) {
@@ -329,7 +330,8 @@ public class JamboreeInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      * Sends simple text to another application
      */
     private static void emailHost() {
-            String[] TO = {((ParseUser) mJamboree.get(OWNER_KEY)).getEmail()};
+            String[] TO = {((ParseProxyObject) mJamboree.getParseUser(OWNER_KEY)).getString("email"),
+                    ((ParseProxyObject) mJamboree.getParseUser(OWNER_KEY)).getString("contactEmail")};
             Intent emailIntent = new Intent(Intent.ACTION_SEND);
             emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("text/plain");

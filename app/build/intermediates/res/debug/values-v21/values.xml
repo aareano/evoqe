@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values-v21/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values-v21/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance.Material"/>
     <style name="Base.TextAppearance.AppCompat.Body1" parent="android:TextAppearance.Material.Body1"/>
@@ -269,7 +269,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
     </style>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values-v21/styles.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values-v21/styles.xml -->
     <eat-comment/>
     <style name="Theme.MyApp" parent="Theme.AppCompat.Light">
         <!--We will be using the toolbar so no need to show ActionBar-->

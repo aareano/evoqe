@@ -2,60 +2,60 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jar="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-244334fbd5604c58f3d1132963de1b25d0521c28.jar" />
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-bd7fbf6e139435cc13e96fb2ef354b72a11e32c8.jar" />
     </item>
     <item
-        jar="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\src\main\java\evoqe\com\evoqe\libs\Parse-1.7.1\Parse-1.7.1.jar"
+        jar="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\src\main\java\evoqe\com\evoqe\libs\Parse-1.7.1\Parse-1.7.1.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="87c45f9f66da531a65f065ee32f603c7e6db1528">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\Parse-1.7.1-a385296864f8b6474621f52469e2812c514b6025.jar" />
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\Parse-1.7.1-df22604bacde054afe254ae737290b9ca04ae238.jar" />
     </item>
     <item
-        jar="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.2\classes.jar"
+        jar="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.2\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4796f18d3750bf2bfa078407a94a7f9db35b440d">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-0e24bc56e5b6cecce3c58f1e8bf2e40381033e90.jar" />
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-cc387431d8569c7c6b726806ffed8d9c5a63f808.jar" />
     </item>
     <item
-        jar="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jar="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-440ca52392313797a543ad415d75193dc1e34087.jar" />
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-98684e8211ca513ce7d89611917c75867d516b71.jar" />
     </item>
     <item
-        jar="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\src\main\java\evoqe\com\evoqe\libs\Parse-1.7.1\bolts-android-1.1.3.jar"
+        jar="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\src\main\java\evoqe\com\evoqe\libs\Parse-1.7.1\bolts-android-1.1.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="e61e3dfc57eaa5c97f9e7061db5608fc7d02d39e">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.3-3fd8ac9dfabbccb1cbff827ba38acd529904b9f9.jar" />
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\bolts-android-1.1.3-69c4e9a180a1cdc23fafcc9d282fb647c1d7fd9b.jar" />
     </item>
     <item
         jar="C:\Users\Isaac\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-a77759b492f3bdb775d8f67bd2cb2794f80e8df8.jar" />
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-a77759b492f3bdb775d8f67bd2cb2794f80e8df8.jar" />
     </item>
     <item
-        jar="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-834665d26f0f0472ab1efcacdd233f69898c0124.jar" />
-    </item>
-    <item
-        jar="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.2\classes.jar"
+        jar="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.2\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="b017100da14f9c158c9f5f2f508333c224b24a7c">
-        <dex dex="C:\Users\Isaac\Development\AndroidstudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-8b987d8f481801dbc481d911eae46281101cac69.jar" />
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\classes-8da2ac22901e4da037c96a0f1a0f73029c686881.jar" />
+    </item>
+    <item
+        jar="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Isaac\Development\AndroidStudioProjects\evoqe\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-0f5cf614d85763f36ac58e556e96d428aca8b41a.jar" />
     </item>
 
 </items>

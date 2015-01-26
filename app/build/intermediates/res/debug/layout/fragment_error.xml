@@ -5,4 +5,4 @@
     android:gravity="center_vertical|center_horizontal"
     android:text="@string/errorPage"
     android:textSize="30sp" />
-<!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/layout/fragment_error.xml -->
+<!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/fragment_error.xml -->

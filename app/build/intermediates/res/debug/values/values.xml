@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/arrays.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/arrays.xml -->
     <eat-comment/>
     <string-array name="drawer_items">
         <item>Home</item>
         <item>Subscriptions</item>
     </string-array>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -28,11 +28,11 @@
     <color name="background_floating_material_light">#ffeeeeee</color>
     <color name="background_material_dark">#ff303030</color>
     <color name="background_material_light">#ffeeeeee</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="black">#000000</color>
     <color name="blue_light">#5BD4DE</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
@@ -42,24 +42,24 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/res/values/values.xml -->
     <eat-comment/>
     <color name="cardview_dark_background">#FF202020</color>
     <color name="cardview_light_background">#FFFAFAFA</color>
     <color name="cardview_shadow_end_color">#03000000</color>
     <color name="cardview_shadow_start_color">#37000000</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="green_light">#7BE37C</color>
     <color name="grey_dark">#4D4D4D</color>
     <color name="grey_light">#CFCFCF</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
@@ -67,12 +67,12 @@
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
     <color name="link_text_material_dark">@color/material_deep_teal_200</color>
     <color name="link_text_material_light">@color/material_deep_teal_500</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="list_background">#E3E3E3</color>
     <color name="main_dark">#619497</color>
     <color name="main_light">#CBD9DA</color>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="material_blue_grey_800">#ff37474f</color>
     <color name="material_blue_grey_900">#ff263238</color>
@@ -156,16 +156,16 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/res/values/values.xml -->
     <eat-comment/>
     <dimen name="cardview_compat_inset_shadow">1dp</dimen>
     <dimen name="cardview_default_elevation">2dp</dimen>
     <dimen name="cardview_default_radius">2dp</dimen>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
@@ -173,10 +173,10 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="navigation_drawer_width">304dp</dimen>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -204,17 +204,17 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="action_register">Create Account</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="action_sign_in_register"><b>Sign in</b> or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="add_to_cal">Add to cal</string>
     <string name="app_name">evoqe</string>
@@ -232,7 +232,7 @@
     <string name="emailHint">Email</string>
     <string name="email_host">Email host</string>
     <string name="errorPage">This is awkward…</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="error_duplicate_email">This email address is already in use</string>
     <string name="error_duplicate_username">This username is already in use</string>
@@ -241,7 +241,7 @@
     <string name="error_invalid_confirm_password">Passwords do not match</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="example">Example</string>
     <string name="full_name_key">fullName</string>
@@ -249,12 +249,12 @@
     <string name="joy">YES!</string>
     <string name="location_key">location</string>
     <string name="location_label">Location:</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="login_progress_password_email">Sending email…</string>
     <string name="login_progress_signing_in">Signing in…</string>
     <string name="menu_forgot_password">Recover lost password</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="menu_settings">Settings</string>
     <string name="name_key">name</string>
@@ -268,11 +268,11 @@
     <string name="owner_key">owner</string>
     <string name="passwordHint">Password</string>
     <string name="privacy_key">privacy</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="save_event">Save to MyEvents</string>
     <string name="school_key">school</string>
@@ -293,7 +293,7 @@
     <string name="weather">Weather</string>
     <string name="year_key">year</string>
     <string name="zero">0</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
@@ -306,7 +306,7 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->    
     </style>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance">
         <item name="android:textColor">?android:textColorPrimary</item>
@@ -1060,7 +1060,7 @@
         <item name="android:scaleType">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/res/values/values.xml -->
     <eat-comment/>
     <style name="CardView">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
@@ -1076,14 +1076,14 @@
     <style name="CardView.Light">
         <item name="cardBackgroundColor">@color/cardview_light_background</item>
     </style>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="LoginFormContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
     </style>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>

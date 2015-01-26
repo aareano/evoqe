@@ -21,7 +21,7 @@ import com.parse.ParseObject;
 import java.util.List;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.objects.Jamboree;
+import evoqe.com.evoqe.objects.DateTimeParser;
 
 public class JamboreeAdapter extends ArrayAdapter<ParseObject>{
 
@@ -99,10 +99,10 @@ public class JamboreeAdapter extends ArrayAdapter<ParseObject>{
             // *** Date and time ***
             TextView date = (TextView) row.findViewById(R.id.TV_date);
             TextView time = (TextView) row.findViewById(R.id.TV_time);
-            // make a new Jamboree class object to handle date/time formatting
-            Jamboree jam = new Jamboree(jamboree);
-            final String dateString = jam.getDays(false);
-            final String timeString = jam.getTimes(false);
+            final String dateString = DateTimeParser.getDays(jamboree.getDate("startTime"),
+                    jamboree.getDate("endTime"), false);
+            final String timeString = DateTimeParser.getDays(jamboree.getDate("startTime"),
+                    jamboree.getDate("endTime"), false);
             date.setText(dateString);
             time.setText(timeString);
             

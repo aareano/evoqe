@@ -3,7 +3,7 @@ package evoqe.com.evoqe.objects;
 // By Jamie Chapman, @chappers57
 // License: open, do as you wish, just don't blame me if stuff breaks ;-)
 
-// Aaron Bowen 1/25/14 - added getParseObject()
+// Aaron Bowen 1/25/14 - added getParseObject(), getDate()
 
 import android.util.Log;
 
@@ -40,15 +40,15 @@ public class ParseProxyObject implements Serializable {
                 values.put(key, object.get(key));
             } else if(classType == ParseUser.class) {
                 ParseProxyObject parseUserObject = new ParseProxyObject((ParseObject)object.get(key));
-                values.put(key, parseUserObject);
-            } else {
-                // You might want to add more conditions here, for embedded ParseObject, ParseFile, etc.
-                // If you do, make changes to getParseObject() method below
-            }
-            // Every ParseObject has an objectId, this needs to be added separately
-            values.put(OBJECT_ID_KEY, object.getObjectId());
+            values.put(key, parseUserObject);
+        } else {
+            // You might want to add more conditions here, for embedded ParseObject, ParseFile, etc.
+            // If you do, make changes to getParseObject() method below
         }
+        // Every ParseObject has an objectId, this needs to be added separately
+        values.put(OBJECT_ID_KEY, object.getObjectId());
     }
+}
 
     public String getString(String key) {
         if(has(key)) {

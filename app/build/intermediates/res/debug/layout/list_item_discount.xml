@@ -11,4 +11,4 @@
     android:paddingRight="16dp"
     
     android:textSize="12sp"
-    android:textColor="@android:color/darker_gray" /><!-- From: file:/C:/Users/Isaac/Development/AndroidstudioProjects/evoqe/app/src/main/res/layout/list_item_discount.xml -->
+    android:textColor="@android:color/darker_gray" /><!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/list_item_discount.xml -->
