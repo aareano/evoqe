@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 evoqe
 =====
 
@@ -12,3 +13,7 @@ The code for the Android evoqe app
 # evoqe
 The code for the Android app 'evoqe'
 >>>>>>> 5bf4b5e8f5408e180c658ed557d0098ae4606da5
+=======
+# evoqe
+The code for the Android app 'evoqe'
+>>>>>>> 91d61d06144148b98122cde5ce9986e2a02f3b6e
