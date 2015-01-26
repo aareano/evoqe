@@ -20,7 +20,7 @@ import evoqe.com.evoqe.fragments.NavigationDrawerFragment;
 import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
 
-
+// TODO: make events into cards, make event detail page into activity
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, JamboreeClickListener {
 

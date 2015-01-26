@@ -10,11 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.HashMap;
 import java.util.List;
 
 import evoqe.com.evoqe.R;
@@ -130,13 +135,12 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
         // loop through m(y)Subscriptions looking a match
         int size = mMySubs.size();
         for (int i = 0; i < size; i++) {
-            
-            // username match - TODO, what's the best thing to match here? email?
-            String hostUName= host.getString("username"); // this row
-            String aUserUName = mMySubs.get(i).getString("username"); // subscription list
+            // objectId match
+            String hostId = host.getObjectId(); // this row
+            String aUserId = mMySubs.get(i).getObjectId(); // subscription list
             
             // change checkbox image based on equality
-            if (hostUName != null && aUserUName != null && hostUName.equals(aUserUName)) {
+            if (hostId != null && aUserId != null && hostId.equals(aUserId)) {
                 checkBox.setChecked(true);
                 checkBox.setButtonDrawable(R.drawable.ic_menu_compass); // TODO - get a proper image
                 break;  // match! exit for loop
@@ -158,17 +162,14 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
                 ParseRelation<ParseObject> rel = me.getRelation(subKey);
                 
                 // was the box just checked or unchecked?
-                boolean checked = ((CheckBox) checkBox).isChecked();
-                
+                final boolean checked = ((CheckBox) checkBox).isChecked();
+                String funcName = null;
                 if (checked) { // was just checked, so add subscription
-                    
-                    rel.add(host); // add subscription - relate current user and the host
+                    funcName = "addSubscription";
                     mMySubs.add(host);
                     ((CheckBox) checkBox).setButtonDrawable(R.drawable.ic_menu_compass);
-                
                 } else { // was just unchecked, so remove subscription
-                
-                    rel.remove(host); // delete subscription - unrelate ^^
+                    funcName = "removeSubscription";
                     int size = mMySubs.size();
                     for (int i = 0; i < size; i++) { // loop through list to find and destroy
                         if (mMySubs.get(i).getString("username").equals(host.getString("username"))) {
@@ -178,6 +179,31 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
                     }
                     ((CheckBox) checkBox).setButtonDrawable(R.drawable.create_contact);
                 }
+                // do the actual adding or remove on Parse
+                HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
+                map.put("objectId", host.getObjectId());
+                ParseCloud.callFunctionInBackground(funcName, map, // does all relation logic
+                        new FunctionCallback<String>() {
+                            @Override
+                            public void done(String response, ParseException e) {
+                                Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getObjectId() + ")");
+                                if (e == null) { // success!
+                                    if (checked) { // was added
+                                        Toast.makeText(mContext, "Subscription added", Toast.LENGTH_SHORT).show();
+                                    } else { // was removed
+                                        Toast.makeText(mContext, "Subscription removed", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else { // failure!
+                                    Log.e(TAG, e.toString());
+                                    if (checked) { // was NOT added
+                                        Toast.makeText(mContext, "Unable to add subscription", Toast.LENGTH_SHORT).show();
+                                    } else {  // was NOT removed
+                                        Toast.makeText(mContext, "Unable to remove subscription", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        }
+                );
             }
         });
     }

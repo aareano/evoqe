@@ -144,22 +144,22 @@ public class JamboreeInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder.vSubscribe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {  // TODO - this no longer works
-                        final ParseProxyObject host = mJamboree.getParseUser(OWNER_KEY);
-                        HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
-                        map.put(OBJECT_ID_KEY, host.getString(OBJECT_ID_KEY));
-                        ParseCloud.callFunctionInBackground("addSubscription", map, // does all relation logic
-                            new FunctionCallback<String>() {
-                                @Override
-                                public void done(String response, ParseException e) {
-                                    Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getString(OBJECT_ID_KEY) + ")");
-                                    if (e == null) { // success!
-                                        Toast.makeText(mContext, "Subscription added", Toast.LENGTH_SHORT).show();
-                                    } else { // failure!
-                                        Log.e(TAG, e.toString());
-                                        Toast.makeText(mContext, "Unable to add subscription", Toast.LENGTH_SHORT).show();
-                                    }
+                    final ParseProxyObject host = mJamboree.getParseUser(OWNER_KEY);
+                    HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
+                    map.put(OBJECT_ID_KEY, host.getString(OBJECT_ID_KEY));
+                    ParseCloud.callFunctionInBackground("addSubscription", map, // does all relation logic
+                        new FunctionCallback<String>() {
+                            @Override
+                            public void done(String response, ParseException e) {
+                                Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getString(OBJECT_ID_KEY) + ")");
+                                if (e == null) { // success!
+                                    Toast.makeText(mContext, "Subscription added", Toast.LENGTH_SHORT).show();
+                                } else { // failure!
+                                    Log.e(TAG, e.toString());
+                                    Toast.makeText(mContext, "Unable to add subscription", Toast.LENGTH_SHORT).show();
                                 }
-                            });
+                            }
+                        });
                     }
                 });
             }
