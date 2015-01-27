@@ -39,22 +39,22 @@ public class ParseProxyObject implements Serializable {
                     classType == Integer.class || classType == Boolean.class || classType == Date.class) {
                 values.put(key, object.get(key));
             } else if(classType == ParseUser.class) {
-                ParseProxyObject parseUserObject = new ParseProxyObject((ParseObject)object.get(key));
+                ParseProxyObject parseUserObject = new ParseProxyObject(object.getParseUser(key));
             values.put(key, parseUserObject);
         } else {
             // You might want to add more conditions here, for embedded ParseObject, ParseFile, etc.
             // If you do, make changes to getParseObject() method below
         }
-        // Every ParseObject has an objectId, this needs to be added separately
-        values.put(OBJECT_ID_KEY, object.getObjectId());
     }
+    // Every ParseObject has an objectId, this needs to be added separately
+    values.put(OBJECT_ID_KEY, object.getObjectId());
 }
 
     public String getString(String key) {
         if(has(key)) {
             return (String) values.get(key);
         } else {
-            return "";
+            return "no string";
         }
     }
 

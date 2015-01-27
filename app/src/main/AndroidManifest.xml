@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="evoqe.com.evoqe" >
 
-    <permission android:name="com.evoqe.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <permission android:name="com.evoqe.permission.C2D_MESSAGE"
+                android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,19 +18,31 @@
         android:theme="@style/AppTheme"
         android:supportsRtl="true" >
 
-        <activity
-            android:name=".activities.MainActivity"
+        <!-- Activities -->
+
+        <activity android:name=".activities.ForgotPasswordActivity" android:label="@string/forgot_password_activity_label"/>
+        <activity android:name=".activities.JamboreeDetailActivity"
+                  android:label="@string/jamboree_detail_activity_label"
+                  android:parentActivityName=".activities.MainActivity" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"  />
+        </activity>
+        <activity android:name=".activities.MainActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name=".activities.ForgotPasswordActivity" android:label="Forgot Password"/>
-        <activity android:name=".activities.LoginActivity" android:label="Login">
+        <activity android:name=".activities.LoginActivity"
+                  android:label="@string/login_activity_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SignUpActivity" android:label="Sign up"/>
+        <activity android:name=".activities.SignUpActivity" android:label="@string/signup_activity_label"/>
+
+        <!-- Service and Receivers -->
 
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">

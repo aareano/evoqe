@@ -24,16 +24,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+
+        <!-- Activities -->
+
+        <activity
+            android:name="evoqe.com.evoqe.activities.ForgotPasswordActivity"
+            android:label="@string/forgot_password_activity_label" />
+        <activity
+            android:name="evoqe.com.evoqe.activities.JamboreeDetailActivity"
+            android:label="@string/jamboree_detail_activity_label"
+            android:parentActivityName="evoqe.com.evoqe.activities.MainActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
         <activity
             android:name="evoqe.com.evoqe.activities.MainActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="evoqe.com.evoqe.activities.ForgotPasswordActivity"
-            android:label="Forgot Password" />
-        <activity
             android:name="evoqe.com.evoqe.activities.LoginActivity"
-            android:label="Login" >
+            android:label="@string/login_activity_label" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,7 +55,9 @@
         </activity>
         <activity
             android:name="evoqe.com.evoqe.activities.SignUpActivity"
-            android:label="Sign up" />
+            android:label="@string/signup_activity_label" />
+
+        <!-- Service and Receivers -->
 
         <service android:name="com.parse.PushService" />
 

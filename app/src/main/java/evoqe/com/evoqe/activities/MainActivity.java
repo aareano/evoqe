@@ -1,5 +1,6 @@
 package evoqe.com.evoqe.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,13 +15,13 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.adapters.JamboreeAdapter.JamboreeClickListener;
-import evoqe.com.evoqe.fragments.JamboreeInfoFragment;
+import evoqe.com.evoqe.adapters.JamboreePreviewAdapter.JamboreeClickListener;
 import evoqe.com.evoqe.fragments.NavigationDrawerFragment;
 import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
+import evoqe.com.evoqe.objects.ParseProxyObject;
 
-// TODO: make events into cards, make event detail page into activity
+// TODO: make event detail page into activity
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, JamboreeClickListener {
 
@@ -114,6 +115,7 @@ public class MainActivity extends ActionBarActivity
     public void onSubscriptionClick (View view) {
         onNavigationDrawerItemSelected(1); // it's at position 1 right now
     }
+
     /** Temp hack solution to refresh the drawer
      */
     public void refreshDrawer (View view) {
@@ -122,8 +124,9 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onJamboreeClicked(ParseObject jamboree) {
-        Log.d(TAG, "onJamboreeClicked - '" + jamboree.getString("title") + "'");
-        replaceFragment(R.id.container, JamboreeInfoFragment.newInstance(jamboree));
+        Intent intent = new Intent(MainActivity.this, JamboreeDetailActivity.class);
+        intent.putExtra(JamboreeDetailActivity.JAMBOREE_KEY, new ParseProxyObject(jamboree));
+        startActivity(intent);
     }
 
 }

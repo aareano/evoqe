@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.adapters.CustomPagerAdapter;
+import evoqe.com.evoqe.adapters.ViewPagerAdapter;
 import evoqe.com.evoqe.tabs.SlidingTabLayout;
 
 
@@ -44,7 +44,7 @@ public class TabFragment extends Fragment {
      */
     public void initializePager() {
         mViewPager = (ViewPager) mLayout.findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new CustomPagerAdapter(getChildFragmentManager(), (Activity) getActivity()));
+        mViewPager.setAdapter(new ViewPagerAdapter(getChildFragmentManager(), (Activity) getActivity()));
         mSlidingLayout = (SlidingTabLayout) mLayout.findViewById(R.id.sliding_tabs);
         mSlidingLayout.setViewPager(mViewPager);
     }
