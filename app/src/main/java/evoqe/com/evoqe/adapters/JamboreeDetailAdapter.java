@@ -38,6 +38,10 @@ import evoqe.com.evoqe.objects.ParseProxyObject;
  */
 public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public interface OnClickWeatherListener {
+        public void onClickWeather();
+    }
+
     private static String TITLE_KEY;
     private static String DESCRIPTION_KEY;
     private static String LOCATION_KEY;
@@ -67,7 +71,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public ViewHolder_1(View v) {
             super(v);
-            Log.d(TAG, "ViewHolder_1()");
             vTitle =       (TextView) v.findViewById(R.id.TV_title);
             vThumbnail =   (ImageView) v.findViewById(R.id.thumbnail);
             vHost =        (TextView) v.findViewById(R.id.TV_host);
@@ -90,7 +93,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public ViewHolder_2(View v) {
             super(v);
-            Log.d(TAG, "ViewHolder_2()");
             vWeather =    (Button) v.findViewById(R.id.BTN_weather);
             vAddToCal =   (Button) v.findViewById(R.id.BTN_add_to_cal);
             vShare =      (Button) v.findViewById(R.id.BTN_share);
@@ -106,7 +108,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
              * Get and return the appropriate ViewHolder for this card.
              */
             public ViewHolder_1 getViewHolder(ViewGroup viewGroup) {
-                Log.d(TAG, "making a ViewHolder_1");
                 View v = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.card_jamboree_detail, viewGroup, false);
                 return new ViewHolder_1(v);
@@ -116,7 +117,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
              * Makes edits custom to this card, like calling setText() on TextViews and such.
              */
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
-                Log.d(TAG, "making a layout with ViewHolder_1");
                 ViewHolder_1 viewHolder = (ViewHolder_1) vHolder;
 
                 // Title
@@ -171,7 +171,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
              * Get and return the appropriate ViewHolder for this card.
              */
             public ViewHolder_2 getViewHolder(ViewGroup viewGroup) {
-                Log.d(TAG, "making a ViewHolder_2");
                 View v = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.card_jamboree_action, viewGroup, false);
                 return new ViewHolder_2(v);
@@ -181,13 +180,20 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
              * Makes edits custom to this card, like calling setText() on TextViews and such.
              */
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
-                Log.d(TAG, "making a layout with ViewHolder_2");
                 final ViewHolder_2 viewHolder = (ViewHolder_2) vHolder;
 
                 Drawable icon = mContext.getResources().getDrawable(R.drawable.logo);
                 // add the icon, text is already there
                 icon.setBounds(0, 0, 48, 48);
                 viewHolder.vWeather.setCompoundDrawables(null, icon, null, null);
+                viewHolder.vWeather.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d(TAG, "onClick()");
+                        // callback to JamboreeDetailActivity >> starts new activity with a WebView layout
+                        ((OnClickWeatherListener) mContext).onClickWeather();
+                    }
+                });
 
                 icon.setBounds(0, 0, 48, 48);
                 viewHolder.vAddToCal.setCompoundDrawables(null, icon, null, null);
@@ -382,7 +388,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        Log.d(TAG, "Item type = position = " + position);
         // Unlike ListView adapters, types need not be contiguous
         return position;
     }
@@ -390,14 +395,12 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     // Create new views (invoked by the layout manager)
     @Override   
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        Log.d(TAG, "viewType = " + viewType);
         return Card.values()[viewType].getViewHolder(viewGroup);
     }
  
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        Log.d(TAG, "onBindViewHolder position = " + position);
         Card.values()[position].prepLayout(viewHolder);
     }
 }

@@ -7,6 +7,7 @@
     <string name="main_activity_label">evoqe</string>
     <string name="forgot_password_activity_label">Forgot Password</string>
     <string name="signup_activity_label">evoqe signup</string>
+    <string name="weather_activity_label">Weather</string>
     <string name="action_settings">Settings</string>
     <string name="example">Example</string>
 

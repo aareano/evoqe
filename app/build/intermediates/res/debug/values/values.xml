@@ -301,6 +301,7 @@
     <string name="userType_key">userType</string>
     <string name="usernameHint">Username</string>
     <string name="weather">Weather</string>
+    <string name="weather_activity_label">Weather</string>
     <string name="year_key">year</string>
     <string name="zero">0</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/styles.xml -->

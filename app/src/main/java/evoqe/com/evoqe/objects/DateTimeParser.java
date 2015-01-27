@@ -1,5 +1,7 @@
 package evoqe.com.evoqe.objects;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -8,6 +10,8 @@ import java.util.Locale;
  * This class is for parsing date objects into formatted strings
  */
 public class DateTimeParser {
+
+    private static String TAG = "DateTimeParser";
 
     /** Enum used to convert ints to Strings (e.g. 2 becomes "Tuesday") */
     private enum Day {
@@ -62,6 +66,8 @@ public class DateTimeParser {
     public static String getDays(Date startDate, Date endDate, boolean areCaps) {
         Calendar startCal = dateToCalendar(startDate);
         Calendar endCal = dateToCalendar(endDate);
+        Log.d(TAG, "startCal::::::: " + startCal.toString());
+        Log.d(TAG, "\n\nendCal::::::: " + endCal.toString());
 
         // error handling
         if (startCal == null || endCal == null) {

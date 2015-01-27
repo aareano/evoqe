@@ -20,18 +20,6 @@
 
         <!-- Activities -->
 
-        <activity android:name=".activities.ForgotPasswordActivity" android:label="@string/forgot_password_activity_label"/>
-        <activity android:name=".activities.JamboreeDetailActivity"
-                  android:label="@string/jamboree_detail_activity_label"
-                  android:parentActivityName=".activities.MainActivity" >
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"  />
-        </activity>
-        <activity android:name=".activities.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
         <activity android:name=".activities.LoginActivity"
                   android:label="@string/login_activity_label">
             <intent-filter>
@@ -40,6 +28,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MainActivity"
+                  android:label="@string/app_name" >
+        </activity>
+        <activity android:name=".activities.JamboreeDetailActivity"
+                  android:label="@string/jamboree_detail_activity_label"
+                  android:parentActivityName=".activities.MainActivity"
+                  android:launchMode="singleTop" > <!-- Preserve extras while in WeatherActivity -->
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"  />
+        </activity>
+        <activity android:name=".activities.WeatherActivity"
+                  android:label="@string/weather_activity_label"
+                  android:parentActivityName=".activities.JamboreeDetailActivity"
+                  android:launchMode="singleTop" >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.JamboreeDetailActivity"  />
+        </activity>
+        <activity android:name=".activities.ForgotPasswordActivity" android:label="@string/forgot_password_activity_label"/>
         <activity android:name=".activities.SignUpActivity" android:label="@string/signup_activity_label"/>
 
         <!-- Service and Receivers -->

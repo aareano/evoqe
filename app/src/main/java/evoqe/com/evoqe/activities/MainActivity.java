@@ -21,7 +21,6 @@ import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
 import evoqe.com.evoqe.objects.ParseProxyObject;
 
-// TODO: make event detail page into activity
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, JamboreeClickListener {
 
