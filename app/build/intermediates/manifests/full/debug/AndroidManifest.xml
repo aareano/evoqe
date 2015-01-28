@@ -29,7 +29,8 @@
 
         <activity
             android:name="evoqe.com.evoqe.activities.LoginActivity"
-            android:label="@string/login_activity_label" >
+            android:label="@string/login_activity_label"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,13 +39,15 @@
         </activity>
         <activity
             android:name="evoqe.com.evoqe.activities.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="evoqe.com.evoqe.activities.JamboreeDetailActivity"
             android:label="@string/jamboree_detail_activity_label"
             android:launchMode="singleTop"
-            android:parentActivityName="evoqe.com.evoqe.activities.MainActivity" >
+            android:parentActivityName="evoqe.com.evoqe.activities.MainActivity"
+            android:screenOrientation="portrait" >
  <!-- Preserve extras while in WeatherActivity -->
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -54,7 +57,9 @@
         <activity
             android:name="evoqe.com.evoqe.activities.WeatherActivity"
             android:label="@string/weather_activity_label"
-            android:parentActivityName="evoqe.com.evoqe.activities.JamboreeDetailActivity" >
+            android:launchMode="singleTop"
+            android:parentActivityName="evoqe.com.evoqe.activities.JamboreeDetailActivity"
+            android:screenOrientation="portrait" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
@@ -63,10 +68,12 @@
         </activity>
         <activity
             android:name="evoqe.com.evoqe.activities.ForgotPasswordActivity"
-            android:label="@string/forgot_password_activity_label" />
+            android:label="@string/forgot_password_activity_label"
+            android:screenOrientation="portrait" />
         <activity
             android:name="evoqe.com.evoqe.activities.SignUpActivity"
-            android:label="@string/signup_activity_label" />
+            android:label="@string/signup_activity_label"
+            android:screenOrientation="portrait" />
 
         <!-- Service and Receivers -->
 

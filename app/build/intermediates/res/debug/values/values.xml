@@ -217,6 +217,7 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="add_to_cal">Add to cal</string>
+    <string name="already_subscribed">Subscribed</string>
     <string name="app_name">evoqe</string>
     <string name="basic_error">Error, that\'s our bad.</string>
     <string name="buy_tickets">Buy tickets</string>

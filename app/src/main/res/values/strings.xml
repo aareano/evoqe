@@ -79,7 +79,7 @@
     <string name="share">Share</string>
     <string name="email_host">Email host</string>
     <string name="buy_tickets">Buy tickets</string>
-
+    <string name="already_subscribed">Subscribed</string>
     
     <!-- Other -->
     <string name="errorPage">This is awkward&#8230;</string>

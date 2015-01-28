@@ -117,7 +117,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
              * Makes edits custom to this card, like calling setText() on TextViews and such.
              */
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
-                ViewHolder_1 viewHolder = (ViewHolder_1) vHolder;
+                final ViewHolder_1 viewHolder = (ViewHolder_1) vHolder;
 
                 // Title
                 viewHolder.vTitle.setText(mJamboree.getString(TITLE_KEY));
@@ -143,20 +143,37 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 viewHolder.vLocation.setText(mJamboree.getString(LOCATION_KEY));
 
                 // Subscribe to host button
+                    // check if user is already subscribed
+                final ParseProxyObject host = mJamboree.getParseUser(OWNER_KEY);
+                final HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
+                map.put(OBJECT_ID_KEY, host.getString(OBJECT_ID_KEY));
+                Log.d(TAG, "host ID = " + host.getString(OBJECT_ID_KEY));
+                ParseCloud.callFunctionInBackground("isSubscribed", map, // TODO - Cloud Code doesn't work?
+                    new FunctionCallback<Boolean>() {
+                        @Override
+                        public void done(Boolean response, ParseException e) {
+                            Log.d(TAG, "response = " + response.toString());
+                            if (e == null) { // successfully determined current subscription status!
+                                if (response.booleanValue()) {
+                                    turnSubButtonOff(viewHolder.vSubscribe);
+                                }
+                            } else { // failure to determine current subscription status!
+                                Log.e(TAG, e.toString());
+                            }
+                        }
+                    });
                 viewHolder.vSubscribe.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    final ParseProxyObject host = mJamboree.getParseUser(OWNER_KEY);
-                    HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
-                    map.put(OBJECT_ID_KEY, host.getString(OBJECT_ID_KEY));
                     ParseCloud.callFunctionInBackground("addSubscription", map, // does all relation logic
                         new FunctionCallback<String>() {
                             @Override
                             public void done(String response, ParseException e) {
                                 Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getString(OBJECT_ID_KEY) + ")");
-                                if (e == null) { // success!
+                                if (e == null) { // successfully subscribed!
                                     Toast.makeText(mContext, "Subscription added", Toast.LENGTH_SHORT).show();
-                                } else { // failure!
+                                    turnSubButtonOff(viewHolder.vSubscribe);
+                                } else { // failure to subscribe!
                                     Log.e(TAG, e.toString());
                                     Toast.makeText(mContext, "Unable to add subscription", Toast.LENGTH_SHORT).show();
                                 }
@@ -297,6 +314,13 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
         }
+    }
+
+    private static void turnSubButtonOff(Button button) {
+        button.setClickable(false);
+        button.setBackgroundColor(mContext.getResources().getColor(R.color.grey_light));
+        button.setTextColor(mContext.getResources().getColor(R.color.grey_dark));
+        button.setText(mContext.getResources().getString(R.string.already_subscribed));
     }
 
     /**

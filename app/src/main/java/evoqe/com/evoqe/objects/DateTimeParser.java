@@ -1,7 +1,5 @@
 package evoqe.com.evoqe.objects;
 
-import android.util.Log;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -51,6 +49,7 @@ public class DateTimeParser {
             }
         };
 
+        // THIS WORKS! returns the right day
         public abstract String getDay();
     }
 
@@ -66,11 +65,9 @@ public class DateTimeParser {
     public static String getDays(Date startDate, Date endDate, boolean areCaps) {
         Calendar startCal = dateToCalendar(startDate);
         Calendar endCal = dateToCalendar(endDate);
-        Log.d(TAG, "startCal::::::: " + startCal.toString());
-        Log.d(TAG, "\n\nendCal::::::: " + endCal.toString());
 
-        // error handling
-        if (startCal == null || endCal == null) {
+        // null and startTime after endTime error handling
+        if (startCal == null || endCal == null || endCal.before(startCal)) {
             return "No date available";
         }
         // gets the string representation of the day (e.g. "Thursday")
@@ -82,7 +79,6 @@ public class DateTimeParser {
         } else {    // multi-day
             dateString = dateString + " - " + Day.values()[endCal.get(Calendar.DAY_OF_WEEK) - 1].getDay();
         }
-
         // add "today" if appropriate
         if (startCal.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             dateString = dateString + " (today)";

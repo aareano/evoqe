@@ -21,6 +21,13 @@ import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
 import evoqe.com.evoqe.objects.ParseProxyObject;
 
+/* TODO -
+ *
+ *
+ * Issues:
+ *     Initial subscription check for JamboreeDetailActivity - Cloud code doesn't work?
+ */
+
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, JamboreeClickListener {
 
