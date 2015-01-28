@@ -37,11 +37,24 @@
     <string name="text_friend">Text a friend</string>
     <string name="save_event">Save to MyEvents</string>
     
-    <!-- Munchie list related strings -->
+    <!-- Restaurant list related strings -->
     <string name="discount_header">Discounts:</string>
     <string name="no_discounts">To be announced</string>
     <string name="closed">NA-NA</string>
     <string name="closed_message">Closed today :( sorry</string>
+
+    <string name="sunday">SU</string>
+    <string name="monday">MO</string>
+    <string name="tuesday">TU</string>
+    <string name="wednesday">WE</string>
+    <string name="thursday">TH</string>
+    <string name="friday">FR</string>
+    <string name="saturday">SA</string>
+    <string name="open_label">Open</string>
+    <string name="closed_label">Closed</string>
+    <string name="closed_abbrv">CL</string>
+    <string name="call_restaurant">Call Restaurant</string>
+
     
     <!-- Navigation Drawer strings -->
     <string name="subscriptions_label">Subscriptions</string>

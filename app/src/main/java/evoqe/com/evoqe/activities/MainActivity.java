@@ -16,10 +16,12 @@ import com.parse.ParseUser;
 
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.JamboreePreviewAdapter.JamboreeClickListener;
+import evoqe.com.evoqe.adapters.RestaurantPreviewAdapter.RestaurantClickListener;
 import evoqe.com.evoqe.fragments.NavigationDrawerFragment;
 import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
 import evoqe.com.evoqe.objects.ParseProxyObject;
+import evoqe.com.evoqe.objects.Restaurant;
 
 /* TODO -
  *
@@ -29,7 +31,7 @@ import evoqe.com.evoqe.objects.ParseProxyObject;
  */
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, JamboreeClickListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, JamboreeClickListener, RestaurantClickListener {
 
     private final String TAG = "MainActivity";
 
@@ -135,4 +137,10 @@ public class MainActivity extends ActionBarActivity
         startActivity(intent);
     }
 
+    @Override
+    public void onRestaurantClicked(ParseObject restaurant) {
+        Intent intent = new Intent(MainActivity.this, RestaurantDetailActivity.class);
+        intent.putExtra(RestaurantDetailActivity.RESTAURANT_KEY, new ParseProxyObject(restaurant));
+        startActivity(intent);
+    }
 }

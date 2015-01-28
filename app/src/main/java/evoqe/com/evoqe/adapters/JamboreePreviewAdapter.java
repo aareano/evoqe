@@ -23,10 +23,10 @@ import java.util.List;
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.objects.DateTimeParser;
 
-public class JamboreePreviewAdapter extends  RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<ParseObject> jamborees;
+    private List<ParseObject> mJamborees;
     private Context mContext;
     private JamboreeClickListener mCallback;
     private static String TITLE_KEY;
@@ -43,9 +43,9 @@ public class JamboreePreviewAdapter extends  RecyclerView.Adapter<RecyclerView.V
     public JamboreePreviewAdapter(Context context, List<ParseObject> jamborees, Activity activity) {
         Log.i(TAG, jamborees.size() + " jamborees");
         
-        this.jamborees = jamborees;
-        this.mContext = context;
-        this.mCallback = (JamboreeClickListener) activity;
+        mJamborees = jamborees;
+        mContext = context;
+        mCallback = (JamboreeClickListener) activity;
 
         // initialize ParseObject Jamboree keys
         TITLE_KEY = mContext.getResources().getString(R.string.title_key);
@@ -97,13 +97,13 @@ public class JamboreePreviewAdapter extends  RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         // set the current item
-        ((ViewHolder) viewHolder).currentItem = jamborees.get(position);
+        ((ViewHolder) viewHolder).currentItem = mJamborees.get(position);
         prepLayout(viewHolder);
     }
 
     @Override
     public int getItemCount() {
-        return jamborees.size();
+        return mJamborees.size();
     }
 
     private void prepLayout(RecyclerView.ViewHolder holder) {
