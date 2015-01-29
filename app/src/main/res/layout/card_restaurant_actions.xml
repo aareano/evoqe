@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:background="@color/grey_light"
+    card_view:cardCornerRadius="5dp" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_span="3"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        style="?android:attr/buttonBarStyle" >
+
+        <!-- Location -->
+        <Button
+            android:id="@+id/BTN_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+
+            style="?android:attr/buttonBarButtonStyle"
+            android:drawableTop="@drawable/logo"
+            android:drawablePadding="8dp"
+            android:background="@android:color/white"
+
+            android:text="@string/restaurant_location"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:textColor="@color/grey_light" />
+
+        <!-- Website -->
+        <Button
+            android:id="@+id/BTN_website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+
+            style="?android:attr/buttonBarButtonStyle"
+            android:drawableTop="@drawable/logo"
+            android:drawablePadding="8dp"
+            android:background="@android:color/white"
+
+            android:text="@string/website"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:textColor="@color/grey_light" />
+
+        <!-- Menu Link -->
+        <Button
+            android:id="@+id/BTN_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+
+            style="?android:attr/buttonBarButtonStyle"
+            android:drawableTop="@drawable/logo"
+            android:drawablePadding="8dp"
+            android:background="@android:color/white"
+
+            android:text="@string/menu"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:textColor="@color/grey_light" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

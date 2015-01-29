@@ -3,6 +3,7 @@
 
     <string name="app_name">evoqe</string>
     <string name="jamboree_detail_activity_label">Event detail</string>
+    <string name="restaurant_detail_activity_label">Restaurant detail</string>
     <string name="login_activity_label">Login</string>
     <string name="main_activity_label">evoqe</string>
     <string name="forgot_password_activity_label">Forgot Password</string>
@@ -38,10 +39,15 @@
     <string name="save_event">Save to MyEvents</string>
     
     <!-- Restaurant list related strings -->
-    <string name="discount_header">Discounts:</string>
-    <string name="no_discounts">To be announced</string>
-    <string name="closed">NA-NA</string>
+    <string name="discount_header">Discounts</string>
+    <string name="no_discounts"> - None at this time</string>
+    <string name="discount_footnote">*Call and ask for \"Evoqe Discount\"</string>
+    <string name="closed">NA:NA-NA:NA</string>
     <string name="closed_message">Closed today :( sorry</string>
+    <string name="restaurant_location">Location</string>
+    <string name="website">Website</string>
+    <string name="menu">Menu Link</string>
+
 
     <string name="sunday">SU</string>
     <string name="monday">MO</string>

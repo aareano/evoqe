@@ -221,14 +221,18 @@
     <string name="app_name">evoqe</string>
     <string name="basic_error">Error, that\'s our bad.</string>
     <string name="buy_tickets">Buy tickets</string>
+    <string name="call_restaurant">Call Restaurant</string>
     <string name="changing_fragments">Changing Fragments</string>
-    <string name="closed">NA-NA</string>
+    <string name="closed">NA:NA-NA:NA</string>
+    <string name="closed_abbrv">CL</string>
+    <string name="closed_label">Closed</string>
     <string name="closed_message">Closed today :( sorry</string>
     <string name="confirmPasswordHint">Confirm Password</string>
     <string name="createAccount">Create Account</string>
     <string name="description_key">description</string>
     <string name="details_key">details</string>
-    <string name="discount_header">Discounts:</string>
+    <string name="discount_footnote">*Call and ask for "Evoqe Discount"</string>
+    <string name="discount_header">Discounts</string>
     <string name="discounts_key">discounts</string>
     <string name="emailHint">Email</string>
     <string name="email_host">Email host</string>
@@ -247,6 +251,7 @@
     <eat-comment/>
     <string name="example">Example</string>
     <string name="forgot_password_activity_label">Forgot Password</string>
+    <string name="friday">FR</string>
     <string name="full_name_key">fullName</string>
     <string name="image_description">Thumbnail</string>
     <string name="jamboree_detail_activity_label">Event detail</string>
@@ -261,17 +266,20 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="main_activity_label">evoqe</string>
+    <string name="menu">Menu Link</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="menu_forgot_password">Recover lost password</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="menu_settings">Settings</string>
+    <string name="monday">MO</string>
     <string name="name_key">name</string>
     <string name="navigation_drawer_close">close drawer</string>
     <string name="navigation_drawer_open">open drawer</string>
     <string name="no_description">No description available.</string>
-    <string name="no_discounts">To be announced</string>
+    <string name="no_discounts"> - None at this time</string>
+    <string name="open_label">Open</string>
     <string name="open_times_key">openTimes</string>
     <string name="orText">Or</string>
     <string name="owner_full_name_key">ownerFullName</string>
@@ -284,6 +292,9 @@
     <string name="prompt_password">Password</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="restaurant_detail_activity_label">Restaurant detail</string>
+    <string name="restaurant_location">Location</string>
+    <string name="saturday">SA</string>
     <string name="save_event">Save to MyEvents</string>
     <string name="school_key">school</string>
     <string name="share">Share</string>
@@ -294,15 +305,20 @@
     <string name="subscribe">Subscribe to host</string>
     <string name="subscriptions_key">subscriptions</string>
     <string name="subscriptions_label">Subscriptions</string>
+    <string name="sunday">SU</string>
     <string name="text_friend">Text a friend</string>
+    <string name="thursday">TH</string>
     <string name="title_activity_create_account">CreateAccountActivity</string>
     <string name="title_activity_launcher">LauncherActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_key">title</string>
+    <string name="tuesday">TU</string>
     <string name="userType_key">userType</string>
     <string name="usernameHint">Username</string>
     <string name="weather">Weather</string>
     <string name="weather_activity_label">Weather</string>
+    <string name="website">Website</string>
+    <string name="wednesday">WE</string>
     <string name="year_key">year</string>
     <string name="zero">0</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/styles.xml -->

@@ -116,12 +116,26 @@ public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         viewHolder.vHost.setText(viewHolder.currentItem.getString(HOST_KEY));
 
         // Date and time
+        String dateString;
+        dateString = DateTimeParser.getDay(viewHolder.currentItem.getDate(START_TIME_KEY));
+        dateString += " " + DateTimeParser.getDate(viewHolder.currentItem.getDate(START_TIME_KEY));
+        // multiple day event
+        if (DateTimeParser.startsEndsSameDay(viewHolder.currentItem.getDate(START_TIME_KEY),
+                viewHolder.currentItem.getDate(END_TIME_KEY)) == false) {
+            dateString += " - " + DateTimeParser.getDay(viewHolder.currentItem.getDate(END_TIME_KEY));
+            dateString += " " + DateTimeParser.getDate(viewHolder.currentItem.getDate(END_TIME_KEY));
+        }
+        // adds " (today)" or " (tomorrow)" or "" as appropriate
+        dateString += DateTimeParser.getAnnotation(viewHolder.currentItem.getDate(START_TIME_KEY));
+
+        /*
         final String dateString = DateTimeParser.getDays(viewHolder.currentItem.getDate(START_TIME_KEY),
                 viewHolder.currentItem.getDate(END_TIME_KEY), false);
         final String timeString = DateTimeParser.getTimes(viewHolder.currentItem.getDate(START_TIME_KEY),
                 viewHolder.currentItem.getDate(END_TIME_KEY), false);
         viewHolder.vDate.setText(dateString);
         viewHolder.vTime.setText(timeString);
+        */
 
         // **** Button onClick listener **** send sms with details about the Jamboree
         viewHolder.vTextFriend.setOnClickListener(new View.OnClickListener() {

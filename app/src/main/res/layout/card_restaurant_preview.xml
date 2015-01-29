@@ -10,10 +10,12 @@
     card_view:cardCornerRadius="5dp" >
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/list_background" >
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/card_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@android:color/white" >
 
         <!-- size of 44sp squared is just summed size of textviews and margins -->
         <ImageView
@@ -68,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/IMG_thumbnail"
             android:layout_toEndOf="@id/IMG_thumbnail"
-            android:layout_below="@id/TV_description"
+            android:layout_below="@id/TV_details"
 
             android:layout_marginTop="2dp"
             android:layout_marginLeft="13dp"
@@ -85,11 +87,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@id/thumbnail"
+            android:layout_below="@id/IMG_thumbnail"
 
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
 
             android:singleLine="true"
             android:text="@string/discount_header"
@@ -103,8 +105,9 @@
             android:layout_below="@id/TV_discount_header"
 
             android:layout_marginTop="4dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginRight="24dp"
             android:layout_marginBottom="8dp"
 
             android:text="@string/no_discounts"

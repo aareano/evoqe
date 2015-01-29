@@ -205,49 +205,49 @@
                     android:text="@string/closed_label"
                     android:textStyle="bold" />
                 <TextView
-                    android:id="@+id/TV_sunday_closed"
+                    android:id="@+id/TV_sunday_close"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/closed_abbrv" />
                 <TextView
-                    android:id="@+id/TV_monday_closed"
+                    android:id="@+id/TV_monday_close"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/closed_abbrv" />
                 <TextView
-                    android:id="@+id/TV_tuesday_closed"
+                    android:id="@+id/TV_tuesday_close"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/closed_abbrv" />
                 <TextView
-                    android:id="@+id/TV_wednesday_closed"
+                    android:id="@+id/TV_wednesday_close"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/closed_abbrv" />
                 <TextView
-                    android:id="@+id/TV_thursday_closed"
+                    android:id="@+id/TV_thursday_close"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/closed_abbrv" />
                 <TextView
-                    android:id="@+id/TV_friday_closed"
+                    android:id="@+id/TV_friday_close"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
                     android:text="@string/closed_abbrv" />
                 <TextView
-                    android:id="@+id/TV_saturday_closed"
+                    android:id="@+id/TV_saturday_close"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_gravity="center_horizontal"

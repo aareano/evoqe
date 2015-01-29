@@ -55,6 +55,18 @@
                 android:value=".activities.MainActivity" />
         </activity>
         <activity
+            android:name="evoqe.com.evoqe.activities.RestaurantDetailActivity"
+            android:label="@string/restaurant_detail_activity_label"
+            android:launchMode="singleTop"
+            android:parentActivityName="evoqe.com.evoqe.activities.MainActivity"
+            android:screenOrientation="portrait" >
+ <!-- Preserve extras while in WeatherActivity -->
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+        <activity
             android:name="evoqe.com.evoqe.activities.WeatherActivity"
             android:label="@string/weather_activity_label"
             android:launchMode="singleTop"

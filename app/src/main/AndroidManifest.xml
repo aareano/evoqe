@@ -43,6 +43,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"  />
         </activity>
+        <activity android:name=".activities.RestaurantDetailActivity"
+                  android:label="@string/restaurant_detail_activity_label"
+                  android:parentActivityName=".activities.MainActivity"
+                  android:screenOrientation="portrait"
+                  android:launchMode="singleTop" > <!-- Preserve extras while in WeatherActivity -->
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"  />
+        </activity>
         <activity android:name=".activities.WeatherActivity"
                   android:label="@string/weather_activity_label"
                   android:parentActivityName=".activities.JamboreeDetailActivity"

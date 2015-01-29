@@ -8,14 +8,16 @@
     android:orientation="vertical"
     android:background="@color/grey_light"
     card_view:cardCornerRadius="5dp" >
+    <!-- TODO - bottom margin for system buttons -->
+
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/row_container"
+        android:id="@+id/card_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="6dip" >
+        android:padding="8dp"
+        android:background="@android:color/white" >
 
         <TextView
             android:id="@+id/TV_title"
