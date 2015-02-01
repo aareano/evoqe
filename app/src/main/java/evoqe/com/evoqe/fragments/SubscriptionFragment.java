@@ -2,13 +2,14 @@ package evoqe.com.evoqe.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -17,17 +18,23 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import evoqe.com.evoqe.ConnectionDetector;
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.adapters.SubscriptionAdapater;
+import evoqe.com.evoqe.adapters.SubscriptionAdapter;
+import evoqe.com.evoqe.objects.ToastWrapper;
 
-public class SubscriptionFragment extends ListFragment {
+public class SubscriptionFragment extends Fragment {
 
     private final static String TAG = "SubscriptionFragment";
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private View mLayout;
-    
+    /** A list of the current user's subscriptions (other users) */
+    private List<ParseUser> mMySubList;
+
+
     public static SubscriptionFragment newInstance() {
         return new SubscriptionFragment();
     }
@@ -45,10 +52,19 @@ public class SubscriptionFragment extends ListFragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) mLayout.findViewById(R.id.SRL_main);
         setUpSwipeRefresh();
 
-        // we assume that we're retrieving info from parse, so we start with a loading animation.
-        // When parse comes back and gives us info or an error, we then take appropriate action.
-        mSwipeRefreshLayout.setRefreshing(true);
-        Log.d(TAG, "should be refreshing");
+        RecyclerView recView = (RecyclerView) mLayout.findViewById(R.id.recycler_view);
+        recView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recView.setLayoutManager(llm);
+
+        // set an empty temporary adapter
+        SubscriptionAdapter adapter = new SubscriptionAdapter(getActivity(), new ArrayList<ParseUser>(), new ArrayList<ParseUser>());
+        recView.setAdapter(adapter);
+
+        // we assume that we're retrieving info from parse, but that will take non-zero time, so in
+        // the meantime, we assume we've received nothing.
+        nothingRetrieved(false);
 
         getCurrentSubscriptions();
         super.onActivityCreated(savedInstanceState);
@@ -73,7 +89,8 @@ public class SubscriptionFragment extends ListFragment {
                 public void done(List<ParseUser> mySubs, ParseException e) {
                     if (e == null) {
                         // We now have my subscriptions, let's get full list of possible subscriptions
-                        getFullSubscriptionList(mySubs);
+                        mMySubList = mySubs;
+                        getFullSubscriptionList();
                     } else {
                         Log.e(TAG, "error: " + e.toString());
                         nothingRetrieved(true);
@@ -90,25 +107,25 @@ public class SubscriptionFragment extends ListFragment {
      * Get a list of all possible subscriptions.
      * These are the "User" class on Parse with property "isPublicHost = true"
      * This method also creates and set the adapter for the list
-     * @param mySubs - A list of the current user's subscriptions (other users)
      */
-    public void getFullSubscriptionList(final List<ParseUser> mySubs) {
+    public void getFullSubscriptionList() {
         // query the parse database for users that are public hosts
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("isPublicHost", true);
+        query.orderByAscending(getActivity().getResources().getString(R.string.full_name_key));
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseUser> objects, ParseException e) {
+            public void done(List<ParseUser> allSubs, ParseException e) {
                 mSwipeRefreshLayout.setRefreshing(false); // remove refreshing notifier
-                if (objects.size() == 0) {
+                if (allSubs.size() == 0) {
                     nothingRetrieved(false);
                 }
                 if (e == null) {
                     retrievalResolution();  // make sure the right things are visible
                     // Adapter inflates list and accounts for subscription logic
-                    ArrayAdapter<ParseUser> adapter = new SubscriptionAdapater(getActivity(),
-                                         R.layout.list_item_subscription, objects, mySubs);
-                    setListAdapter(adapter);
+                    SubscriptionAdapter adapter = new SubscriptionAdapter(getActivity(),
+                                         allSubs, mMySubList);
+                    ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
                 } else {
                     Log.e(TAG, "error: " + e.toString());
                     nothingRetrieved(true);
@@ -124,7 +141,12 @@ public class SubscriptionFragment extends ListFragment {
         mSwipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getCurrentSubscriptions();
+                if (isInternetPresent()) {
+                    getCurrentSubscriptions();
+                } else {
+                    nothingRetrieved(false);  // now set it to show no internet
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
@@ -132,21 +154,70 @@ public class SubscriptionFragment extends ListFragment {
     /** Instructs the user that there was an error ("No hosts"), and how to refresh
      * Can be called from any of the parse queries in this class. */
     private void nothingRetrieved(boolean error) {
-        Log.i(TAG, "onRetrievalError()");
+        Log.i(TAG, "nothingRetrieved()");
+
+        int childCount = ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).getChildCount();
+        boolean areChildren = childCount > 0;
+
+        // retrieval error
         if (error) {
-            String text = getActivity().getResources().getString(R.string.refresh_error);
-            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            if (areChildren) {
+                String text;
+                if (isInternetPresent() == false) { // counted as an error by parse
+                    text = getActivity().getResources().getString(R.string.no_connection);
+                } else {
+                    text = getActivity().getResources().getString(R.string.refresh_error);
+                }
+                ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            } else {
+                if (isInternetPresent() == false) { // counted as an error by parse
+                    retrievalResolution(); // reset the layout
+                    mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
+                } else {
+                    retrievalResolution(); // reset the layout
+                    mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
+                    mLayout.findViewById(R.id.TV_retrieval_error).setVisibility(View.VISIBLE);
+                }
+            }
+        // there is no internet connection
+        } else if (isInternetPresent() == false) {
+                if (areChildren) {
+                    String text = getActivity().getResources().getString(R.string.no_connection);
+                    ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                } else {
+                    retrievalResolution(); // reset the layout
+                    mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
+                }
+        // simply no hosts to show
+        } else {
+            if (areChildren) {
+                // remove all children by setting an empty adapter
+                SubscriptionAdapter adapter = new SubscriptionAdapter(getActivity(),
+                        new ArrayList<ParseUser>(), new ArrayList<ParseUser>());
+                ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
+            }
+            retrievalResolution(); // reset the layout
+            mLayout.findViewById(R.id.TV_no_hosts).setVisibility(View.VISIBLE);
+            mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
+            mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.GONE);
         }
-        mLayout.findViewById(android.R.id.list).setVisibility(View.GONE);
-        mLayout.findViewById(R.id.TV_no_hosts).setVisibility(View.VISIBLE);
-        mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
     }
 
     /** Makes the right things visible and such */
     private void retrievalResolution() {
         Log.i(TAG, "retrievalResolution()");
-        mLayout.findViewById(android.R.id.list).setVisibility(View.VISIBLE);
+
         mLayout.findViewById(R.id.TV_no_hosts).setVisibility(View.GONE);
         mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.TV_retrieval_error).setVisibility(View.GONE);
+    }
+
+    /** @return a boolean as to whether the internet is present or not */
+    private boolean isInternetPresent() {
+        // creating connection detector class instance
+        ConnectionDetector cd = new ConnectionDetector(getActivity().getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        return isInternetPresent;
     }
 }

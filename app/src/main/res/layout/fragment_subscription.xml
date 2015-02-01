@@ -5,36 +5,65 @@
    android:layout_height="fill_parent"
    android:background="@color/list_background" >
 
+    <!-- No hosts (keep above swipe layout to keep this behind it) -->
+    <TextView
+        android:id="@+id/TV_refresh_instr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+
+        android:visibility="gone"
+        android:text="@string/refresh_instruction"
+        android:layout_gravity="top|center_horizontal"
+        android:textSize="14sp"
+        android:textColor="@color/grey_middle" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/SRL_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ListView
-            android:id="@android:id/list"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
-        android:id="@+id/TV_refresh_instr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-
-        android:text="@string/refresh_instruction"
-        android:gravity="top|center_horizontal"
-        android:textSize="14sp"
-        android:textColor="@color/grey_middle" />
-
-    <TextView
         android:id="@+id/TV_no_hosts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        android:visibility="gone"
         android:text="@string/no_hosts"
-        android:gravity="center_horizontal|center_vertical"
+        android:layout_gravity="center_horizontal|center_vertical"
         android:textSize="24sp"
         android:textColor="@color/grey_middle" />
+
+    <!-- No connection -->
+    <TextView
+        android:id="@+id/TV_no_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        android:text="@string/no_connection"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        android:textColor="@color/grey_middle"
+        android:layout_gravity="center"/>
+
+    <!-- Retrieval error -->
+    <TextView
+        android:id="@+id/TV_retrieval_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        android:text="@string/refresh_error"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        android:textColor="@color/grey_middle"
+        android:layout_gravity="center"/>
 </FrameLayout>

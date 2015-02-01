@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -16,7 +17,7 @@ import com.parse.ParseUser;
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.JamboreePreviewAdapter.JamboreeClickListener;
 import evoqe.com.evoqe.adapters.RestaurantPreviewAdapter.RestaurantClickListener;
-import evoqe.com.evoqe.adapters.SubscriptionAdapater;
+import evoqe.com.evoqe.adapters.SubscriptionAdapter;
 import evoqe.com.evoqe.fragments.HelpFragment;
 import evoqe.com.evoqe.fragments.NavigationDrawerFragment;
 import evoqe.com.evoqe.fragments.PromotionFragment;
@@ -24,11 +25,11 @@ import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
 import evoqe.com.evoqe.objects.ParseProxyObject;
 
-/* TODO - only load 15 Hosts at a time
- * TODO - test with no hosts
+/* TODO - only load 15 Hosts at a time (low priority)
+ * TODO - sometimes activity context from fragments is null. weird.
  * TODO - images (circle)
  * TODO - styles
- * TODO - change all ListViews to RecyclerViews
+ * TODO - change nav drawer ListViews to RecyclerViews (low priority)
  * TODO - Login page
  *
  * Issues:
@@ -38,7 +39,7 @@ import evoqe.com.evoqe.objects.ParseProxyObject;
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         JamboreeClickListener, RestaurantClickListener,
-        SubscriptionAdapater.SubscriptionUpdateListener {
+        SubscriptionAdapter.SubscriptionUpdateListener {
 
     private final String TAG = "MainActivity";
 
@@ -148,5 +149,11 @@ public class MainActivity extends ActionBarActivity
     public void updateSubscriptionCount() {
         mNavigationDrawerFragment.setText(R.id.TV_subscription_count, R.string.subscriptions_key,
                 ParseUser.getCurrentUser());   // subscription count
+    }
+
+    /** Receives onClick events from BTN_goto_subscriptions when no events to show */
+    public void onSubscriptionButtonClick(View view) {
+        Log.d(TAG, "button clicked");
+        onNavigationDrawerItemSelected(1); // TODO - should go through the nav drawer to be proper?
     }
 }

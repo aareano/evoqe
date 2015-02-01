@@ -278,6 +278,7 @@
     <string name="name_key">name</string>
     <string name="navigation_drawer_close">close drawer</string>
     <string name="navigation_drawer_open">open drawer</string>
+    <string name="no_connection">No internet connection.</string>
     <string name="no_description">No description available.</string>
     <string name="no_discounts"> - None at this time</string>
     <string name="no_events">No Events</string>

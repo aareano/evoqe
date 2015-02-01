@@ -29,8 +29,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import evoqe.com.evoqe.ConnectionDetector;
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.JamboreePreviewAdapter;
+import evoqe.com.evoqe.objects.ToastWrapper;
 
 public class JamboreePreviewFragment extends Fragment {
     
@@ -70,6 +72,10 @@ public class JamboreePreviewFragment extends Fragment {
         JamboreePreviewAdapter adapter = new JamboreePreviewAdapter(getActivity(), new ArrayList<ParseObject>(), mActivity);
         recView.setAdapter(adapter);
 
+        // we assume that we're retrieving info from parse, but that will take non-zero time, so in
+        // the meantime, we assume we've received nothing.
+        nothingRetrieved(false);
+
         getEventList();
         super.onActivityCreated(savedInstanceState);
     }
@@ -83,40 +89,51 @@ public class JamboreePreviewFragment extends Fragment {
                 new FunctionCallback<HashMap<String, String>>() {
             @Override
             public void done(final HashMap<String, String> params, ParseException e) {
-                // now we have the params to query Jamborees by
-                // get the list of users to whom the current user is subscribed
-                ParseUser me = ParseUser.getCurrentUser();
-                ParseRelation<ParseUser> rel = me.getRelation("subscriptions");
-
-                rel.getQuery().findInBackground(new FindCallback<ParseUser>() {
-                    @Override
-                    public void done(List<ParseUser> mySubscriptions, ParseException e) {
-                        // Now we have the params and the users from whom to pull events, so let's query Parse based on that
-                        ParseQuery<ParseObject> query = setUpQuery(mySubscriptions, params);
-                        if (query == null) {
-                            nothingRetrieved(true);
-                            return;
-                        }
-                        query.findInBackground(new FindCallback<ParseObject>() {
-                            @Override
-                            public void done(List<ParseObject> objects, ParseException e) {
-                                mSwipeRefreshLayout.setRefreshing(false); // remove refreshing notifier
-                                if (e == null) {
-                                    Log.d(TAG, "jamboree size = " + objects.size());
-                                    if (objects.size() == 0) {
-                                        nothingRetrieved(false);
-                                    } else {
-                                        retrievalResolution(); // make sure the right things are visible
-                                        JamboreePreviewAdapter adapter = new JamboreePreviewAdapter(getActivity(), objects, mActivity);
-                                        ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
-                                    }
+                if (e == null) {
+                    // We have most of the params, but now get the current users subscriptions
+                    ParseUser me = ParseUser.getCurrentUser();
+                    ParseRelation<ParseUser> rel = me.getRelation("subscriptions");
+                    rel.getQuery().findInBackground(new FindCallback<ParseUser>() {
+                        @Override
+                        public void done(List<ParseUser> mySubscriptions, ParseException e) {
+                            if (e == null) {
+                                if (params == null) {
+                                    Log.e(TAG, "getPublicJamboreeQueryParameters returned null!");
+                                    nothingRetrieved(true);
+                                    return;
                                 } else {
-                                    Log.e(TAG, "error: " + e.toString());
+                                    // Now we have the params and the users from whom to pull events, so let's query Parse based on that
+                                    ParseQuery<ParseObject> query = setUpQuery(mySubscriptions, params);
+                                    query.findInBackground(new FindCallback<ParseObject>() {
+                                        @Override
+                                        public void done(List<ParseObject> objects, ParseException e) {
+                                            mSwipeRefreshLayout.setRefreshing(false); // remove refreshing notifier
+                                            if (e == null) {
+                                                if (objects.size() == 0) {
+                                                    nothingRetrieved(false);
+                                                } else {
+                                                    retrievalResolution(); // make sure the right things are visible
+                                                    JamboreePreviewAdapter adapter = new JamboreePreviewAdapter(getActivity(), objects, mActivity);
+                                                    ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
+                                                }
+                                            } else {
+                                                Log.e(TAG, e.toString());
+                                                nothingRetrieved(true);
+                                            }
+                                        }
+                                    });
                                 }
+                            } else {
+                                Log.e(TAG, e.toString());
+                                nothingRetrieved(true);
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                } else {
+                    Log.e(TAG, e.toString());
+                    nothingRetrieved(true);
+                }
+
             }
         });
     }
@@ -125,14 +142,11 @@ public class JamboreePreviewFragment extends Fragment {
      * Constructs a ParseQuery<ParseObject> based on params pulled from the cloud code and the
      * subscriptions of the current user.
      * @param mySubscriptions List<ParseUser> of Users the current user to subscribed to
-     * @param params HashMap<String, String> params to retrieve Jamborees based off of
+     * @param params HashMap<String, String> params to retrieve Jamborees based off of, u.r.e. for this to be null!
      * @return the query to run
      */
     private ParseQuery<ParseObject> setUpQuery(List<ParseUser> mySubscriptions,
                                                HashMap<String, String> params) {
-        if (params == null) {
-            return null;
-        }
         // ...example params...
         /* "sortBy": "startTime",
          * "initialRetrievalCount": 50,
@@ -173,7 +187,12 @@ public class JamboreePreviewFragment extends Fragment {
         mSwipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getEventList();
+                if (isInternetPresent()) {
+                    getEventList();
+                } else {
+                    nothingRetrieved(false);  // now set it to show no internet
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
@@ -183,29 +202,72 @@ public class JamboreePreviewFragment extends Fragment {
      * This is called if there actually are no events too
      * @param error - whether there was an error
      */
-    private void nothingRetrieved(boolean error) { // TODO - the textviews etc don't show up.
-        Log.i(TAG, "nothingRetrieved()");
+    private void nothingRetrieved(boolean error) {
+        Log.i(TAG, "nothingRetrieved(" + error + ")");
+
+        int childCount = ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).getChildCount();
+        boolean areChildren = childCount > 0;
+
+        // retrieval error
         if (error) {
-            String text = getActivity().getResources().getString(R.string.refresh_error);
-            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            if (areChildren) {
+                String text;
+                if (isInternetPresent() == false) { // counted as an error by parse
+                    text = getActivity().getResources().getString(R.string.no_connection);
+                } else {
+                    text = getActivity().getResources().getString(R.string.refresh_error);
+                }
+                ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            } else {
+                if (isInternetPresent() == false) { // counted as an error by parse
+                    retrievalResolution(); // reset the layout
+                    mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
+                } else {
+                    retrievalResolution(); // reset the layout
+                    mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
+                    mLayout.findViewById(R.id.TV_retrieval_error).setVisibility(View.VISIBLE);
+                }
+            }
+        // there is no internet connection
+        } else if (isInternetPresent() == false) {
+            if (areChildren) {
+                String text = getActivity().getResources().getString(R.string.no_connection);
+                ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            } else {
+                retrievalResolution();
+                mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
+            }
+        // simply no hosts to show
+        } else {
+            if (areChildren) {
+                // remove all children by setting an empty adapter
+                JamboreePreviewAdapter adapter = new JamboreePreviewAdapter(getActivity(),
+                        new ArrayList<ParseObject>(), mActivity);
+                ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
+            }
+            retrievalResolution();
+            mLayout.findViewById(R.id.TV_no_events).setVisibility(View.VISIBLE);
+            mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
+            mLayout.findViewById(R.id.BTN_goto_subscriptions).setVisibility(View.VISIBLE);
+            mLayout.findViewById(R.id.BTN_goto_subscriptions).bringToFront();
         }
-        mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
-        mLayout.findViewById(R.id.TV_no_events).setVisibility(View.VISIBLE);
-        mLayout.findViewById(R.id.BTN_goto_subscriptions).setVisibility(View.VISIBLE);
-        mLayout.findViewById(R.id.SRL_main).bringToFront();
-//        mLayout.findViewById(R.id.BTN_goto_subscr).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
     }
 
     /** Makes the right things visible and such */
     private void retrievalResolution() {
         Log.i(TAG, "retrievalResolution()");
-        mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.INVISIBLE);
-        mLayout.findViewById(R.id.TV_no_events).setVisibility(View.INVISIBLE);
-        mLayout.findViewById(R.id.BTN_goto_subscriptions).setVisibility(View.INVISIBLE);
+        mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.TV_no_events).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.BTN_goto_subscriptions).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.TV_retrieval_error).setVisibility(View.GONE);
+    }
+
+    /** @return a boolean as to whether the internet is present or not */
+    private boolean isInternetPresent() {
+        // creating connection detector class instance
+        ConnectionDetector cd = new ConnectionDetector(getActivity().getApplicationContext());
+        boolean isInternetPresent = cd.isConnectingToInternet();
+        return isInternetPresent;
     }
 }

@@ -107,5 +107,6 @@
 
     <!-- Information -->
     <string name="refresh_instruction">Pull down to refresh</string>
+    <string name="no_connection">No internet connection.</string>
 
 </resources>
