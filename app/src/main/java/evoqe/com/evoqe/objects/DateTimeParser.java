@@ -1,14 +1,12 @@
 package evoqe.com.evoqe.objects;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import evoqe.com.evoqe.R;
 
@@ -19,8 +17,6 @@ public class DateTimeParser {
 
     private static String TAG = "DateTimeParser";
 
-    // TODO - clean up jamboree stuff based on restaurant stuff.
-
     /***********************************************************************************************
      *        Everything below here is for parsing Restaurant times (until the Jamboree bit)
      **********************************************************************************************/
@@ -29,9 +25,14 @@ public class DateTimeParser {
      * Extracts the hour and minute for both open and close times of the restaurant TODAY (according to Calendar class)
      * REQUIRED: The time must follow the format "DD HH:MM, " for each day (the last can be just "DD HH:MM")
      * @param restaurant
+     * @param context
+     * @param day - zero based (0 <= day <= 6)
      * @return ArrayList<Integer> holds {openHour, openMinute, closeHour, closeMinute}
      */
     public static ArrayList<Integer> getTimesForToday(ParseObject restaurant, Context context, int day) {
+        if (restaurant == null || day >= 6 || day <= 0) {
+            return null;
+        }
         ParseProxyObject proxyRestaurant = new ParseProxyObject(restaurant);
         return getTimesForDay(proxyRestaurant, context, day);
     }
@@ -39,9 +40,14 @@ public class DateTimeParser {
      * Extracts the hour and minute for both open and close times of the restaurant TODAY (according to Calendar class)
      * REQUIRED: The time must follow the format "DD HH:MM, " for each day (the last can be just "DD HH:MM")
      * @param restaurant
+     * @param context
+     * @param day - zero based (0 <= day <= 6)
      * @return ArrayList<Integer> holds {openHour, openMinute, closeHour, closeMinute}
      */
     public static ArrayList<Integer> getTimesForDay(ParseProxyObject restaurant, Context context, int day) {
+        if (restaurant == null || day >= 6 || day <= 0) {
+            return null;
+        }
         String openTimes, dayString, closed, openHour, openMinute, closeHour, closeMinute;
         String OPEN_TIMES_KEY = context.getResources().getString(R.string.open_times_key);
         ArrayList<Integer> times = new ArrayList<>();
@@ -58,7 +64,6 @@ public class DateTimeParser {
 
         // check if restaurant is closed all day
         closed = context.getResources().getString(R.string.closed);
-        Log.d(TAG, "dayString.substring(3) = " + dayString.substring(3));
         if (dayString.substring(3).equals(closed)) { // NA:NA-NA:NA == closed all day
             return null;
         }
@@ -79,19 +84,16 @@ public class DateTimeParser {
 
     /**
      * @param times - an ArrayList<Integer> of the numberic hours/minutes of open and close
-     * @param context
      * @return either the correctly formatted string, or null if restaurant is closed, or "Unable to fetch times"
      */
-    public static String getPresentableString(ArrayList<Integer> times, Context context) {
+    public static String getPresentableString(ArrayList<Integer> times) {
         String timeString;
         if (times == null) { // restaurant is closed
             return null;
         }
-        Log.d(TAG, "open = '" + times.get(0) + ":" + times.get(1) + "', closed = '" + times.get(2) + ":" + times.get(3) + "'");
         try { // format times to e.g. "11:15AM" or "6PM"
             String openFull = DateTimeParser.formatString(times.get(0), times.get(1));
             String closeFull = DateTimeParser.formatString(times.get(2), times.get(3));
-            Log.d(TAG, "FORMATTED open = '" + openFull + ", closed = '" + closeFull + "'");
             timeString = openFull + " - " + closeFull;
         } catch (NumberFormatException e) {
             e.fillInStackTrace();
@@ -124,6 +126,11 @@ public class DateTimeParser {
 
     /** Enum used to convert ints to Strings (e.g. 2 becomes "Tuesday") */
     private enum Day {
+        SUNDAY {
+            public String getDay() {
+                return "Sunday";
+            }
+        },
         MONDAY {
             public String getDay() {
                 return "Monday";
@@ -153,49 +160,59 @@ public class DateTimeParser {
             public String getDay() {
                 return "Saturday";
             }
-        },
-        SUNDAY {
-            public String getDay() {
-                return "Sunday";
-            }
         };
 
-        // THIS WORKS! returns the right day
         public abstract String getDay();
     }
 
     public static String getDay(Date date) {
-        Calendar cal = dateToCalendar(date);
-        String day = Day.values()[cal.get(Calendar.DAY_OF_WEEK) - 1].getDay();
-        return day;
+        if (date != null) {
+            Calendar cal = dateToCalendar(date);
+            String day = Day.values()[cal.get(Calendar.DAY_OF_WEEK) - 1].getDay();
+            return day;
+        } else {
+            return null;
+        }
     }
 
     /**
      * @param date
      * @return a String representation of date, e.g. "2/26/15" */
     public static String getDate(Date date) {
-        Calendar cal = dateToCalendar(date);
-        String dateRep = "" + cal.get(Calendar.MONTH) + cal.get(Calendar.DAY_OF_MONTH)
-                + (cal.get(Calendar.YEAR) % 2000);
-        return dateRep;
+        if (date != null) {
+            Calendar cal = dateToCalendar(date);
+            String dateRep = "" + Integer.valueOf(cal.get(Calendar.MONTH) + 1) + "/"
+                    + Integer.valueOf(cal.get(Calendar.DAY_OF_MONTH));
+            return dateRep;
+        } else {
+            return null;
+        }
     }
 
     /**
      * @param startDate
      * @param endDate
      * @return a boolean indicating whether or not startDate and endDate are on the same DAY_OF_YEAR
+     * if either startDate or endDate are null, returns TRUE
      */
     public static boolean startsEndsSameDay(Date startDate, Date endDate) {
-        Calendar startCal = dateToCalendar(startDate);
-        Calendar endCal = dateToCalendar(endDate);
-        return (startCal.get(Calendar.DAY_OF_YEAR) == endCal.get(Calendar.DAY_OF_YEAR));
+        if (startDate != null && endDate != null) {
+            Calendar startCal = dateToCalendar(startDate);
+            Calendar endCal = dateToCalendar(endDate);
+            return (startCal.get(Calendar.DAY_OF_YEAR) == endCal.get(Calendar.DAY_OF_YEAR));
+        } else {
+            return true;
+        }
     }
 
     /**
      * @param date
-     * @return " (today)" or " (tomorrow)" or "" as appropriate
+     * @return " (today)" or " (tomorrow)" or "" as appropriate, or null if date is null
      */
     public static String getAnnotation(Date date) {
+        if (date == null) {
+            return null;
+        }
         Calendar cal = dateToCalendar(date);
         // return " (today)" or " (tomorrow)" or ""
         if (cal.get(Calendar.DAY_OF_YEAR) == Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
@@ -225,46 +242,24 @@ public class DateTimeParser {
 
     /**
      * Puts together a String representation of the time spanned by the Jamboree.
-     *
-     * @param ampmAreCaps - true if the returned string should be e.g. 4:30PM ... as opposed to
-     *                    4:30pm
-     * @param startDate
-     * @param endDate
-     * @return The string representation of the time which startCal and endCal
-     * span (e.g. "11:00am - 1:45pm")
+     * @param date
+     * @return The string representation of the time indicated by date (e.g. "11:45am")
      * OR "No times available" if either param is null.
      */
-    public static String getTimes(Date startDate, Date endDate, boolean ampmAreCaps) {
-        Calendar startCal = dateToCalendar(startDate);
-        Calendar endCal = dateToCalendar(endDate);
-
-        if (startCal == null || endCal == null) {
-            return "No times available";
+    public static String getFormattedTime(Date date) {
+        Calendar cal = dateToCalendar(date);
+        if (cal == null) {
+            return "No time data available";
         }
-        String startTime = formatTime(startCal, ampmAreCaps);
-        String endTime = formatTime(endCal, ampmAreCaps);
-
-        return startTime + " - " + endTime;
-    }
-
-    /**
-     * @param cal         - the calendar whose time to use
-     * @param ampmAreCaps - true if the returned string should be e.g. "4:30PM", as opposed to
-     *                    "4:30pm"
-     * @return - The formatted string (e.g. "4:00PM")
-     */
-    private static String formatTime(Calendar cal, boolean ampmAreCaps) {
         // '?' operator used to get e.g. 11:00 instead of 11:0
-        String timeString = cal.get(Calendar.HOUR) + ":" +
+        String timeString = ((cal.get(Calendar.HOUR) == 0) ? "12" : cal.get(Calendar.HOUR)) + ":" +
                 ((cal.get(Calendar.MINUTE) == 0) ? "00" : cal.get(Calendar.MINUTE));
+
         // add "am" or "pm" to the time
         if (cal.get(Calendar.AM_PM) == Calendar.AM) {
-            timeString = timeString + "am";
+            timeString += "am";
         } else {
-            timeString = timeString + "pm";
-        }
-        if (ampmAreCaps) {
-            timeString.toUpperCase(Locale.US);
+            timeString += "pm";
         }
         return timeString;
     }

@@ -43,7 +43,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     private static String TITLE_KEY;
-    private static String DESCRIPTION_KEY;
+    private static String DETAILS_KEY;
     private static String LOCATION_KEY;
     private static String HOST_KEY;
     private static String OWNER_KEY;
@@ -55,51 +55,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private final int NUM_OF_CARDS = 2;
     private static ParseProxyObject mJamboree; // only static so it can be used in enum Card
     private static Context mContext; // only static so it can be used in enum Card
-
-    /** Provide a reference to the type of views that you are using (custom ViewHolder)
-     * This is for the first card - Details */
-    public static class ViewHolder_1 extends RecyclerView.ViewHolder {
-        protected TextView vTitle;
-        protected ImageView vThumbnail;
-        protected TextView vHost;
-        protected TextView vPrivacy;
-        protected TextView vDate;
-        protected TextView vTime;
-        protected TextView vDescription;
-        protected TextView vLocation;
-        protected Button   vSubscribe;
-
-        public ViewHolder_1(View v) {
-            super(v);
-            vTitle =       (TextView) v.findViewById(R.id.TV_title);
-            vThumbnail =   (ImageView) v.findViewById(R.id.thumbnail);
-            vHost =        (TextView) v.findViewById(R.id.TV_host);
-            vPrivacy =     (TextView) v.findViewById(R.id.TV_publicity_school);
-            vDate =        (TextView) v.findViewById(R.id.TV_date);
-            vTime =        (TextView) v.findViewById(R.id.TV_time);
-            vDescription = (TextView) v.findViewById(R.id.TV_description);
-            vLocation =    (TextView) v.findViewById(R.id.TV_location);
-            vSubscribe =   (Button) v.findViewById(R.id.BTN_subscribe);
-        }
-    }
-
-    /** custom ViewHolder for the second card - Actions */
-    public static class ViewHolder_2 extends RecyclerView.ViewHolder {
-        protected Button vWeather;
-        protected Button vAddToCal;
-        protected Button vShare;
-        protected Button vEmailHost;
-        protected Button vBuyTickets;
-
-        public ViewHolder_2(View v) {
-            super(v);
-            vWeather =    (Button) v.findViewById(R.id.BTN_weather);
-            vAddToCal =   (Button) v.findViewById(R.id.BTN_add_to_cal);
-            vShare =      (Button) v.findViewById(R.id.BTN_share);
-            vEmailHost =  (Button) v.findViewById(R.id.BTN_email_host);
-            vBuyTickets = (Button) v.findViewById(R.id.BTN_buy_tickets);
-        }
-    }
 
     /** Enum used to take the appropriate layout actions based on the card type. */
     private static enum Card {
@@ -127,14 +82,28 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 viewHolder.vPrivacy.setText(mJamboree.getString(PRIVACY_KEY));
 
                 // Date (e.g. "Wednesday 4/12/14") and Time (e.g. "4:30pm - 6:30pm")
-                final String dateString = DateTimeParser.getDays(mJamboree.getDate(START_TIME_KEY),
-                        mJamboree.getDate(END_TIME_KEY), false);
-                final String timeString = DateTimeParser.getTimes(mJamboree.getDate(START_TIME_KEY),
-                        mJamboree.getDate(END_TIME_KEY), false);
+                String dateString;
+                dateString = DateTimeParser.getDay(mJamboree.getDate(START_TIME_KEY));
+                dateString += " " + DateTimeParser.getDate(mJamboree.getDate(START_TIME_KEY));
+                // multiple day event
+                if (DateTimeParser.startsEndsSameDay(mJamboree.getDate(START_TIME_KEY),
+                        mJamboree.getDate(END_TIME_KEY)) == false) {
+                    dateString += " - " + DateTimeParser.getDay(mJamboree.getDate(END_TIME_KEY));
+                    dateString += " " + DateTimeParser.getDate(mJamboree.getDate(END_TIME_KEY));
+                }
+                // adds " (today)" or " (tomorrow)" or "" as appropriate
+                dateString += DateTimeParser.getAnnotation(mJamboree.getDate(START_TIME_KEY));
                 viewHolder.vDate.setText(dateString);
+                // Time
+                final String dateS = dateString; // for sms use only
+                final String timeString = DateTimeParser.getFormattedTime(
+                        mJamboree.getDate(START_TIME_KEY))
+                        + " - " + DateTimeParser.getFormattedTime(
+                        mJamboree.getDate(END_TIME_KEY));
                 viewHolder.vTime.setText(timeString);
+
                 // Description
-                String description = mJamboree.getString(DESCRIPTION_KEY);
+                String description = mJamboree.getString(DETAILS_KEY);
                 if (description == null || description.equals("")) {
                     description = mContext.getResources().getString(R.string.no_description);
                 }
@@ -152,7 +121,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     new FunctionCallback<Boolean>() {
                         @Override
                         public void done(Boolean response, ParseException e) {
-                            Log.d(TAG, "response = " + response.toString());
+                            Log.d(TAG, "RESPONSE to 'isSubscribed' = " + response.toString());
                             if (e == null) { // successfully determined current subscription status!
                                 if (response.booleanValue()) {
                                     turnSubButtonOff(viewHolder.vSubscribe);
@@ -169,7 +138,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         new FunctionCallback<String>() {
                             @Override
                             public void done(String response, ParseException e) {
-                                Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getString(OBJECT_ID_KEY) + ")");
+                                Log.d(TAG, "RESPONSE to 'addSubscription' = " + response + " (Host objectId: " + host.getString(OBJECT_ID_KEY) + ")");
                                 if (e == null) { // successfully subscribed!
                                     Toast.makeText(mContext, "Subscription added", Toast.LENGTH_SHORT).show();
                                     turnSubButtonOff(viewHolder.vSubscribe);
@@ -206,7 +175,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 viewHolder.vWeather.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d(TAG, "onClick()");
                         // callback to JamboreeDetailActivity >> starts new activity with a WebView layout
                         ((OnClickWeatherListener) mContext).onClickWeather();
                     }
@@ -271,7 +239,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         // initialize ParseObject Jamboree keys
         TITLE_KEY = mContext.getResources().getString(R.string.title_key);
-        DESCRIPTION_KEY = mContext.getResources().getString(R.string.description_key);
+        DETAILS_KEY = mContext.getResources().getString(R.string.details_key);
         LOCATION_KEY = mContext.getResources().getString(R.string.location_key);
         HOST_KEY = mContext.getResources().getString(R.string.owner_full_name_key);
         OWNER_KEY = mContext.getResources().getString(R.string.owner_key);
@@ -293,7 +261,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime.getTimeInMillis())
                     .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
                     .putExtra(CalendarContract.Events.TITLE, mJamboree.getString(TITLE_KEY))
-                    .putExtra(CalendarContract.Events.DESCRIPTION, mJamboree.getString(DESCRIPTION_KEY))
+                    .putExtra(CalendarContract.Events.DESCRIPTION, mJamboree.getString(DETAILS_KEY))
                     .putExtra(CalendarContract.Events.EVENT_LOCATION, mJamboree.getString(LOCATION_KEY))
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_TENTATIVE);
 
@@ -327,14 +295,15 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * Sends simple text to another application
      */
     private static void shareEvent() {
-        String dateString = DateTimeParser.getDays(mJamboree.getDate(START_TIME_KEY),
-                mJamboree.getDate(END_TIME_KEY), false);
-        String timeString = DateTimeParser.getDays(mJamboree.getDate(START_TIME_KEY),
-                mJamboree.getDate(END_TIME_KEY), false);
+        String dateString = DateTimeParser.getDay(mJamboree.getDate(START_TIME_KEY));
+        dateString += " " + DateTimeParser.getDate(mJamboree.getDate(START_TIME_KEY));
+        String timeString = DateTimeParser.getFormattedTime(mJamboree.getDate(START_TIME_KEY));
+        String annotation = DateTimeParser.getAnnotation(mJamboree.getDate(START_TIME_KEY));
+
         // Message to send to another application
+        // e.g. "Hot Chocolate Bar at 12:00pm on Friday 1/30/15 (tomorrow), at Meyer's Campus Center."
         String text = mJamboree.getString(TITLE_KEY) +
-                " at " + timeString + " on " + dateString + ".";
-        // TODO - passing the date, like "1/14/13" would be way better than the day here.
+                " at " + timeString + " on " + dateString + annotation + ", at " + mJamboree.getString(LOCATION_KEY);
 
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -364,17 +333,20 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * Sends simple text to another application
      */
     private static void emailHost() {
-            String[] TO = {((ParseProxyObject) mJamboree.getParseUser(OWNER_KEY)).getString("email"),
-                    ((ParseProxyObject) mJamboree.getParseUser(OWNER_KEY)).getString("contactEmail")};
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.setData(Uri.parse("mailto:"));
-            emailIntent.setType("text/plain");
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, mJamboree.getString(TITLE_KEY));
-            emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n\n");
+        String[] TO = {((ParseProxyObject) mJamboree.getParseUser(OWNER_KEY)).getString("email")};
+        if ( TO[0] == null || TO[0].equals("")) {
+            Toast.makeText(mContext, "No email available", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, mJamboree.getString(TITLE_KEY));
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n\n");
 
-            // Verify it resolves
-            boolean isIntentSafe = intentIsSafe(emailIntent);
+        // Verify it resolves
+        boolean isIntentSafe = intentIsSafe(emailIntent);
         try {
             // Start activity if it is safe
             if (isIntentSafe) {
@@ -426,5 +398,50 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         Card.values()[position].prepLayout(viewHolder);
+    }
+
+    /** Provide a reference to the type of views that you are using (custom ViewHolder)
+     * This is for the first card - Details */
+    public static class ViewHolder_1 extends RecyclerView.ViewHolder {
+        protected TextView vTitle;
+        protected ImageView vThumbnail;
+        protected TextView vHost;
+        protected TextView vPrivacy;
+        protected TextView vDate;
+        protected TextView vTime;
+        protected TextView vDescription;
+        protected TextView vLocation;
+        protected Button   vSubscribe;
+
+        public ViewHolder_1(View v) {
+            super(v);
+            vTitle =       (TextView) v.findViewById(R.id.TV_title);
+            vThumbnail =   (ImageView) v.findViewById(R.id.thumbnail);
+            vHost =        (TextView) v.findViewById(R.id.TV_host);
+            vPrivacy =     (TextView) v.findViewById(R.id.TV_publicity_school);
+            vDate =        (TextView) v.findViewById(R.id.TV_date);
+            vTime =        (TextView) v.findViewById(R.id.TV_time);
+            vDescription = (TextView) v.findViewById(R.id.TV_description);
+            vLocation =    (TextView) v.findViewById(R.id.TV_location);
+            vSubscribe =   (Button) v.findViewById(R.id.BTN_subscribe);
+        }
+    }
+
+    /** custom ViewHolder for the second card - Actions */
+    public static class ViewHolder_2 extends RecyclerView.ViewHolder {
+        protected Button vWeather;
+        protected Button vAddToCal;
+        protected Button vShare;
+        protected Button vEmailHost;
+        protected Button vBuyTickets;
+
+        public ViewHolder_2(View v) {
+            super(v);
+            vWeather =    (Button) v.findViewById(R.id.BTN_weather);
+            vAddToCal =   (Button) v.findViewById(R.id.BTN_add_to_cal);
+            vShare =      (Button) v.findViewById(R.id.BTN_share);
+            vEmailHost =  (Button) v.findViewById(R.id.BTN_email_host);
+            vBuyTickets = (Button) v.findViewById(R.id.BTN_buy_tickets);
+        }
     }
 }

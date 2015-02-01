@@ -108,6 +108,8 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
 
+            android:autoLink="all"
+            android:autoText="true"
             android:textColor="@color/grey_dark"
             android:singleLine="false"
             android:textSize="18sp"

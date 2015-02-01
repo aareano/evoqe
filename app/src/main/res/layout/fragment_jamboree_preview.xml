@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="?android:attr/buttonBarStyle" >
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/SRL_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/TV_refresh_instr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+
+        android:text="@string/refresh_instruction"
+        android:gravity="top|center_horizontal"
+        android:textSize="14sp"
+        android:textColor="@color/grey_light" />
+
+    <TextView
+        android:id="@+id/TV_no_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="@string/no_events"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        android:textColor="@color/grey_middle"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/BTN_goto_subscriptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:layout_marginBottom="48dp"
+
+        style="?android:attr/buttonBarButtonStyle"
+        android:gravity="center"
+        android:text="@string/goto_subscriptions"
+        android:layout_gravity="center_horizontal|bottom"/>
+</FrameLayout>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Application related strings -->
     <string name="app_name">evoqe</string>
+    <string name="main_activity_label">evoqe</string>
     <string name="jamboree_detail_activity_label">Event detail</string>
     <string name="restaurant_detail_activity_label">Restaurant detail</string>
-    <string name="login_activity_label">Login</string>
-    <string name="main_activity_label">evoqe</string>
-    <string name="forgot_password_activity_label">Forgot Password</string>
-    <string name="signup_activity_label">evoqe signup</string>
     <string name="weather_activity_label">Weather</string>
-    <string name="action_settings">Settings</string>
-    <string name="example">Example</string>
 
+    <!-- User Account relate strings -->
+    <string name="login_activity_label">Login</string>
+    <string name="signup_activity_label">evoqe signup</string>
+    <string name="forgot_password_activity_label">Forgot Password</string>
+
+    <!-- Navigation related strings -->
     <string name="navigation_drawer_open">open drawer</string>
     <string name="navigation_drawer_close">close drawer</string>
-    
-     <!-- Login/Account creation screen -->
     <string name="signIn">Sign In</string>
     <string name="submit">Submit</string>
     <string name="orText">Or</string>
@@ -24,21 +24,37 @@
     <string name="usernameHint">Username</string>
     <string name="passwordHint">Password</string>
     <string name="confirmPasswordHint">Confirm Password</string>
-    <string name="title_activity_launcher">LauncherActivity</string>
-    <string name="changing_fragments">Changing Fragments</string>
-    <string name="title_activity_create_account">CreateAccountActivity</string>
-    <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
-    
-    <!-- MainActivity related strings -->
-    <string name="basic_error">Error, that\'s our bad.</string>
-    <string name="joy">YES!</string>
-    
-    <!-- Event list related strings -->
+
+    <!-- Jamboree related strings -->
+    <string name="no_events">No Events</string>
     <string name="text_friend">Text a friend</string>
-    <string name="save_event">Save to MyEvents</string>
-    
-    <!-- Restaurant list related strings -->
+    <string name="no_description">No description available.</string>
+    <string name="location_label">Location:</string>
+    <string name="weather">Weather</string>
+    <string name="add_to_cal">Add to cal</string>
+    <string name="share">Share</string>
+    <string name="email_host">Email host</string>
+    <string name="buy_tickets">Buy tickets</string>
+
+        <!-- Parse Jamboree keys -->
+        <string name="owner_full_name_key">ownerFullName</string>
+        <string name="start_time_key">startTime</string>
+        <string name="end_time_key">endTime</string>
+        <string name="location_key">location</string>
+        <string name="privacy_key">privacy</string>
+        <string name="owner_key">owner</string>
+
+    <!-- User related strings -->
+
+        <!-- Parse User keys -->
+        <string name="title_key">title</string>
+        <string name="full_name_key">fullName</string>
+        <string name="subscriptions_key">subscriptions</string>
+        <string name="school_key">school</string>
+        <string name="userType_key">userType</string>
+        <string name="year_key">year</string>
+
+    <!-- Restaurant related strings -->
     <string name="discount_header">Discounts</string>
     <string name="no_discounts"> - None at this time</string>
     <string name="discount_footnote">*Call and ask for \"Evoqe Discount\"</string>
@@ -47,7 +63,6 @@
     <string name="restaurant_location">Location</string>
     <string name="website">Website</string>
     <string name="menu">Menu Link</string>
-
 
     <string name="sunday">SU</string>
     <string name="monday">MO</string>
@@ -61,47 +76,36 @@
     <string name="closed_abbrv">CL</string>
     <string name="call_restaurant">Call Restaurant</string>
 
-    
-    <!-- Navigation Drawer strings -->
+        <!-- Parse Restaurant keys -->
+        <string name="discounts_key">discounts</string>
+        <string name="details_key">details</string>
+        <string name="open_times_key">openTimes</string>
+        <string name="name_key">name</string>
+
+    <!-- Subscription related strings -->
     <string name="subscriptions_label">Subscriptions</string>
     <string name="zero">0</string>
-    
-    <!-- Parse Restaurant Keys -->
-    <string name="discounts_key">discounts</string>
-    <string name="details_key">details</string>
-    <string name="open_times_key">openTimes</string>
-    <string name="name_key">name</string>
-    
-    <!-- Parse User Keys -->
-    <string name="title_key">title</string>
-    <string name="full_name_key">fullName</string>
-    <string name="subscriptions_key">subscriptions</string>
-    <string name="school_key">school</string>
-    <string name="userType_key">userType</string>
-    <string name="year_key">year</string>
-    
-    <!-- Parse Jamboree Keys -->
-    <string name="owner_full_name_key">ownerFullName</string>
-    <string name="start_time_key">startTime</string>
-    <string name="end_time_key">endTime</string>
-    <string name="location_key">location</string>
-    <string name="description_key">description</string>
-    <string name="privacy_key">privacy</string>
-    <string name="owner_key">owner</string>
-
-    <!-- Jamboree info cards -->
-    <string name="no_description">No description available.</string>
-    <string name="location_label">Location:</string>
     <string name="subscribe">Subscribe to host</string>
-    <string name="weather">Weather</string>
-    <string name="add_to_cal">Add to cal</string>
-    <string name="share">Share</string>
-    <string name="email_host">Email host</string>
-    <string name="buy_tickets">Buy tickets</string>
     <string name="already_subscribed">Subscribed</string>
-    
-    <!-- Other -->
+    <string name="no_hosts">No hosts, please try again later</string>
+    <string name="goto_subscriptions">Go to subscriptions</string>
+
+    <!-- Promotion fragment -->
+    <string name="enter_promo_code">Please enter your promo code</string>
+    <string name="does_nothing">(Secret, nothing here does anything)</string>
+
+    <!-- Help fragment -->
+    <string name="help">Get some help</string>
+
+    <!-- Error Strings -->
+    <string name="basic_error">Error, that\'s our bad.</string>
+    <string name="refresh_error">Refresh error</string>
     <string name="errorPage">This is awkward&#8230;</string>
+
+    <!-- Other -->
     <string name="image_description">Thumbnail</string>
+
+    <!-- Information -->
+    <string name="refresh_instruction">Pull down to refresh</string>
 
 </resources>

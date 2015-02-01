@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.evoqe.MainActivity" >
 
+<!--
     <item
         android:id="@+id/action_example"
         android:title="@string/example"
@@ -12,5 +13,6 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
+-->
 
 </menu><!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/menu/main.xml -->

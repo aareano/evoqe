@@ -9,34 +9,65 @@
     android:background="@color/background_floating_material_dark"
     android:orientation="vertical" >
 
-    <!-- The header at the top -->
-    <TextView
-        android:id="@+id/TV_subscription_count"
+    <RelativeLayout
+        android:id="@+id/RL_subscription_wrapper"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        android:textSize="32sp"
-        android:text="@string/zero"
-        android:textColor="@color/grey_light"
-        android:onClick="onSubscriptionClick" />
+        android:orientation="vertical"
+        android:onClick="onSubscriptionClick" >
 
-    <TextView
-        android:id="@+id/TV_subscription_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_gravity="center_horizontal"
-        android:textSize="14sp"
-        android:text="@string/subscriptions_label"
-        android:textColor="@color/grey_light"
-        android:onClick="onSubscriptionClick" />
+        <!-- The header at the top -->
+        <TextView
+            android:id="@+id/TV_subscription_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="32sp"
+            android:text="@string/zero"
+            android:textColor="@color/grey_light" />
+
+        <TextView
+            android:id="@+id/TV_subscription_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@id/TV_subscription_count"
+            android:textSize="14sp"
+            android:text="@string/subscriptions_label"
+            android:textColor="@color/grey_light" />
+
+        <!-- Right and left borders - TODO: ONLY RIGHT ONE APPEARS...
+        <View
+            android:layout_width="16dp"
+            android:layout_height="32dp"
+            android:layout_toLeftOf="@id/TV_subscription_label"
+            android:layout_toStartOf="@id/TV_subscription_label"
+            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/grey_dark"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="32dp"
+            android:layout_toRightOf="@id/TV_subscription_label"
+            android:layout_toEndOf="@id/TV_subscription_label"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/grey_dark"/>
+    -->
+
+    </RelativeLayout>
 
     <!-- 1st divider -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginLeft="36dp"
         android:background="@color/grey_dark" />
     
     <!-- Status bar, height is 80 + 16*2 -->
@@ -55,7 +86,6 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentStart="true"
 	        android:layout_alignParentTop="true"
-	        android:onClick="refreshDrawer"
 	        
 	        android:src="@drawable/logo"
 	        android:contentDescription="Contact thumbnail" />
@@ -112,6 +142,8 @@
         android:layout_height="1dp"
         android:background="@color/grey_dark"
         android:layout_marginTop="8dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginRight="36dp"
         android:layout_marginBottom="8dp" />
     
     <!-- List of the navigation options -->
@@ -121,8 +153,7 @@
 	    android:layout_height="match_parent"
 	    android:choiceMode="singleChoice"
 	    android:divider="@color/grey_dark"
-	    android:dividerHeight="1dp"
-	    tools:context="com.evoqe.NavigationDrawerFrag" />
+	    android:dividerHeight="1dp" />
         
 </LinearLayout>
 <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/fragment_navigation_drawer.xml -->

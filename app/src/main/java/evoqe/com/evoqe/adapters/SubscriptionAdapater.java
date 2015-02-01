@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import evoqe.com.evoqe.R;
+import evoqe.com.evoqe.objects.ToastWrapper;
 
 /* NOTE: 
  * Users subscribe to other users who have the propertie 
@@ -54,7 +55,11 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
     private Context mContext;
     private int mLayoutResourceId;
     private String TAG = "SubscriptionAdapter";
-    
+
+    public interface SubscriptionUpdateListener {
+        public void updateSubscriptionCount();
+    }
+
     /**
      * (The only) constructor for the HostAdapter class
      * @param context - The activity context
@@ -154,22 +159,23 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
          * NOTE: changes are pushed to Parse in onPause()
          * TODO save to Preferences in the interim
          */
+        setUpCheckBoxResponses(checkBox, host);
+    }
+
+    private void setUpCheckBoxResponses(CheckBox checkBox, final ParseUser host) {
         checkBox.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View checkBox) {
                 ParseUser me = ParseUser.getCurrentUser();
                 String subKey = mContext.getResources().getString(R.string.subscriptions_key);
                 ParseRelation<ParseObject> rel = me.getRelation(subKey);
-                
+
                 // was the box just checked or unchecked?
                 final boolean checked = ((CheckBox) checkBox).isChecked();
-                String funcName = null;
                 if (checked) { // was just checked, so add subscription
-                    funcName = "addSubscription";
                     mMySubs.add(host);
                     ((CheckBox) checkBox).setButtonDrawable(R.drawable.ic_menu_compass);
                 } else { // was just unchecked, so remove subscription
-                    funcName = "removeSubscription";
                     int size = mMySubs.size();
                     for (int i = 0; i < size; i++) { // loop through list to find and destroy
                         if (mMySubs.get(i).getString("username").equals(host.getString("username"))) {
@@ -179,32 +185,49 @@ public class SubscriptionAdapater extends ArrayAdapter<ParseUser> {
                     }
                     ((CheckBox) checkBox).setButtonDrawable(R.drawable.create_contact);
                 }
-                // do the actual adding or remove on Parse
-                HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
-                map.put("objectId", host.getObjectId());
-                ParseCloud.callFunctionInBackground(funcName, map, // does all relation logic
-                        new FunctionCallback<String>() {
-                            @Override
-                            public void done(String response, ParseException e) {
-                                Log.d(TAG, "RESPONSE: " + response + " (Host objectId: " + host.getObjectId() + ")");
-                                if (e == null) { // success!
-                                    if (checked) { // was added
-                                        Toast.makeText(mContext, "Subscription added", Toast.LENGTH_SHORT).show();
-                                    } else { // was removed
-                                        Toast.makeText(mContext, "Subscription removed", Toast.LENGTH_SHORT).show();
-                                    }
-                                } else { // failure!
-                                    Log.e(TAG, e.toString());
-                                    if (checked) { // was NOT added
-                                        Toast.makeText(mContext, "Unable to add subscription", Toast.LENGTH_SHORT).show();
-                                    } else {  // was NOT removed
-                                        Toast.makeText(mContext, "Unable to remove subscription", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        }
-                );
+                saveChanges(host, checked);
             }
         });
+    }
+
+    private void saveChanges(final ParseUser host, final boolean checked) {
+        String funcName;
+        if (checked) {
+            funcName = "addSubscription";
+        } else {
+            funcName = "removeSubscription";
+        }
+        // do the actual adding or remove on Parse
+        HashMap<String, String> map = new HashMap<>(); // implicit <String, String>
+        map.put("objectId", host.getObjectId());
+        ParseCloud.callFunctionInBackground(funcName, map, // does all relation logic
+                new FunctionCallback<String>() {
+                    @Override
+                    public void done(String response, ParseException e) {
+                        Log.d(TAG, "RESPONSE: " + response
+                                + " (Host objectId: " + host.getObjectId() + ")");
+                        if (e == null) { // success!
+                            // update subscription count in NavigationDrawer
+                            ((SubscriptionUpdateListener) mContext).updateSubscriptionCount();
+                            if (checked) { // was added
+                                ToastWrapper.makeText(mContext, "Subscription added",
+                                        Toast.LENGTH_SHORT).show();
+                            } else { // was removed
+                                ToastWrapper.makeText(mContext, "Subscription removed",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } else { // failure!
+                            Log.e(TAG, e.toString());
+                            if (checked) { // was NOT added
+                                ToastWrapper.makeText(mContext, "Unable to add subscription",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {  // was NOT removed
+                                ToastWrapper.makeText(mContext, "Unable to remove subscription",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                }
+        );
     }
 }

@@ -5,6 +5,8 @@
     <string-array name="drawer_items">
         <item>Home</item>
         <item>Subscriptions</item>
+        <item>Promotions</item>
+        <item>Help</item>
     </string-array>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
@@ -56,9 +58,14 @@
     <color name="dim_foreground_material_light">#ff323232</color>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/colors.xml -->
     <eat-comment/>
+    <color name="green_1">#99CCAD</color>
+    <color name="green_2">#6D9C7F</color>
+    <color name="green_3">#669900</color>
+    <color name="green_4">#577D66</color>
     <color name="green_light">#7BE37C</color>
     <color name="grey_dark">#4D4D4D</color>
     <color name="grey_light">#CFCFCF</color>
+    <color name="grey_middle">#707070</color>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
@@ -207,11 +214,6 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
     <string name="action_register">Create Account</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
-    <eat-comment/>
-    <string name="action_settings">Settings</string>
-    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
-    <eat-comment/>
     <string name="action_sign_in_register"><b>Sign in</b> or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
@@ -222,21 +224,21 @@
     <string name="basic_error">Error, that\'s our bad.</string>
     <string name="buy_tickets">Buy tickets</string>
     <string name="call_restaurant">Call Restaurant</string>
-    <string name="changing_fragments">Changing Fragments</string>
     <string name="closed">NA:NA-NA:NA</string>
     <string name="closed_abbrv">CL</string>
     <string name="closed_label">Closed</string>
     <string name="closed_message">Closed today :( sorry</string>
     <string name="confirmPasswordHint">Confirm Password</string>
     <string name="createAccount">Create Account</string>
-    <string name="description_key">description</string>
     <string name="details_key">details</string>
-    <string name="discount_footnote">*Call and ask for "Evoqe Discount"</string>
+    <string name="discount_footnote">*Call and ask for \"Evoqe Discount\"</string>
     <string name="discount_header">Discounts</string>
     <string name="discounts_key">discounts</string>
+    <string name="does_nothing">(Secret, nothing here does anything)</string>
     <string name="emailHint">Email</string>
     <string name="email_host">Email host</string>
     <string name="end_time_key">endTime</string>
+    <string name="enter_promo_code">Please enter your promo code</string>
     <string name="errorPage">This is awkward…</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
@@ -249,13 +251,13 @@
     <string name="error_invalid_password">This password is too short</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="example">Example</string>
     <string name="forgot_password_activity_label">Forgot Password</string>
     <string name="friday">FR</string>
     <string name="full_name_key">fullName</string>
+    <string name="goto_subscriptions">Go to subscriptions</string>
+    <string name="help">Get some help</string>
     <string name="image_description">Thumbnail</string>
     <string name="jamboree_detail_activity_label">Event detail</string>
-    <string name="joy">YES!</string>
     <string name="location_key">location</string>
     <string name="location_label">Location:</string>
     <string name="login_activity_label">Login</string>
@@ -272,13 +274,14 @@
     <string name="menu_forgot_password">Recover lost password</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="menu_settings">Settings</string>
     <string name="monday">MO</string>
     <string name="name_key">name</string>
     <string name="navigation_drawer_close">close drawer</string>
     <string name="navigation_drawer_open">open drawer</string>
     <string name="no_description">No description available.</string>
     <string name="no_discounts"> - None at this time</string>
+    <string name="no_events">No Events</string>
+    <string name="no_hosts">No hosts, please try again later</string>
     <string name="open_label">Open</string>
     <string name="open_times_key">openTimes</string>
     <string name="orText">Or</string>
@@ -292,10 +295,11 @@
     <string name="prompt_password">Password</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
+    <string name="refresh_error">Refresh error</string>
+    <string name="refresh_instruction">Pull down to refresh</string>
     <string name="restaurant_detail_activity_label">Restaurant detail</string>
     <string name="restaurant_location">Location</string>
     <string name="saturday">SA</string>
-    <string name="save_event">Save to MyEvents</string>
     <string name="school_key">school</string>
     <string name="share">Share</string>
     <string name="signIn">Sign In</string>
@@ -308,9 +312,6 @@
     <string name="sunday">SU</string>
     <string name="text_friend">Text a friend</string>
     <string name="thursday">TH</string>
-    <string name="title_activity_create_account">CreateAccountActivity</string>
-    <string name="title_activity_launcher">LauncherActivity</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="title_key">title</string>
     <string name="tuesday">TU</string>
     <string name="userType_key">userType</string>

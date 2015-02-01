@@ -108,7 +108,7 @@ public class RestaurantPreviewAdapter extends RecyclerView.Adapter<RecyclerView.
         Calendar now = Calendar.getInstance();
         int day = (now.get(Calendar.DAY_OF_WEEK) - 1); // SUNDAY = 1
         ArrayList<Integer> times = DateTimeParser.getTimesForToday(viewHolder.currentItem, mContext, day);
-        String timeString = DateTimeParser.getPresentableString(times, mContext);
+        String timeString = DateTimeParser.getPresentableString(times);
         String closedMessage = mContext.getResources().getString(R.string.closed_message);
         viewHolder.vOpenTimes.setText((timeString == null) ? closedMessage : timeString);
 

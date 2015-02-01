@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -17,21 +16,29 @@ import com.parse.ParseUser;
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.JamboreePreviewAdapter.JamboreeClickListener;
 import evoqe.com.evoqe.adapters.RestaurantPreviewAdapter.RestaurantClickListener;
+import evoqe.com.evoqe.adapters.SubscriptionAdapater;
+import evoqe.com.evoqe.fragments.HelpFragment;
 import evoqe.com.evoqe.fragments.NavigationDrawerFragment;
+import evoqe.com.evoqe.fragments.PromotionFragment;
 import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
 import evoqe.com.evoqe.objects.ParseProxyObject;
-import evoqe.com.evoqe.objects.Restaurant;
 
-/* TODO -
- *
+/* TODO - only load 15 Hosts at a time
+ * TODO - test with no hosts
+ * TODO - images (circle)
+ * TODO - styles
+ * TODO - change all ListViews to RecyclerViews
+ * TODO - Login page
  *
  * Issues:
  *     Initial subscription check for JamboreeDetailActivity - Cloud code doesn't work?
  */
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, JamboreeClickListener, RestaurantClickListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,
+        JamboreeClickListener, RestaurantClickListener,
+        SubscriptionAdapater.SubscriptionUpdateListener {
 
     private final String TAG = "MainActivity";
 
@@ -65,17 +72,23 @@ public class MainActivity extends ActionBarActivity
         Log.i(TAG, "position " + position + " selected on drawer");
 
         if (position == 0) {  // home
-            replaceFragment(R.id.container, (Fragment) TabFragment.newInstance());
+            replaceFragment(R.id.container, (Fragment) TabFragment.newInstance(), "TabFragment");
         } else if (position == 1) { // subscriptions
-            replaceFragment(R.id.container, (Fragment) SubscriptionFragment.newInstance());
+            replaceFragment(R.id.container, (Fragment) SubscriptionFragment.newInstance(), "SubscriptionFragment");
+        } else if (position == 2) { // promotions
+            replaceFragment(R.id.container, (Fragment) PromotionFragment.newInstance(), "PromotionFragment");
+        } else if (position == 3) { // help
+            replaceFragment(R.id.container, (Fragment) HelpFragment.newInstance(), "HelpFragment");
         }
     }
 
-    public void replaceFragment(int resourceLayoutId, Fragment fragment) {
+    public void replaceFragment(int resourceLayoutId, Fragment fragment, String tag) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(resourceLayoutId, fragment)
-                .commit();
+        if (fragmentManager.findFragmentByTag(tag) == null) { // only replace the fragment if we're
+            fragmentManager.beginTransaction()                // navigating away from the current one
+                    .replace(resourceLayoutId, fragment, tag)
+                    .commit();
+        }
     }
 
     public void restoreActionBar() {
@@ -110,24 +123,11 @@ public class MainActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /** The subscription counter/label on the nav drawer was clicked. Send user to
-     * subscription fragment
-     */
-    public void onSubscriptionClick (View view) {
-        onNavigationDrawerItemSelected(1); // it's at position 1 right now
-    }
-
-    /** Temp hack solution to refresh the drawer
-     */
-    public void refreshDrawer (View view) {
-        mNavigationDrawerFragment.setText(R.id.TV_subscription_count, R.string.subscriptions_key, ParseUser.getCurrentUser());   // subscription count
     }
 
     @Override
@@ -142,5 +142,11 @@ public class MainActivity extends ActionBarActivity
         Intent intent = new Intent(MainActivity.this, RestaurantDetailActivity.class);
         intent.putExtra(RestaurantDetailActivity.RESTAURANT_KEY, new ParseProxyObject(restaurant));
         startActivity(intent);
+    }
+
+    @Override
+    public void updateSubscriptionCount() {
+        mNavigationDrawerFragment.setText(R.id.TV_subscription_count, R.string.subscriptions_key,
+                ParseUser.getCurrentUser());   // subscription count
     }
 }

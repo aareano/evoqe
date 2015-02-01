@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      style="?android:attr/buttonBarStyle" >
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="72dp"
+        android:layout_marginRight="36dp"
+        android:layout_marginLeft="36dp"
+        android:hint="@string/enter_promo_code"
+        android:inputType="number"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        android:layout_gravity="center_horizontal"
+
+        style="?android:attr/buttonBarButtonStyle"
+        android:text="@string/submit"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="280dp"
+        android:layout_gravity="bottom|center_horizontal"
+
+        android:text="@string/does_nothing"
+        android:textColor="@color/grey_light"/>
+
+</LinearLayout>

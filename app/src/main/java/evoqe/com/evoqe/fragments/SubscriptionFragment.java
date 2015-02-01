@@ -1,9 +1,9 @@
 package evoqe.com.evoqe.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,23 +16,17 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.List;
 
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.SubscriptionAdapater;
 
-// TODO: ADD SUBSCRIBER RELATIONSHIP STUFF
-
 public class SubscriptionFragment extends ListFragment {
 
     private final static String TAG = "SubscriptionFragment";
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private View mLayout;
-    /** Whether any changes were made to the current user's subscription list */
-    // private Boolean isDirty = false; // TODO - save changes only when there are some
-    /** Used in onPause() */
-    private Context activityContext;
     
     public static SubscriptionFragment newInstance() {
         return new SubscriptionFragment();
@@ -42,14 +36,21 @@ public class SubscriptionFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable
     ViewGroup container, @Nullable
     Bundle savedInstanceState) {
-        mLayout = inflater.inflate(R.layout.vertical_listview, container, false);
+        mLayout = inflater.inflate(R.layout.fragment_subscription, container, false);
         return mLayout;
     }
     
     @Override
-    public void onActivityCreated(@Nullable
-    Bundle savedInstanceState) {
-        getCurrentSubsciptions(); // TODO put in a loading animation
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mLayout.findViewById(R.id.SRL_main);
+        setUpSwipeRefresh();
+
+        // we assume that we're retrieving info from parse, so we start with a loading animation.
+        // When parse comes back and gives us info or an error, we then take appropriate action.
+        mSwipeRefreshLayout.setRefreshing(true);
+        Log.d(TAG, "should be refreshing");
+
+        getCurrentSubscriptions();
         super.onActivityCreated(savedInstanceState);
     }
     
@@ -57,7 +58,7 @@ public class SubscriptionFragment extends ListFragment {
      * Get a list of my current subscriptions, and from here call
      * getFullSubscriptionList().
      */
-    public void getCurrentSubsciptions() {
+    public void getCurrentSubscriptions() {
         // The current user is actually saved to disc at this point
         ParseUser me = ParseUser.getCurrentUser();
         // Get the relationship between current user (me) and my subscriptions
@@ -70,15 +71,18 @@ public class SubscriptionFragment extends ListFragment {
 
                 @Override
                 public void done(List<ParseUser> mySubs, ParseException e) {
-                    // We now have my subscriptions, let's get full list of possible subscriptions
-                    getFullSubscriptionList(mySubs);
+                    if (e == null) {
+                        // We now have my subscriptions, let's get full list of possible subscriptions
+                        getFullSubscriptionList(mySubs);
+                    } else {
+                        Log.e(TAG, "error: " + e.toString());
+                        nothingRetrieved(true);
+                    }
                 }
             }); 
         } else { // This should never happen as long as Parse is in order.
             Log.e(TAG, "null relationship between current user and subscriptions");
-            String error = getActivity().getResources().getString(R.string.basic_error);
-            Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
-            // TODO send user to tab fragments
+            nothingRetrieved(true);
         }
     }
     
@@ -95,38 +99,54 @@ public class SubscriptionFragment extends ListFragment {
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> objects, ParseException e) {
+                mSwipeRefreshLayout.setRefreshing(false); // remove refreshing notifier
+                if (objects.size() == 0) {
+                    nothingRetrieved(false);
+                }
                 if (e == null) {
+                    retrievalResolution();  // make sure the right things are visible
                     // Adapter inflates list and accounts for subscription logic
                     ArrayAdapter<ParseUser> adapter = new SubscriptionAdapater(getActivity(),
                                          R.layout.list_item_subscription, objects, mySubs);
                     setListAdapter(adapter);
                 } else {
                     Log.e(TAG, "error: " + e.toString());
+                    nothingRetrieved(true);
                 }
             }
         });
     }
-        
-    /** Once this fragment is paused (onPause), subscription
-    * changes are saved to Parse. If successfully saved, nothing happens, on failure
-    * a toast informs the user
-    */
-    @Override
-    public void onPause() {
-        // Push any changes to Parse
-        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+
+    private void setUpSwipeRefresh() {
+        Log.d(TAG, "setUpSwipeRefresh()");
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.green_1, R.color.green_2,
+                R.color.green_3, R.color.green_4);
+        mSwipeRefreshLayout.setOnRefreshListener (new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.i(TAG, "Subscription changes (if any) were saved");
-                } else {
-                    Toast.makeText(activityContext, "Changes could not be saved", 
-                            Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Subscription changes not saved || error: " 
-                            + e.toString());
-                }
+            public void onRefresh() {
+                getCurrentSubscriptions();
             }
         });
-        super.onPause();
+    }
+
+    /** Instructs the user that there was an error ("No hosts"), and how to refresh
+     * Can be called from any of the parse queries in this class. */
+    private void nothingRetrieved(boolean error) {
+        Log.i(TAG, "onRetrievalError()");
+        if (error) {
+            String text = getActivity().getResources().getString(R.string.refresh_error);
+            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        }
+        mLayout.findViewById(android.R.id.list).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.TV_no_hosts).setVisibility(View.VISIBLE);
+        mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
+    }
+
+    /** Makes the right things visible and such */
+    private void retrievalResolution() {
+        Log.i(TAG, "retrievalResolution()");
+        mLayout.findViewById(android.R.id.list).setVisibility(View.VISIBLE);
+        mLayout.findViewById(R.id.TV_no_hosts).setVisibility(View.GONE);
+        mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.GONE);
     }
 }

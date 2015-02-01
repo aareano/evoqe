@@ -115,7 +115,7 @@ public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         // Host
         viewHolder.vHost.setText(viewHolder.currentItem.getString(HOST_KEY));
 
-        // Date and time
+        // Date
         String dateString;
         dateString = DateTimeParser.getDay(viewHolder.currentItem.getDate(START_TIME_KEY));
         dateString += " " + DateTimeParser.getDate(viewHolder.currentItem.getDate(START_TIME_KEY));
@@ -127,15 +127,14 @@ public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
         // adds " (today)" or " (tomorrow)" or "" as appropriate
         dateString += DateTimeParser.getAnnotation(viewHolder.currentItem.getDate(START_TIME_KEY));
-
-        /*
-        final String dateString = DateTimeParser.getDays(viewHolder.currentItem.getDate(START_TIME_KEY),
-                viewHolder.currentItem.getDate(END_TIME_KEY), false);
-        final String timeString = DateTimeParser.getTimes(viewHolder.currentItem.getDate(START_TIME_KEY),
-                viewHolder.currentItem.getDate(END_TIME_KEY), false);
         viewHolder.vDate.setText(dateString);
+        // Time
+        final String dateS = dateString; // for sms use only
+        final String timeString = DateTimeParser.getFormattedTime(
+                viewHolder.currentItem.getDate(START_TIME_KEY))
+                + " - " + DateTimeParser.getFormattedTime(
+                viewHolder.currentItem.getDate(END_TIME_KEY));
         viewHolder.vTime.setText(timeString);
-        */
 
         // **** Button onClick listener **** send sms with details about the Jamboree
         viewHolder.vTextFriend.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +144,7 @@ public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 try {
                     String sms = "Hey! Check this out - " +
                             viewHolder.currentItem.getString(TITLE_KEY) +
-                            " is at " + timeString + " on " + dateString + ".";
+                            " is at " + timeString + " on " + dateS + ".";
 
                     // set up intent
                     Intent smsIntent = new Intent(Intent.ACTION_VIEW);

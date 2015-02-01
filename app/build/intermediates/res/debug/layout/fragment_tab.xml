@@ -19,5 +19,4 @@
         android:layout_weight="1"
         android:background="@color/list_background" />
         
-</LinearLayout>
-<!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/fragment_tab.xml -->
+</LinearLayout><!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/fragment_tab.xml -->

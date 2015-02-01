@@ -40,8 +40,8 @@ public class ParseProxyObject implements Serializable {
                 values.put(key, object.get(key));
             } else if(classType == ParseUser.class) {
                 ParseProxyObject parseUserObject = new ParseProxyObject(object.getParseUser(key));
-            values.put(key, parseUserObject);
-        } else {
+                values.put(key, parseUserObject);
+            } else {
             // You might want to add more conditions here, for embedded ParseObject, ParseFile, etc.
             // If you do, make changes to getParseObject() method below
         }
@@ -54,7 +54,7 @@ public class ParseProxyObject implements Serializable {
         if(has(key)) {
             return (String) values.get(key);
         } else {
-            return "no string";
+            return "";
         }
     }
 

@@ -4,6 +4,8 @@
     <string-array name="drawer_items">
         <item>Home</item>
         <item>Subscriptions</item>
+        <item>Promotions</item>
+        <item>Help</item>
     </string-array>
     
 </resources>

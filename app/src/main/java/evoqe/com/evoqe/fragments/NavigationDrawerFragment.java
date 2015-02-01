@@ -23,12 +23,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -103,26 +101,47 @@ public class NavigationDrawerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         mDrawerCustomLayout = (LinearLayout) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        
-        mDrawerListView = (ListView) mDrawerCustomLayout.findViewById(R.id.LV_drawer_list);        
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
-            }
-        }); // set the user-specific textviews
+        mDrawerListView = (ListView) mDrawerCustomLayout.findViewById(R.id.LV_drawer_list);
+
+        // set the user-specific textviews
         ParseUser user = ParseUser.getCurrentUser();
         setText(R.id.TV_subscription_count, R.string.subscriptions_key, user);   // subscription count
         setText(R.id.TV_user_name, R.string.full_name_key, user);   // name
         setText(R.id.TV_user_school, R.string.school_key, user);    // school
         setText(R.id.TV_user_type, R.string.year_key, user);        // year -- TODO, should be a different attribute?
-        
+
+        // set adapter
         DrawerAdapter adapter = new DrawerAdapter(
                         getActivity(),
                         R.layout.list_item_drawer, 
                         getResources().getStringArray(R.array.drawer_items));
         mDrawerListView.setAdapter(adapter);
-        // TODO mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+        // set up subscription count onClick
+        mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectItem(1); // subscriptions
+                    }
+                }
+        );
+        mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper).setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper)
+                            .setBackgroundColor(getResources().getColor(R.color.grey_light));
+                } else {
+                    mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper)
+                            .setBackgroundColor(getResources()
+                                    .getColor(R.color.background_floating_material_dark));
+                }
+            }
+        });
+
         return mDrawerCustomLayout;
     }
 
@@ -304,10 +323,10 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
+        /*if (item.getItemId() == R.id.action_example) {
             Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -334,7 +353,6 @@ public class NavigationDrawerFragment extends Fragment {
     
     
     /**
-     * I feel like having a custom adapter is overkill. eh, oh well.
      * This adapter simply fills in the list that is part of the navigation drawer.
      * @author Aaron
      */
@@ -362,7 +380,6 @@ public class NavigationDrawerFragment extends Fragment {
          */
         @Override
         public View getView(final int position, View row, ViewGroup parent) {
-            Log.d(TAG, "inflating row " + position);
             // define the row
             if (row == null)
             {   // inflate the layout of the row            
@@ -373,9 +390,26 @@ public class NavigationDrawerFragment extends Fragment {
             } else {
                 // do nothing
             }
-            // get the list item text
-            String text = items[position];
-            // fill list item's views with Jamboree information
+            // set onClickListener/onFocusChangeListener for entire row
+            final View finalRow = row;
+            row.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        finalRow.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                    } else {
+                        finalRow.setBackgroundColor(getResources().getColor(R.color.background_floating_material_dark));
+                    }
+                }
+            });
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectItem(position);
+                }
+            });
+
+            String text = items[position]; // e.g. "Home"
             if (text != null) {
                 TextView item = (TextView) row.findViewById(R.id.TV_item);
                 Drawable icon = getResources().getDrawable(R.drawable.logo);                
@@ -384,9 +418,22 @@ public class NavigationDrawerFragment extends Fragment {
                 item.setTextColor(getResources().getColor(R.color.grey_light));
                 item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
                 // add the icon
-                
                 icon.setBounds(0, 0, 48, 48);
                 item.setCompoundDrawables(icon, null, null, null);
+
+                // TODO - put "Promotions" and "Help" at the bottom - couldn't find ex online
+                // Make "Home" item larger
+                if (position == 0) {
+                    int rowHeight = 144;
+                    ViewGroup.LayoutParams params = row.getLayoutParams();
+                    if (params == null) {
+                        row.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, rowHeight));
+                    } else {
+                        params.height = rowHeight;
+                    }
+                    item.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+                }
+
             } else {
                 // error
                 Log.e(TAG , "No text for nav drawer item #" + position + ". The string is null.");
