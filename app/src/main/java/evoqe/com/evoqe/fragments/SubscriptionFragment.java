@@ -21,7 +21,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-import evoqe.com.evoqe.ConnectionDetector;
+import evoqe.com.evoqe.utilities.ConnectionDetector;
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.SubscriptionAdapter;
 import evoqe.com.evoqe.objects.ToastWrapper;
@@ -78,7 +78,7 @@ public class SubscriptionFragment extends Fragment {
         // The current user is actually saved to disc at this point
         ParseUser me = ParseUser.getCurrentUser();
         // Get the relationship between current user (me) and my subscriptions
-        String subKey = getActivity().getResources().getString(R.string.subscriptions_key);
+        String subKey = getString(R.string.subscriptions_key);
         // A relation between current user and other users (one-to-many?)
         ParseRelation<ParseUser> relation = me.getRelation(subKey);
         if (relation != null) {
@@ -112,7 +112,7 @@ public class SubscriptionFragment extends Fragment {
         // query the parse database for users that are public hosts
         ParseQuery<ParseUser> query = ParseUser.getQuery();
         query.whereEqualTo("isPublicHost", true);
-        query.orderByAscending(getActivity().getResources().getString(R.string.full_name_key));
+        query.orderByAscending(getString(R.string.full_name_key));
         query.findInBackground(new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> allSubs, ParseException e) {
@@ -121,7 +121,7 @@ public class SubscriptionFragment extends Fragment {
                     nothingRetrieved(false);
                 }
                 if (e == null) {
-                    retrievalResolution();  // make sure the right things are visible
+                    resetVisibilities();  // make sure the right things are visible
                     // Adapter inflates list and accounts for subscription logic
                     SubscriptionAdapter adapter = new SubscriptionAdapter(getActivity(),
                                          allSubs, mMySubList);
@@ -164,17 +164,17 @@ public class SubscriptionFragment extends Fragment {
             if (areChildren) {
                 String text;
                 if (isInternetPresent() == false) { // counted as an error by parse
-                    text = getActivity().getResources().getString(R.string.no_connection);
+                    text = getString(R.string.no_connection);
                 } else {
-                    text = getActivity().getResources().getString(R.string.refresh_error);
+                    text = getString(R.string.refresh_error);
                 }
                 ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             } else {
                 if (isInternetPresent() == false) { // counted as an error by parse
-                    retrievalResolution(); // reset the layout
+                    resetVisibilities();
                     mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
                 } else {
-                    retrievalResolution(); // reset the layout
+                    resetVisibilities();
                     mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
                     mLayout.findViewById(R.id.TV_retrieval_error).setVisibility(View.VISIBLE);
                 }
@@ -182,10 +182,10 @@ public class SubscriptionFragment extends Fragment {
         // there is no internet connection
         } else if (isInternetPresent() == false) {
                 if (areChildren) {
-                    String text = getActivity().getResources().getString(R.string.no_connection);
+                    String text = getString(R.string.no_connection);
                     ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                 } else {
-                    retrievalResolution(); // reset the layout
+                    resetVisibilities();
                     mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
                 }
         // simply no hosts to show
@@ -196,16 +196,17 @@ public class SubscriptionFragment extends Fragment {
                         new ArrayList<ParseUser>(), new ArrayList<ParseUser>());
                 ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
             }
-            retrievalResolution(); // reset the layout
+            resetVisibilities();
             mLayout.findViewById(R.id.TV_no_hosts).setVisibility(View.VISIBLE);
             mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
             mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.GONE);
+            mLayout.findViewById(R.id.SRL_main).bringToFront();
         }
     }
 
     /** Makes the right things visible and such */
-    private void retrievalResolution() {
-        Log.i(TAG, "retrievalResolution()");
+    private void resetVisibilities() {
+        Log.i(TAG, "resetVisibilities()");
 
         mLayout.findViewById(R.id.TV_no_hosts).setVisibility(View.GONE);
         mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.GONE);

@@ -7,6 +7,8 @@ package evoqe.com.evoqe.objects;
 
 import android.util.Log;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -39,8 +41,17 @@ public class ParseProxyObject implements Serializable {
                     classType == Integer.class || classType == Boolean.class || classType == Date.class) {
                 values.put(key, object.get(key));
             } else if(classType == ParseUser.class) {
+                // I think the reason we can't store ParseUsers directly is
+                // because they are not serializable
                 ParseProxyObject parseUserObject = new ParseProxyObject(object.getParseUser(key));
                 values.put(key, parseUserObject);
+            } else if(classType == ParseFile.class) {
+                ParseFile file = (ParseFile) object.get(key);
+                try {
+                    values.put(key, file.getData());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             } else {
             // You might want to add more conditions here, for embedded ParseObject, ParseFile, etc.
             // If you do, make changes to getParseObject() method below
@@ -93,6 +104,14 @@ public class ParseProxyObject implements Serializable {
     public ParseProxyObject getParseUser(String key) {
         if(has(key)) {
             return (ParseProxyObject) values.get(key);
+        } else {
+            return null;
+        }
+    }
+
+    public byte[] getParseFile(String key) {
+        if(has(key)) {
+            return (byte[]) values.get(key);
         } else {
             return null;
         }

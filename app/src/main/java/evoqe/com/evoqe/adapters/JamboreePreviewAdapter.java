@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,12 +18,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.List;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.objects.DateTimeParser;
+import evoqe.com.evoqe.utilities.DateTimeParser;
 
 public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -135,6 +139,19 @@ public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 + " - " + DateTimeParser.getFormattedTime(
                 viewHolder.currentItem.getDate(END_TIME_KEY));
         viewHolder.vTime.setText(timeString);
+
+        // Thumbnail
+        ParseFile picture = viewHolder.currentItem.getParseFile(
+                mContext.getString(R.string.jamboree_picture_key));
+        try {
+            byte[] byteArray = picture.getData();
+            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            //Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp, 100);
+            viewHolder.vThumbnail.setImageBitmap(bmp);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // **** Button onClick listener **** send sms with details about the Jamboree
         viewHolder.vTextFriend.setOnClickListener(new View.OnClickListener() {

@@ -1,11 +1,15 @@
 package evoqe.com.evoqe.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.CalendarContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,8 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.objects.DateTimeParser;
 import evoqe.com.evoqe.objects.ParseProxyObject;
+import evoqe.com.evoqe.utilities.DateTimeParser;
 
 /**
  * Provide views to RecyclerView with data.
@@ -74,6 +78,12 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
                 final ViewHolder_1 viewHolder = (ViewHolder_1) vHolder;
 
+                // Thumbnail
+                byte[] byteArray = mJamboree.getParseFile(
+                        mContext.getString(R.string.jamboree_picture_key));
+                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                //Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp, 100);
+                viewHolder.vThumbnail.setImageBitmap(bmp);
                 // Title
                 viewHolder.vTitle.setText(mJamboree.getString(TITLE_KEY));
                 // Host
@@ -168,10 +178,9 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
                 final ViewHolder_2 viewHolder = (ViewHolder_2) vHolder;
 
-                Drawable icon = mContext.getResources().getDrawable(R.drawable.logo);
-                // add the icon, text is already there
-                icon.setBounds(0, 0, 48, 48);
-                viewHolder.vWeather.setCompoundDrawables(null, icon, null, null);
+                setButtonBackground(viewHolder.vWeather, R.drawable.event_weather);
+//                viewHolder.vWeather.setBounds(0, 0, 48, 48);
+//                viewHolder.vWeather.setCompoundDrawables(null, weatherIcon, null, null);
                 viewHolder.vWeather.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -180,8 +189,9 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 });
 
-                icon.setBounds(0, 0, 48, 48);
-                viewHolder.vAddToCal.setCompoundDrawables(null, icon, null, null);
+                setButtonBackground(viewHolder.vAddToCal, R.drawable.event_add_to_cal);
+//                calIcon.setBounds(0, 0, 48, 48);
+//                viewHolder.vAddToCal.setCompoundDrawables(null, calIcon, null, null);
                 viewHolder.vAddToCal.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -189,8 +199,9 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 });
 
-                icon.setBounds(0, 0, 48, 48);
-                viewHolder.vShare.setCompoundDrawables(null, icon, null, null);
+                setButtonBackground(viewHolder.vShare, R.drawable.event_share);
+//                shareIcon.setBounds(0, 0, 48, 48);
+//                viewHolder.vShare.setCompoundDrawables(null, shareIcon, null, null);
                 viewHolder.vShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -198,8 +209,9 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 });
 
-                icon.setBounds(0, 0, 48, 48);
-                viewHolder.vEmailHost.setCompoundDrawables(null, icon, null, null);
+                setButtonBackground(viewHolder.vEmailHost, R.drawable.event_email_host);
+//                emailIcon.setBounds(0, 0, 48, 48);
+//                viewHolder.vEmailHost.setCompoundDrawables(null, emailIcon, null, null);
                 viewHolder.vEmailHost.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -207,8 +219,9 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     }
                 });
 
-                icon.setBounds(0, 0, 48, 48);
-                viewHolder.vBuyTickets.setCompoundDrawables(null, icon, null, null);
+                setButtonBackground(viewHolder.vBuyTickets, R.drawable.event_tickets);
+//                ticketsIcon.setBounds(0, 0, 48, 48);
+//                viewHolder.vBuyTickets.setCompoundDrawables(null, ticketsIcon, null, null);
                 viewHolder.vBuyTickets.setClickable(false);
                 viewHolder.vBuyTickets.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -246,6 +259,17 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         PRIVACY_KEY = mContext.getResources().getString(R.string.privacy_key);
         START_TIME_KEY = mContext.getResources().getString(R.string.start_time_key);
         END_TIME_KEY = mContext.getResources().getString(R.string.end_time_key);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private static void setButtonBackground(Button button, int drawableResourceId) {
+        Drawable icon = mContext.getResources().getDrawable(drawableResourceId);
+        double ratio = ((double) icon.getIntrinsicWidth()) / ((double) icon.getIntrinsicHeight()); // (x/y)
+        final double height = 48; // based off of navigation drawer layout
+        double width = ratio * height;
+        Log.d(TAG, "ratio = " + ratio + ", height = 48, width = " + width);
+        icon.setBounds(0, 0, (int) width, (int) height);
+        button.setBackground(icon);
     }
 
     /**

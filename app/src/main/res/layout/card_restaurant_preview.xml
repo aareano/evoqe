@@ -25,12 +25,12 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-
             android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
 
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo_circle_green"
+            android:contentDescription="@string/restaurant_picture_key"/>
 
         <TextView
             android:id="@+id/TV_name"

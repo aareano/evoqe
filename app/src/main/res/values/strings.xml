@@ -26,7 +26,7 @@
     <string name="confirmPasswordHint">Confirm Password</string>
 
     <!-- Jamboree related strings -->
-    <string name="no_events">No Events</string>
+    <string name="no_events">No events to show</string>
     <string name="text_friend">Text a friend</string>
     <string name="no_description">No description available.</string>
     <string name="location_label">Location:</string>
@@ -43,6 +43,7 @@
         <string name="location_key">location</string>
         <string name="privacy_key">privacy</string>
         <string name="owner_key">owner</string>
+        <string name="jamboree_picture_key">coverPhoto</string>
 
     <!-- User related strings -->
 
@@ -53,6 +54,7 @@
         <string name="school_key">school</string>
         <string name="userType_key">userType</string>
         <string name="year_key">year</string>
+        <string name="user_picture_key">profilePicture</string>
 
     <!-- Restaurant related strings -->
     <string name="discount_header">Discounts</string>
@@ -63,6 +65,7 @@
     <string name="restaurant_location">Location</string>
     <string name="website">Website</string>
     <string name="menu">Menu Link</string>
+    <string name="no_restaurants">No restaurants to show</string>
 
     <string name="sunday">SU</string>
     <string name="monday">MO</string>
@@ -81,13 +84,14 @@
         <string name="details_key">details</string>
         <string name="open_times_key">openTimes</string>
         <string name="name_key">name</string>
+        <string name="restaurant_picture_key">logoImage</string>
 
     <!-- Subscription related strings -->
     <string name="subscriptions_label">Subscriptions</string>
     <string name="zero">0</string>
     <string name="subscribe">Subscribe to host</string>
     <string name="already_subscribed">Subscribed</string>
-    <string name="no_hosts">No hosts, please try again later</string>
+    <string name="no_hosts">No hosts to show</string>
     <string name="goto_subscriptions">Go to subscriptions</string>
 
     <!-- Promotion fragment -->

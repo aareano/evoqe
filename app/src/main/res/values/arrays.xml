@@ -2,10 +2,10 @@
 <resources>
     
     <string-array name="drawer_items">
-        <item>Home</item>
-        <item>Subscriptions</item>
-        <item>Promotions</item>
-        <item>Help</item>
+        <item name="home">Home</item>
+        <item name="subscription">Subscriptions</item>
+        <item name="promotion">Promotions</item>
+        <item nam="help">Help</item>
     </string-array>
     
 </resources>

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,6 +16,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -23,18 +27,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.CountCallback;
 import com.parse.ParseException;
-import com.parse.ParseQuery;
+import com.parse.ParseFile;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import evoqe.com.evoqe.R;
+import evoqe.com.evoqe.utilities.ImageHelper;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer. See the <a
@@ -65,8 +69,8 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private LinearLayout mDrawerCustomLayout;
-    private ListView mDrawerListView;
+    private LinearLayout mLayout;
+    private RecyclerView mDrawerRecView;
     private View mFragmentContainerView;
 
     private int mCurrentSelectedPosition = 0;
@@ -82,7 +86,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -100,49 +104,41 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        mDrawerCustomLayout = (LinearLayout) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        mDrawerListView = (ListView) mDrawerCustomLayout.findViewById(R.id.LV_drawer_list);
+        mLayout = (LinearLayout) inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        mDrawerRecView = (RecyclerView) mLayout.findViewById(R.id.RV_main);
 
-        // set the user-specific textviews
+        // subscription count
+        setUpSubscriptionCount();
+
+        // set the user information
         ParseUser user = ParseUser.getCurrentUser();
-        setText(R.id.TV_subscription_count, R.string.subscriptions_key, user);   // subscription count
         setText(R.id.TV_user_name, R.string.full_name_key, user);   // name
         setText(R.id.TV_user_school, R.string.school_key, user);    // school
-        setText(R.id.TV_user_type, R.string.year_key, user);        // year -- TODO, should be a different attribute?
+        setText(R.id.TV_user_year, R.string.year_key, user);        // year ("sophomore")
+
+        // user image
+        ParseFile picture = user.getParseFile(getString(R.string.user_picture_key));
+        ImageView imgView = (ImageView) mLayout.findViewById(R.id.IMG_thumbnail);
+        try {
+            byte[] byteArray = picture.getData();
+            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp, 150);
+            imgView.setImageBitmap(rounded);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // set adapter
-        DrawerAdapter adapter = new DrawerAdapter(
-                        getActivity(),
-                        R.layout.list_item_drawer, 
+        mDrawerRecView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        mDrawerRecView.setLayoutManager(llm);
+        DrawerAdapter adapter = new DrawerAdapter(getActivity(),
                         getResources().getStringArray(R.array.drawer_items));
-        mDrawerListView.setAdapter(adapter);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        mDrawerRecView.setAdapter(adapter);
 
-        // set up subscription count onClick
-        mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        selectItem(1); // subscriptions
-                    }
-                }
-        );
-        mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper).setOnFocusChangeListener(
-                new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper)
-                            .setBackgroundColor(getResources().getColor(R.color.grey_light));
-                } else {
-                    mDrawerCustomLayout.findViewById(R.id.RL_subscription_wrapper)
-                            .setBackgroundColor(getResources()
-                                    .getColor(R.color.background_floating_material_dark));
-                }
-            }
-        });
-
-        return mDrawerCustomLayout;
+        return mLayout;
     }
 
     /**
@@ -152,21 +148,47 @@ public class NavigationDrawerFragment extends Fragment {
      * @param user - the ParseUser that owns all the values accessed by the key.
      */
     public void setText(int textViewId, int keyId, ParseUser user) {
-        if (textViewId == R.id.TV_subscription_count) { // deal with this seperately
-            ParseRelation<ParseUser> rel = user.getRelation(getActivity().getResources().getString(keyId));
-            ParseQuery<ParseUser> query = rel.getQuery();
-            query.countInBackground(new CountCallback() {
-                @Override
-                public void done(int count, ParseException e) {
-                    TextView tv = (TextView) mDrawerCustomLayout.findViewById(R.id.TV_subscription_count);
-                    tv.setText("" + count);
-                }
-            });
-            return;
-        }
-        TextView tv = (TextView) mDrawerCustomLayout.findViewById(textViewId);
-        String key = getResources().getString(keyId);
+        TextView tv = (TextView) mLayout.findViewById(textViewId);
+        String key = getString(keyId);
         tv.setText((CharSequence) user.get(key));
+    }
+
+    public void setUpSubscriptionCount() {
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseRelation<ParseUser> rel = user.getRelation(
+                getString(R.string.subscriptions_key));
+        rel.getQuery().countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                TextView tv = (TextView) mLayout.findViewById(R.id.TV_subscription_count);
+                tv.setText("" + count);
+            }
+        });
+        mLayout.findViewById(R.id.RL_subscription_wrapper).setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            mLayout.findViewById(R.id.RL_subscription_wrapper)
+                                    .setBackgroundColor(getResources().getColor(
+                                            R.color.grey_light));
+                        } else {
+                            mLayout.findViewById(R.id.RL_subscription_wrapper)
+                                    .setBackgroundColor(getResources().getColor(
+                                            R.color.background_floating_material_dark));
+                        }
+                    }
+                }
+        );
+        mLayout.findViewById(R.id.RL_subscription_wrapper).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectItem(1); // subscriptions
+                    }
+                }
+        );
+
     }
 
     @Override
@@ -266,9 +288,6 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
-        }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
@@ -356,89 +375,106 @@ public class NavigationDrawerFragment extends Fragment {
      * This adapter simply fills in the list that is part of the navigation drawer.
      * @author Aaron
      */
-    class DrawerAdapter extends ArrayAdapter<String> {
+    class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-        final int layoutResourceId;
-        final String[] items;
-        final Context context;
+        final String[] mItems;
         private String TAG = "DrawerAdapter";
         
-        public DrawerAdapter(Context context, int layoutResourceId, String[] items) {
-            super(context, layoutResourceId, items);
-            this.context = context;
-            this.layoutResourceId = layoutResourceId;
-            this.items = items;
+        public DrawerAdapter(Context context, String[] items) {
+            this.mItems = items;
         }
-        
-        @Override
-        public int getCount() {
-            return items.length;
-        }
-        
-        /**
-         * This handles the construction of every row.
-         */
-        @Override
-        public View getView(final int position, View row, ViewGroup parent) {
-            // define the row
-            if (row == null)
-            {   // inflate the layout of the row            
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService
-                        (Context.LAYOUT_INFLATER_SERVICE);
-                row = inflater.inflate(layoutResourceId, parent, false);
-                
-            } else {
-                // do nothing
-            }
-            // set onClickListener/onFocusChangeListener for entire row
-            final View finalRow = row;
-            row.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if (hasFocus) {
-                        finalRow.setBackgroundColor(getResources().getColor(R.color.grey_light));
-                    } else {
-                        finalRow.setBackgroundColor(getResources().getColor(R.color.background_floating_material_dark));
+
+        /** Provide a reference to the type of views that you are using (custom ViewHolder) */
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            protected TextView vItem;
+            protected View view;
+            protected int currentItem;
+
+            public ViewHolder(View v) {
+                super(v);
+                vItem = (TextView) v.findViewById(R.id.TV_item);
+                view = v;
+
+                // If a user clicks on a row, send them to the detail activity for that event
+                view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if (hasFocus) {
+                            view.setBackgroundColor(getResources().getColor(R.color.grey_light));
+                        } else {
+                            view.setBackgroundColor(getResources().getColor(R.color.background_floating_material_dark));
+                        }
                     }
-                }
-            });
-            row.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectItem(position);
-                }
-            });
+                });
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectItem(currentItem);
+                    }
+                });
+            }
+        }
 
-            String text = items[position]; // e.g. "Home"
-            if (text != null) {
-                TextView item = (TextView) row.findViewById(R.id.TV_item);
-                Drawable icon = getResources().getDrawable(R.drawable.logo);                
-                // add the text
-                item.setText(text);
-                item.setTextColor(getResources().getColor(R.color.grey_light));
-                item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-                // add the icon
-                icon.setBounds(0, 0, 48, 48);
-                item.setCompoundDrawables(icon, null, null, null);
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.list_item_drawer, viewGroup, false);
+            return new ViewHolder(v);
+        }
 
-                // TODO - put "Promotions" and "Help" at the bottom - couldn't find ex online
-                // Make "Home" item larger
-                if (position == 0) {
-                    int rowHeight = 144;
-                    ViewGroup.LayoutParams params = row.getLayoutParams();
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+            // set the current item
+            ((ViewHolder) viewHolder).currentItem = position;
+            prepLayout((ViewHolder) viewHolder);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mItems.length;
+        }
+
+        /** Does layout editing, like resizing images and stuff */
+        public void prepLayout(ViewHolder viewHolder) {
+            // add the text
+            viewHolder.vItem.setText(mItems[viewHolder.currentItem]);
+            viewHolder.vItem.setTextColor(getResources().getColor(R.color.grey_light));
+            viewHolder.vItem.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+
+            Drawable icon = getResources().getDrawable(R.drawable.menu_logo_green); // default
+            switch(viewHolder.currentItem) {
+                case 0:
+                    // use default for icon
+                    int rowHeight = 144; // semi-arbitrary row height
+                    ViewGroup.LayoutParams params = viewHolder.view.getLayoutParams();
                     if (params == null) {
-                        row.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, rowHeight));
+                        viewHolder.view.setLayoutParams(new ViewGroup.LayoutParams(
+                                        ViewGroup.LayoutParams.MATCH_PARENT, rowHeight)
+                        );
                     } else {
                         params.height = rowHeight;
                     }
-                    item.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-                }
-
-            } else {
-                // error
-                Log.e(TAG , "No text for nav drawer item #" + position + ". The string is null.");
+                    viewHolder.vItem.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18); // larger text
+                    break;
+                case 1:
+                    icon = getResources().getDrawable(R.drawable.menu_subscription);
+                    break;
+                case 2:
+                    icon = getResources().getDrawable(R.drawable.menu_promotion);
+                    break;
+                case 3:
+                    icon = getResources().getDrawable(R.drawable.menu_help);
+                    break;
+                default: // should never happen - error
+                    Log.e(TAG , "error in PrepLayout, currentItem string is nonsensical");
+                    return;
             }
-            return row;
+            // add the icon
+            double ratio = ((double) icon.getIntrinsicHeight()) / ((double) icon.getIntrinsicWidth()); // (y/x)
+            final double width = 48; // based off of navigation drawer layout
+            double height = ratio * width;
+            icon.setBounds(0, 0, (int) width, (int) height);
+            viewHolder.vItem.setCompoundDrawables(icon, null, null, null);
         }
     }
 }

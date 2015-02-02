@@ -12,7 +12,7 @@
     android:paddingRight="16dp"
     android:paddingEnd="16dp"
     android:gravity="center_vertical|start"
-    android:drawableLeft="@drawable/logo"
-    android:drawableStart="@drawable/logo"
+    android:drawableLeft="@drawable/logo_circle_green"
+    android:drawableStart="@drawable/logo_circle_green"
     android:drawablePadding="24dp" />
 <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/list_item_drawer.xml -->

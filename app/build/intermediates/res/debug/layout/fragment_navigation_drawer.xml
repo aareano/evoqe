@@ -77,7 +77,7 @@
         android:layout_height="112dp" >
         
         <ImageView 
-	        android:id="@+id/IV_thumbnail"
+	        android:id="@+id/IMG_thumbnail"
 	        android:layout_height="80dp"
 	        android:layout_width="80dp"
 	        android:layout_marginLeft="16dp"
@@ -87,16 +87,16 @@
 	        android:layout_alignParentStart="true"
 	        android:layout_alignParentTop="true"
 	        
-	        android:src="@drawable/logo"
-	        android:contentDescription="Contact thumbnail" />
+	        android:src="@drawable/logo_circle_green"
+	        android:contentDescription="@string/user_picture_key" />
         
         <TextView
             android:id="@+id/TV_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/IV_thumbnail"
-            android:layout_toEndOf="@id/IV_thumbnail"
-            android:layout_alignTop="@id/IV_thumbnail"
+            android:layout_toRightOf="@id/IMG_thumbnail"
+            android:layout_toEndOf="@id/IMG_thumbnail"
+            android:layout_alignTop="@id/IMG_thumbnail"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             
@@ -108,8 +108,8 @@
             android:id="@+id/TV_user_school"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/IV_thumbnail"
-            android:layout_toEndOf="@id/IV_thumbnail"
+            android:layout_toRightOf="@id/IMG_thumbnail"
+            android:layout_toEndOf="@id/IMG_thumbnail"
             android:layout_below="@id/TV_user_name"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
@@ -120,11 +120,11 @@
             android:textColor="@color/grey_light" />
         
         <TextView 
-            android:id="@+id/TV_user_type"
+            android:id="@+id/TV_user_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/IV_thumbnail"
-            android:layout_toEndOf="@id/IV_thumbnail"
+            android:layout_toRightOf="@id/IMG_thumbnail"
+            android:layout_toEndOf="@id/IMG_thumbnail"
             android:layout_below="@id/TV_user_school"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
@@ -147,8 +147,8 @@
         android:layout_marginBottom="8dp" />
     
     <!-- List of the navigation options -->
-	<ListView
-	    android:id="@+id/LV_drawer_list"
+	<android.support.v7.widget.RecyclerView
+	    android:id="@+id/RV_main"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:choiceMode="singleChoice"

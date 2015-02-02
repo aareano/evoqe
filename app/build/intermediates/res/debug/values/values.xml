@@ -3,10 +3,10 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/arrays.xml -->
     <eat-comment/>
     <string-array name="drawer_items">
-        <item>Home</item>
-        <item>Subscriptions</item>
-        <item>Promotions</item>
-        <item>Help</item>
+        <item name="home">Home</item>
+        <item name="subscription">Subscriptions</item>
+        <item name="promotion">Promotions</item>
+        <item nam="help">Help</item>
     </string-array>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
@@ -258,6 +258,7 @@
     <string name="help">Get some help</string>
     <string name="image_description">Thumbnail</string>
     <string name="jamboree_detail_activity_label">Event detail</string>
+    <string name="jamboree_picture_key">coverPhoto</string>
     <string name="location_key">location</string>
     <string name="location_label">Location:</string>
     <string name="login_activity_label">Login</string>
@@ -281,8 +282,9 @@
     <string name="no_connection">No internet connection.</string>
     <string name="no_description">No description available.</string>
     <string name="no_discounts"> - None at this time</string>
-    <string name="no_events">No Events</string>
-    <string name="no_hosts">No hosts, please try again later</string>
+    <string name="no_events">No events to show</string>
+    <string name="no_hosts">No hosts to show</string>
+    <string name="no_restaurants">No restaurants to show</string>
     <string name="open_label">Open</string>
     <string name="open_times_key">openTimes</string>
     <string name="orText">Or</string>
@@ -300,6 +302,7 @@
     <string name="refresh_instruction">Pull down to refresh</string>
     <string name="restaurant_detail_activity_label">Restaurant detail</string>
     <string name="restaurant_location">Location</string>
+    <string name="restaurant_picture_key">logoImage</string>
     <string name="saturday">SA</string>
     <string name="school_key">school</string>
     <string name="share">Share</string>
@@ -316,6 +319,7 @@
     <string name="title_key">title</string>
     <string name="tuesday">TU</string>
     <string name="userType_key">userType</string>
+    <string name="user_picture_key">profilePicture</string>
     <string name="usernameHint">Username</string>
     <string name="weather">Weather</string>
     <string name="weather_activity_label">Weather</string>

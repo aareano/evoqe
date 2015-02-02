@@ -1,6 +1,11 @@
 package evoqe.com.evoqe.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +20,7 @@ import android.widget.Toast;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -23,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import evoqe.com.evoqe.R;
+import evoqe.com.evoqe.utilities.ImageHelper;
 import evoqe.com.evoqe.objects.ToastWrapper;
 
 /* NOTE: 
@@ -114,14 +121,35 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder.view.setLayoutParams(params);
             }
             viewHolder.vName.setText(currHostName);
-            
-            // image... TODO
+
+            // Thumbnail
+            ParseFile picture = viewHolder.currentItem.getParseFile(
+                    mContext.getString(R.string.user_picture_key));
+            Bitmap bmp;
+            if (picture != null) {
+                try {
+                    byte[] byteArray = picture.getData();
+                    bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    // use default image
+                    bmp = BitmapFactory.decodeResource(mContext.getResources(),
+                            R.drawable.subscription_generic_user);
+                }
+            } else {
+                // use default image
+                bmp = BitmapFactory.decodeResource(mContext.getResources(),
+                        R.drawable.subscription_generic_user);
+            }
+            Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp);
+            viewHolder.vThumbnail.setImageBitmap(rounded);
             
             // *** check box *** //
             // NOTE: checkbox image is changed once Parse is up to date on the change
             checkBoxAndSubscrLogic(viewHolder); // also handles changes in subscription
 
-        } else if (viewHolder.currentItem == null) { // make empy ones have height zero
+        } else if (viewHolder.currentItem == null) { // make empty items have height zero
             ViewGroup.LayoutParams params = viewHolder.view.getLayoutParams();
             params.height = 0;
             viewHolder.view.setLayoutParams(params);
@@ -147,18 +175,18 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // change checkbox image based on equality
             if (hostId != null && aUserId != null && hostId.equals(aUserId)) {
                 viewHolder.vCheckBox.setChecked(true);
-                viewHolder.vCheckBox.setButtonDrawable(R.drawable.ic_menu_compass); // TODO - get a proper image
+                setCheckBoxImage(viewHolder, R.drawable.subscription_added);
+//                viewHolder.vCheckBox.setButtonDrawable(R.drawable.subscription_added);
                 break;  // match! exit for loop
             } else {
                 viewHolder.vCheckBox.setChecked(false);
-                viewHolder.vCheckBox.setButtonDrawable(R.drawable.create_contact); // TODO - get a proper image
+                setCheckBoxImage(viewHolder, R.drawable.subscription_add);
+//                viewHolder.vCheckBox.setButtonDrawable(R.drawable.subscription_add);
             }
         }
         
         /* The checkbox/subscription logic
-         * NOTE: changes are pushed to Parse in onPause()
-         * TODO save to Preferences in the interim
-         */
+         * NOTE: changes are immediately pushed to Parse */
         setUpCheckBoxResponses(viewHolder);
     }
 
@@ -174,7 +202,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 final boolean checked = ((CheckBox) checkBox).isChecked();
                 if (checked) { // was just checked, so add subscription
                     mMySubs.add(viewHolder.currentItem);
-                    ((CheckBox) checkBox).setButtonDrawable(R.drawable.ic_menu_compass);
+                    setCheckBoxImage(viewHolder, R.drawable.subscription_added);
                 } else { // was just unchecked, so remove subscription
                     int size = mMySubs.size();
                     for (int i = 0; i < size; i++) { // loop through list to find and destroy
@@ -183,7 +211,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             break;
                         }
                     }
-                    ((CheckBox) checkBox).setButtonDrawable(R.drawable.create_contact);
+                    setCheckBoxImage(viewHolder, R.drawable.subscription_add);
                 }
                 saveChanges(viewHolder, checked);
             }
@@ -231,6 +259,21 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         );
     }
 
+    /**
+     * Sets the checkbox image. Is a separate method to allow for resizing.
+     * @param viewHolder
+     * @param drawableResourceId
+     */
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void setCheckBoxImage(ViewHolder viewHolder, int drawableResourceId) {
+        Drawable icon = mContext.getResources().getDrawable(drawableResourceId);
+        int width = 20;
+        int height = 20;
+        icon.setBounds(0, 0, width, height);
+        viewHolder.vCheckBox.setBackground(icon);
+        viewHolder.vCheckBox.setButtonDrawable(null);
+    }
+
     /** Provide a reference to the type of views that you are using (custom ViewHolder) */
     public class ViewHolder extends RecyclerView.ViewHolder {
         protected TextView vName;
@@ -247,5 +290,4 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             view = v;
         }
     }
-
 }

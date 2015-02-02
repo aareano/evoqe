@@ -26,7 +26,7 @@
             android:layout_weight="0.2"
 
             style="?android:attr/buttonBarButtonStyle"
-            android:drawableTop="@drawable/logo"
+            android:drawableTop="@drawable/logo_circle_green"
             android:drawablePadding="8dp"
             android:background="@android:color/white"
 
@@ -44,7 +44,7 @@
             android:layout_weight="0.2"
 
             style="?android:attr/buttonBarButtonStyle"
-            android:drawableTop="@drawable/logo"
+            android:drawableTop="@drawable/logo_circle_green"
             android:drawablePadding="8dp"
             android:background="@android:color/white"
 
@@ -62,7 +62,7 @@
             android:layout_weight="0.2"
 
             style="?android:attr/buttonBarButtonStyle"
-            android:drawableTop="@drawable/logo"
+            android:drawableTop="@drawable/logo_circle_green"
             android:drawablePadding="8dp"
             android:background="@android:color/white"
 

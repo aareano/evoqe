@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/SRL_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <!-- No restaurants, and retrieval error -->
+    <TextView
+        android:id="@+id/TV_refresh_instr"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
 
-</android.support.v4.widget.SwipeRefreshLayout>
+        android:visibility="gone"
+        android:text="@string/refresh_instruction"
+        android:gravity="top|center_horizontal"
+        android:textSize="18sp"
+        android:textColor="@color/grey_light" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/SRL_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!-- No restaurants -->
+    <TextView
+        android:id="@+id/TV_no_restaurants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        android:text="@string/no_restaurants"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        android:textColor="@color/grey_middle"
+        android:layout_gravity="center"/>
+
+    <!-- No connection -->
+    <TextView
+        android:id="@+id/TV_no_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        android:text="@string/no_connection"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        android:textColor="@color/grey_middle"
+        android:layout_gravity="center"/>
+
+    <!-- Retrieval error -->
+    <TextView
+        android:id="@+id/TV_retrieval_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        android:text="@string/refresh_error"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="24sp"
+        android:textColor="@color/grey_middle"
+        android:layout_gravity="center"/>
+</FrameLayout>

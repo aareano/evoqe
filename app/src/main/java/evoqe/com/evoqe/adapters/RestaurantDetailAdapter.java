@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.objects.DateTimeParser;
+import evoqe.com.evoqe.utilities.DateTimeParser;
 import evoqe.com.evoqe.objects.ParseProxyObject;
 
 /**
@@ -114,7 +114,7 @@ public class RestaurantDetailAdapter extends RecyclerView.Adapter<RecyclerView.V
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
                 final ViewHolder_Actions viewHolder = (ViewHolder_Actions) vHolder;
 
-                Drawable icon = mContext.getResources().getDrawable(R.drawable.logo);
+                Drawable icon = mContext.getResources().getDrawable(R.drawable.logo_circle_green);
                 // add the icon, text is already there
                 icon.setBounds(0, 0, 48, 48);
                 viewHolder.vLocation.setCompoundDrawables(null, icon, null, null);

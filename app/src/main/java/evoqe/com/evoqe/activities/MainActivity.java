@@ -10,9 +10,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.JamboreePreviewAdapter.JamboreeClickListener;
@@ -24,10 +24,12 @@ import evoqe.com.evoqe.fragments.PromotionFragment;
 import evoqe.com.evoqe.fragments.SubscriptionFragment;
 import evoqe.com.evoqe.fragments.TabFragment;
 import evoqe.com.evoqe.objects.ParseProxyObject;
+import evoqe.com.evoqe.objects.ToastWrapper;
 
 /* TODO - only load 15 Hosts at a time (low priority)
  * TODO - sometimes activity context from fragments is null. weird.
- * TODO - images (circle)
+ * TODO - save fragment states properly -
+ * http://stackoverflow.com/questions/7951730/viewpager-and-fragments-whats-the-right-way-to-store-fragments-state/9646622#9646622
  * TODO - styles
  * TODO - change nav drawer ListViews to RecyclerViews (low priority)
  * TODO - Login page
@@ -90,6 +92,19 @@ public class MainActivity extends ActionBarActivity
                     .replace(resourceLayoutId, fragment, tag)
                     .commit();
         }
+        // TODO - suuuper hacky workaround. see upper todo list about saving fragment states
+        String[] tags = {"TabFragment", "SubscriptionFragment", "PromotionFragment",
+                "HelpFragment"};
+        for (String t : tags) {
+            if (t.equals(tag) == false) {
+                if (fragmentManager.findFragmentByTag(t) != null) {
+                    Log.d(TAG, "destroying fragment '" + tag + "'");
+                    Fragment frag = fragmentManager.findFragmentByTag(t);
+                    frag.onDestroy();
+                    frag.onDetach();
+                }
+            }
+        }
     }
 
     public void restoreActionBar() {
@@ -147,13 +162,13 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void updateSubscriptionCount() {
-        mNavigationDrawerFragment.setText(R.id.TV_subscription_count, R.string.subscriptions_key,
-                ParseUser.getCurrentUser());   // subscription count
+        mNavigationDrawerFragment.setUpSubscriptionCount(); // refresh count
     }
 
     /** Receives onClick events from BTN_goto_subscriptions when no events to show */
     public void onSubscriptionButtonClick(View view) {
         Log.d(TAG, "button clicked");
+        ToastWrapper.makeText(this, "internals might combust.", Toast.LENGTH_SHORT).show();
         onNavigationDrawerItemSelected(1); // TODO - should go through the nav drawer to be proper?
     }
 }

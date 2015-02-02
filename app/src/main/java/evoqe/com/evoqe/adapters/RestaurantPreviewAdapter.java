@@ -1,6 +1,8 @@
 package evoqe.com.evoqe.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,13 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.objects.DateTimeParser;
+import evoqe.com.evoqe.utilities.DateTimeParser;
 
 public class RestaurantPreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -114,5 +118,18 @@ public class RestaurantPreviewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         // discounts
         viewHolder.vDiscounts.setText("- " + viewHolder.currentItem.getString(DISCOUNTS_KEY));
+
+        // thumbnail
+        ParseFile picture = viewHolder.currentItem.getParseFile(
+                mContext.getString(R.string.restaurant_picture_key));
+        try {
+            byte[] byteArray = picture.getData();
+            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            //Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp, 100);
+            viewHolder.vThumbnail.setImageBitmap(bmp);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/action_websearch"
-        android:icon="@drawable/ic_search_api_holo_light"
-        android:title="Search!"
-        android:showAsAction="ifRoom|withText" />
+
 </menu><!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/menu/navigation_drawer.xml -->

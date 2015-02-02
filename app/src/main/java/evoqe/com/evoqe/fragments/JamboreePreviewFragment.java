@@ -29,10 +29,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import evoqe.com.evoqe.ConnectionDetector;
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.adapters.JamboreePreviewAdapter;
 import evoqe.com.evoqe.objects.ToastWrapper;
+import evoqe.com.evoqe.utilities.ConnectionDetector;
 
 public class JamboreePreviewFragment extends Fragment {
     
@@ -73,7 +73,7 @@ public class JamboreePreviewFragment extends Fragment {
         recView.setAdapter(adapter);
 
         // we assume that we're retrieving info from parse, but that will take non-zero time, so in
-        // the meantime, we assume we've received nothing.
+        // the meantime, we act like we've received nothing.
         nothingRetrieved(false);
 
         getEventList();
@@ -112,7 +112,7 @@ public class JamboreePreviewFragment extends Fragment {
                                                 if (objects.size() == 0) {
                                                     nothingRetrieved(false);
                                                 } else {
-                                                    retrievalResolution(); // make sure the right things are visible
+                                                    resetVisibilities(); // make sure the right things are visible
                                                     JamboreePreviewAdapter adapter = new JamboreePreviewAdapter(getActivity(), objects, mActivity);
                                                     ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
                                                 }
@@ -167,16 +167,16 @@ public class JamboreePreviewFragment extends Fragment {
         query.whereEqualTo("privacy", params.get("privacy"));
 
         // get events after 12 hours ago
-        Long time = new Date().getTime();
-        int hoursBeforeNow = 12; // 12 hours before now
-        Date date = new Date(time + (hoursBeforeNow * 60 * 60 * 1000));
-        query.whereGreaterThan("startTime", date);
+//        Long time = new Date().getTime();
+//        int hoursBeforeNow = 12; // 12 hours before now
+//        Date date = new Date(time + (hoursBeforeNow * 60 * 60 * 1000));
+//        query.whereGreaterThan("startTime", date);
 
         // get the next 7 days' events - doesn't work? or don't need it?
-//        time = new Date().getTime();
-//        int daysFromNow = 7; // 7 days from now
-//        date = new Date(time + daysFromNow * (24 * 60 * 60 * 1000));
-//        query.whereLessThanOrEqualTo("startTime", date);
+        Long time = new Date().getTime();
+        int daysFromNow = 7; // 7 days from now
+        Date date = new Date(time + daysFromNow * (24 * 60 * 60 * 1000));
+        query.whereLessThanOrEqualTo("startTime", date);
 
         return query;
     }
@@ -220,10 +220,10 @@ public class JamboreePreviewFragment extends Fragment {
                 ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             } else {
                 if (isInternetPresent() == false) { // counted as an error by parse
-                    retrievalResolution(); // reset the layout
+                    resetVisibilities();
                     mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
                 } else {
-                    retrievalResolution(); // reset the layout
+                    resetVisibilities();
                     mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
                     mLayout.findViewById(R.id.TV_retrieval_error).setVisibility(View.VISIBLE);
                 }
@@ -234,7 +234,7 @@ public class JamboreePreviewFragment extends Fragment {
                 String text = getActivity().getResources().getString(R.string.no_connection);
                 ToastWrapper.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             } else {
-                retrievalResolution();
+                resetVisibilities();
                 mLayout.findViewById(R.id.TV_no_connection).setVisibility(View.VISIBLE);
             }
         // simply no hosts to show
@@ -245,17 +245,18 @@ public class JamboreePreviewFragment extends Fragment {
                         new ArrayList<ParseObject>(), mActivity);
                 ((RecyclerView) mLayout.findViewById(R.id.recycler_view)).setAdapter(adapter);
             }
-            retrievalResolution();
+            resetVisibilities();
             mLayout.findViewById(R.id.TV_no_events).setVisibility(View.VISIBLE);
             mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.VISIBLE);
             mLayout.findViewById(R.id.BTN_goto_subscriptions).setVisibility(View.VISIBLE);
+            mLayout.findViewById(R.id.SRL_main).bringToFront();
             mLayout.findViewById(R.id.BTN_goto_subscriptions).bringToFront();
         }
     }
 
     /** Makes the right things visible and such */
-    private void retrievalResolution() {
-        Log.i(TAG, "retrievalResolution()");
+    private void resetVisibilities() {
+        Log.i(TAG, "resetVisibilities()");
         mLayout.findViewById(R.id.TV_refresh_instr).setVisibility(View.GONE);
         mLayout.findViewById(R.id.TV_no_events).setVisibility(View.GONE);
         mLayout.findViewById(R.id.BTN_goto_subscriptions).setVisibility(View.GONE);

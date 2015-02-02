@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LL_subscription_wrapper"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeightSmall"
+    android:layout_height="?android:attr/listPreferredItemHeight"
     
     android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
     android:paddingStart="?android:attr/listPreferredItemPaddingLeft"
     android:paddingRight="?android:attr/listPreferredItemPaddingRight"
     android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
     
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:weightSum="1">
 
     <ImageView 
         android:id="@+id/IMG_thumbnail"
@@ -19,29 +20,31 @@
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         
-        android:src="@drawable/logo"
+        android:src="@drawable/logo_circle_green"
         android:contentDescription="@string/image_description" />
     
     <TextView
         android:id="@+id/TV_name"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="0.7"
+        android:layout_weight="1"
         
         android:layout_gravity="center_vertical"
         
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         
         android:text="@string/basic_error"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:textSize="20sp" />
     
     <CheckBox
         android:id="@+id/CB_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="end|center_vertical"
-        android:button="@drawable/create_contact" />
+        android:gravity="center" />
 
 </LinearLayout>
 <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/list_item_subscription.xml -->

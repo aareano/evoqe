@@ -42,7 +42,7 @@
             android:layout_marginStart="8dp"
 
             android:contentDescription="@string/basic_error"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo_circle_green" />
 
         <TextView
             android:id="@+id/TV_host"

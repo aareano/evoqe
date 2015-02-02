@@ -20,7 +20,7 @@ import com.parse.SignUpCallback;
 
 import java.util.Locale;
 
-import evoqe.com.evoqe.ConnectionDetector;
+import evoqe.com.evoqe.utilities.ConnectionDetector;
 import evoqe.com.evoqe.R;
 
 /**
