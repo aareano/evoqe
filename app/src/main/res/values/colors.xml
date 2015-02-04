@@ -10,6 +10,8 @@
     <color name="grey_dark">#4D4D4D</color>
     <color name="grey_middle">#707070</color>
     <color name="grey_light">#CFCFCF</color>
+    <color name="red_report">#FF9191</color>
+
 
     <!-- swipe refresh colors -->
     <color name="green_1">#99CCAD</color>

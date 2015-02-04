@@ -14,14 +14,14 @@ import evoqe.com.evoqe.adapters.ViewPagerAdapter;
 import evoqe.com.evoqe.tabs.SlidingTabLayout;
 
 
-public class TabFragment extends Fragment {
+public class ViewPagerFragment extends Fragment {
     
     private View mLayout;
     private ViewPager mViewPager;
     private SlidingTabLayout mSlidingLayout;
 
-    public static TabFragment newInstance() {
-        TabFragment frag = new TabFragment();
+    public static ViewPagerFragment newInstance() {
+        ViewPagerFragment frag = new ViewPagerFragment();
         return frag;
     }
     

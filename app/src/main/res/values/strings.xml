@@ -7,11 +7,25 @@
     <string name="jamboree_detail_activity_label">Event detail</string>
     <string name="restaurant_detail_activity_label">Restaurant detail</string>
     <string name="weather_activity_label">Weather</string>
+    <string name="login_activity_label">Login</string>
+    <string name="forgot_password_activity_label">Forgot Password</string>
+    <string name="splash_activity_label">Forgot Password</string>
+    <string name="splash_welcome">Welcome to evoqe</string>
+
+    <string name="fragment_tag_error">ErrorFragment</string>
+    <string name="fragment_tag_help">HelpFragment</string>
+    <string name="fragment_tag_jamboree_preview">JamboreePreviewFragment</string>
+    <string name="fragment_tag_navigation_drawer">NavigationDrawerFragment</string>
+    <string name="fragment_tag_promotion">PromotionFragment</string>
+    <string name="fragment_tag_restaurant_preview">RestaurantPreviewFragment</string>
+    <string name="fragment_tag_subscription">SubscriptionFragment</string>
+    <string name="fragment_tag_view_pager">ViewPagerFragment</string>
+
 
     <!-- User Account relate strings -->
-    <string name="login_activity_label">Login</string>
+
     <string name="signup_activity_label">evoqe signup</string>
-    <string name="forgot_password_activity_label">Forgot Password</string>
+
 
     <!-- Navigation related strings -->
     <string name="navigation_drawer_open">open drawer</string>
@@ -34,7 +48,9 @@
     <string name="add_to_cal">Add to cal</string>
     <string name="share">Share</string>
     <string name="email_host">Email host</string>
+    <string name="master_email">hello@evoqeapp.com</string>
     <string name="buy_tickets">Buy tickets</string>
+    <string name="report">Report Event</string>
 
         <!-- Parse Jamboree keys -->
         <string name="owner_full_name_key">ownerFullName</string>

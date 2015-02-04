@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:background="@color/grey_light"
+    card_view:cardCornerRadius="5dp" >
+
+    <!-- Buy tickets -->
+    <Button
+        android:id="@+id/BTN_report"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        style="?android:attr/buttonBarButtonStyle"
+        android:padding="8dp"
+        android:gravity="center"
+        android:background="@color/red_report"
+        android:text="@string/report"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textAllCaps="false" />
+
+</android.support.v7.widget.CardView>

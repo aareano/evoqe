@@ -87,6 +87,8 @@ public class NavigationDrawerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -142,7 +144,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     /**
-     * A simple helper method to fill find a set a TextView text in this layout 
+     * A simple helper method to fill find a set a TextView text in this layout
      * @param textViewId - the id of the TextView to change
      * @param keyId - the (String) resource Id of the key to the ParseUser's appropriate value whose text to put in the TextView
      * @param user - the ParseUser that owns all the values accessed by the key.
@@ -197,14 +199,14 @@ public class NavigationDrawerFragment extends Fragment {
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
     }
-    
+
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
 
     /**
      * Users of this fragment must call this method to set up the navigation drawer interactions.
-     * 
+     *
      * @param fragmentId The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
@@ -215,7 +217,7 @@ public class NavigationDrawerFragment extends Fragment {
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-        
+
         // As we're using a Toolbar, we should retrieve it and set it
         // to be our ActionBar
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.my_awesome_toolbar);
@@ -224,10 +226,10 @@ public class NavigationDrawerFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
 
-        // Now set the status bar color. || This only takes effect on Lollipop, 
+        // Now set the status bar color. || This only takes effect on Lollipop,
         // or when using translucentStatusBar on KitKat.
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color.material_deep_teal_500));
-        
+
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -299,6 +301,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        Log.d(TAG, "onAttach()");
         try {
             mCallbacks = (NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {

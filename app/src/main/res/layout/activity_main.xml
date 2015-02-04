@@ -14,7 +14,7 @@
          As the main content view, the view below consumes the entire
          space available using match_parent in both dimensions.
          
-         The default condition of the layout is the TabFragment. The navigation
+         The default condition of the layout is the ViewPagerFragment. The navigation
          drawer is used to replace this fragment with others.
     -->
 
@@ -35,7 +35,7 @@
         
         <!-- The main screen content -->
         <!-- fragment added programatically in
-             NavigationDrawerFragment.onCreate() >> selectPosition() -->
+             NavigationDrawerFragment.onCreate() >> selectPosition() >> MainActivity.onNavigationDrawerItemSelected() -->
 
      </LinearLayout>
     <!--
@@ -54,6 +54,7 @@
     <fragment
         android:id="@+id/navigation_drawer"
         android:name="evoqe.com.evoqe.fragments.NavigationDrawerFragment"
+        android:tag="@string/fragment_tag_navigation_drawer"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"

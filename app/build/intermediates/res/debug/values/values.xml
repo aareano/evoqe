@@ -94,6 +94,11 @@
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_text_disabled_material_dark">#4Dffffff</color>
     <color name="primary_text_disabled_material_light">#39000000</color>
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="red_report">#FF9191</color>
+    <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <eat-comment/>
     <color name="ripple_material_dark">#40ffffff</color>
     <color name="ripple_material_light">#40000000</color>
     <color name="secondary_text_default_material_dark">#b3ffffff</color>
@@ -252,6 +257,14 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="forgot_password_activity_label">Forgot Password</string>
+    <string name="fragment_tag_error">ErrorFragment</string>
+    <string name="fragment_tag_help">HelpFragment</string>
+    <string name="fragment_tag_jamboree_preview">JamboreePreviewFragment</string>
+    <string name="fragment_tag_navigation_drawer">NavigationDrawerFragment</string>
+    <string name="fragment_tag_promotion">PromotionFragment</string>
+    <string name="fragment_tag_restaurant_preview">RestaurantPreviewFragment</string>
+    <string name="fragment_tag_subscription">SubscriptionFragment</string>
+    <string name="fragment_tag_view_pager">ViewPagerFragment</string>
     <string name="friday">FR</string>
     <string name="full_name_key">fullName</string>
     <string name="goto_subscriptions">Go to subscriptions</string>
@@ -269,6 +282,7 @@
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="main_activity_label">evoqe</string>
+    <string name="master_email">hello@evoqeapp.com</string>
     <string name="menu">Menu Link</string>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values/strings_activity_login.xml -->
     <eat-comment/>
@@ -300,6 +314,7 @@
     <eat-comment/>
     <string name="refresh_error">Refresh error</string>
     <string name="refresh_instruction">Pull down to refresh</string>
+    <string name="report">Report Event</string>
     <string name="restaurant_detail_activity_label">Restaurant detail</string>
     <string name="restaurant_location">Location</string>
     <string name="restaurant_picture_key">logoImage</string>
@@ -308,6 +323,8 @@
     <string name="share">Share</string>
     <string name="signIn">Sign In</string>
     <string name="signup_activity_label">evoqe signup</string>
+    <string name="splash_activity_label">Forgot Password</string>
+    <string name="splash_welcome">Welcome to evoqe</string>
     <string name="start_time_key">startTime</string>
     <string name="submit">Submit</string>
     <string name="subscribe">Subscribe to host</string>

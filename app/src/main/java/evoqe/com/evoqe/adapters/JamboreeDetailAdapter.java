@@ -56,7 +56,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static String END_TIME_KEY;
     private static final String OBJECT_ID_KEY = "objectId";
     private static final String TAG = "JamboreeDetailAdapter";
-    private final int NUM_OF_CARDS = 2;
+    private final int NUM_OF_CARDS = 3;
     private static ParseProxyObject mJamboree; // only static so it can be used in enum Card
     private static Context mContext; // only static so it can be used in enum Card
 
@@ -66,17 +66,17 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             /**
              * Get and return the appropriate ViewHolder for this card.
              */
-            public ViewHolder_1 getViewHolder(ViewGroup viewGroup) {
+            public ViewHolder_Details getViewHolder(ViewGroup viewGroup) {
                 View v = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.card_jamboree_detail, viewGroup, false);
-                return new ViewHolder_1(v);
+                return new ViewHolder_Details(v);
             }
 
             /**
              * Makes edits custom to this card, like calling setText() on TextViews and such.
              */
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
-                final ViewHolder_1 viewHolder = (ViewHolder_1) vHolder;
+                final ViewHolder_Details viewHolder = (ViewHolder_Details) vHolder;
 
                 // Thumbnail
                 byte[] byteArray = mJamboree.getParseFile(
@@ -166,21 +166,19 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             /**
              * Get and return the appropriate ViewHolder for this card.
              */
-            public ViewHolder_2 getViewHolder(ViewGroup viewGroup) {
+            public ViewHolder_Actions getViewHolder(ViewGroup viewGroup) {
                 View v = LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.card_jamboree_action, viewGroup, false);
-                return new ViewHolder_2(v);
+                return new ViewHolder_Actions(v);
             }
 
             /**
              * Makes edits custom to this card, like calling setText() on TextViews and such.
              */
             public void prepLayout(RecyclerView.ViewHolder vHolder) {
-                final ViewHolder_2 viewHolder = (ViewHolder_2) vHolder;
+                final ViewHolder_Actions viewHolder = (ViewHolder_Actions) vHolder;
 
                 setButtonBackground(viewHolder.vWeather, R.drawable.event_weather);
-//                viewHolder.vWeather.setBounds(0, 0, 48, 48);
-//                viewHolder.vWeather.setCompoundDrawables(null, weatherIcon, null, null);
                 viewHolder.vWeather.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -190,8 +188,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
 
                 setButtonBackground(viewHolder.vAddToCal, R.drawable.event_add_to_cal);
-//                calIcon.setBounds(0, 0, 48, 48);
-//                viewHolder.vAddToCal.setCompoundDrawables(null, calIcon, null, null);
                 viewHolder.vAddToCal.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -200,8 +196,6 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
 
                 setButtonBackground(viewHolder.vShare, R.drawable.event_share);
-//                shareIcon.setBounds(0, 0, 48, 48);
-//                viewHolder.vShare.setCompoundDrawables(null, shareIcon, null, null);
                 viewHolder.vShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -210,23 +204,41 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 });
 
                 setButtonBackground(viewHolder.vEmailHost, R.drawable.event_email_host);
-//                emailIcon.setBounds(0, 0, 48, 48);
-//                viewHolder.vEmailHost.setCompoundDrawables(null, emailIcon, null, null);
                 viewHolder.vEmailHost.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        emailHost();
+                        String[] TO = {(mJamboree.getParseUser(OWNER_KEY)).getString("email")};
+                        String subject = mJamboree.getString(TITLE_KEY);
+                        sendEmail(TO, subject);
                     }
                 });
 
                 setButtonBackground(viewHolder.vBuyTickets, R.drawable.event_tickets);
-//                ticketsIcon.setBounds(0, 0, 48, 48);
-//                viewHolder.vBuyTickets.setCompoundDrawables(null, ticketsIcon, null, null);
                 viewHolder.vBuyTickets.setClickable(false);
                 viewHolder.vBuyTickets.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(mContext, "Tickets not required for this event", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }, REPORT {
+            @Override
+            public RecyclerView.ViewHolder getViewHolder(ViewGroup viewGroup) {
+                View v = LayoutInflater.from(viewGroup.getContext())
+                        .inflate(R.layout.card_jamboree_report, viewGroup, false);
+                return new ViewHolder_Report(v);
+            }
+
+            @Override
+            public void prepLayout(RecyclerView.ViewHolder vHolder) {
+                ViewHolder_Report viewHolder = (ViewHolder_Report) vHolder;
+                viewHolder.vReport.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String[] TO = { mContext.getString(R.string.master_email) };
+                        String subject = "Report: " + mJamboree.getString(TITLE_KEY);
+                        sendEmail(TO, subject);
                     }
                 });
             }
@@ -265,11 +277,11 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private static void setButtonBackground(Button button, int drawableResourceId) {
         Drawable icon = mContext.getResources().getDrawable(drawableResourceId);
         double ratio = ((double) icon.getIntrinsicWidth()) / ((double) icon.getIntrinsicHeight()); // (x/y)
-        final double height = 48; // based off of navigation drawer layout
+        final double height = 88; // based off of navigation drawer layout
         double width = ratio * height;
         Log.d(TAG, "ratio = " + ratio + ", height = 48, width = " + width);
         icon.setBounds(0, 0, (int) width, (int) height);
-        button.setBackground(icon);
+        button.setCompoundDrawables(null, icon, null, null);
     }
 
     /**
@@ -356,8 +368,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     /**
      * Sends simple text to another application
      */
-    private static void emailHost() {
-        String[] TO = {((ParseProxyObject) mJamboree.getParseUser(OWNER_KEY)).getString("email")};
+    private static void sendEmail(String[] TO, String subject) {
         if ( TO[0] == null || TO[0].equals("")) {
             Toast.makeText(mContext, "No email available", Toast.LENGTH_SHORT).show();
             return;
@@ -366,7 +377,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.setType("text/plain");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, mJamboree.getString(TITLE_KEY));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Hello,\n\n");
 
         // Verify it resolves
@@ -426,7 +437,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     /** Provide a reference to the type of views that you are using (custom ViewHolder)
      * This is for the first card - Details */
-    public static class ViewHolder_1 extends RecyclerView.ViewHolder {
+    public static class ViewHolder_Details extends RecyclerView.ViewHolder {
         protected TextView vTitle;
         protected ImageView vThumbnail;
         protected TextView vHost;
@@ -437,7 +448,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         protected TextView vLocation;
         protected Button   vSubscribe;
 
-        public ViewHolder_1(View v) {
+        public ViewHolder_Details(View v) {
             super(v);
             vTitle =       (TextView) v.findViewById(R.id.TV_title);
             vThumbnail =   (ImageView) v.findViewById(R.id.thumbnail);
@@ -452,20 +463,30 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     /** custom ViewHolder for the second card - Actions */
-    public static class ViewHolder_2 extends RecyclerView.ViewHolder {
+    public static class ViewHolder_Actions extends RecyclerView.ViewHolder {
         protected Button vWeather;
         protected Button vAddToCal;
         protected Button vShare;
         protected Button vEmailHost;
         protected Button vBuyTickets;
 
-        public ViewHolder_2(View v) {
+        public ViewHolder_Actions(View v) {
             super(v);
             vWeather =    (Button) v.findViewById(R.id.BTN_weather);
             vAddToCal =   (Button) v.findViewById(R.id.BTN_add_to_cal);
             vShare =      (Button) v.findViewById(R.id.BTN_share);
             vEmailHost =  (Button) v.findViewById(R.id.BTN_email_host);
             vBuyTickets = (Button) v.findViewById(R.id.BTN_buy_tickets);
+        }
+    }
+
+    /** custom ViewHolder for the second card - Actions */
+    public static class ViewHolder_Report extends RecyclerView.ViewHolder {
+        protected Button vReport;
+
+        public ViewHolder_Report(View v) {
+            super(v);
+            vReport = (Button) v.findViewById(R.id.BTN_report);
         }
     }
 }
