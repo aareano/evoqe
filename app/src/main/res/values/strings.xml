@@ -3,14 +3,14 @@
 
     <!-- Application related strings -->
     <string name="app_name">evoqe</string>
+    <string name="splash_activity_label">evoqe</string>
+    <string name="splash_welcome">Welcome to evoqe</string>
     <string name="main_activity_label">evoqe</string>
     <string name="jamboree_detail_activity_label">Event detail</string>
     <string name="restaurant_detail_activity_label">Restaurant detail</string>
     <string name="weather_activity_label">Weather</string>
     <string name="login_activity_label">Login</string>
     <string name="forgot_password_activity_label">Forgot Password</string>
-    <string name="splash_activity_label">Forgot Password</string>
-    <string name="splash_welcome">Welcome to evoqe</string>
 
     <string name="fragment_tag_error">ErrorFragment</string>
     <string name="fragment_tag_help">HelpFragment</string>

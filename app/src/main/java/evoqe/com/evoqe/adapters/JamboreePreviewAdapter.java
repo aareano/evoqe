@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,13 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
 import java.util.List;
 
 import evoqe.com.evoqe.R;
+import evoqe.com.evoqe.objects.AsyncDrawable;
+import evoqe.com.evoqe.objects.BitmapWorkerTask;
 import evoqe.com.evoqe.utilities.DateTimeParser;
 
 public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -141,17 +141,7 @@ public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         viewHolder.vTime.setText(timeString);
 
         // Thumbnail
-        ParseFile picture = viewHolder.currentItem.getParseFile(
-                mContext.getString(R.string.jamboree_picture_key));
-        try {
-            byte[] byteArray = picture.getData();
-            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            //Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp, 100);
-            viewHolder.vThumbnail.setImageBitmap(bmp);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        loadImageView(viewHolder);
 
         // **** Button onClick listener **** send sms with details about the Jamboree
         viewHolder.vTextFriend.setOnClickListener(new View.OnClickListener() {
@@ -192,5 +182,27 @@ public class JamboreePreviewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             }
         });
+    }
+
+    public void loadImageView(ViewHolder viewHolder) {
+        ParseFile picFile = viewHolder.currentItem.getParseFile(
+                mContext.getString(R.string.jamboree_picture_key));
+        Bitmap placeHolderBitmap = null;
+
+        if (picFile == null) {
+            return; // image defaults to xml (logo_circle_green on 2/9/14)
+        }
+
+        //  getData() throws ParseException
+        if (BitmapWorkerTask.cancelPotentialWork(viewHolder.vThumbnail, picFile)) {
+            final int height = viewHolder.vThumbnail.getHeight();
+            final int width = viewHolder.vThumbnail.getWidth();
+            final BitmapWorkerTask task = new BitmapWorkerTask(viewHolder.vThumbnail, mContext,
+                    width, height);
+            final AsyncDrawable asyncDrawable =
+                    new AsyncDrawable(mContext.getResources(), placeHolderBitmap, task);
+            viewHolder.vThumbnail.setImageDrawable(asyncDrawable);
+            task.execute(picFile);
+        }
     }
 }

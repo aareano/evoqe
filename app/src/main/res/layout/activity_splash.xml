@@ -6,9 +6,11 @@
 
     <ImageView
         android:id="@+id/IMG_logo"
+        android:transitionName="logo_transition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+
         android:src="@drawable/logo_circle_green" />
 
     <TextView

@@ -32,6 +32,7 @@ import java.util.List;
 import evoqe.com.evoqe.R;
 import evoqe.com.evoqe.objects.ParseProxyObject;
 import evoqe.com.evoqe.utilities.DateTimeParser;
+import evoqe.com.evoqe.utilities.ImageHelper;
 
 /**
  * Provide views to RecyclerView with data.
@@ -79,11 +80,7 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 final ViewHolder_Details viewHolder = (ViewHolder_Details) vHolder;
 
                 // Thumbnail
-                byte[] byteArray = mJamboree.getParseFile(
-                        mContext.getString(R.string.jamboree_picture_key));
-                Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                //Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp, 100);
-                viewHolder.vThumbnail.setImageBitmap(bmp);
+                loadImageView(viewHolder);
                 // Title
                 viewHolder.vTitle.setText(mJamboree.getString(TITLE_KEY));
                 // Host
@@ -271,6 +268,14 @@ public class JamboreeDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         PRIVACY_KEY = mContext.getResources().getString(R.string.privacy_key);
         START_TIME_KEY = mContext.getResources().getString(R.string.start_time_key);
         END_TIME_KEY = mContext.getResources().getString(R.string.end_time_key);
+    }
+
+    private static void loadImageView(ViewHolder_Details viewHolder) {
+        byte[] byteArray = mJamboree.getParseFile(
+                mContext.getString(R.string.jamboree_picture_key));
+        Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp); // TODO - put on worker thread
+        viewHolder.vThumbnail.setImageBitmap(rounded);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

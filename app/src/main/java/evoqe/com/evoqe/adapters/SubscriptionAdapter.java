@@ -3,7 +3,6 @@ package evoqe.com.evoqe.adapters;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import evoqe.com.evoqe.R;
-import evoqe.com.evoqe.utilities.ImageHelper;
+import evoqe.com.evoqe.objects.AsyncDrawable;
+import evoqe.com.evoqe.objects.BitmapWorkerTask;
 import evoqe.com.evoqe.objects.ToastWrapper;
 
 /* NOTE: 
@@ -123,28 +123,8 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewHolder.vName.setText(currHostName);
 
             // Thumbnail
-            ParseFile picture = viewHolder.currentItem.getParseFile(
-                    mContext.getString(R.string.user_picture_key));
-            Bitmap bmp;
-            if (picture != null) {
-                try {
-                    byte[] byteArray = picture.getData();
-                    bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            loadImageView(viewHolder);
 
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                    // use default image
-                    bmp = BitmapFactory.decodeResource(mContext.getResources(),
-                            R.drawable.subscription_generic_user);
-                }
-            } else {
-                // use default image
-                bmp = BitmapFactory.decodeResource(mContext.getResources(),
-                        R.drawable.subscription_generic_user);
-            }
-            Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp);
-            viewHolder.vThumbnail.setImageBitmap(rounded);
-            
             // *** check box *** //
             // NOTE: checkbox image is changed once Parse is up to date on the change
             checkBoxAndSubscrLogic(viewHolder); // also handles changes in subscription
@@ -257,6 +237,28 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }
         );
+    }
+
+    public void loadImageView(ViewHolder viewHolder) {
+        ParseFile picFile = viewHolder.currentItem.getParseFile(
+                mContext.getString(R.string.user_picture_key));
+        Bitmap placeHolderBitmap = null;
+
+        if (picFile == null) {
+            return;
+        }
+
+        //  getData() throws ParseException
+        if (BitmapWorkerTask.cancelPotentialWork(viewHolder.vThumbnail, picFile)) {
+            final int height = viewHolder.vThumbnail.getHeight();
+            final int width = viewHolder.vThumbnail.getWidth();
+            final BitmapWorkerTask task = new BitmapWorkerTask(viewHolder.vThumbnail, mContext,
+                    width, height);
+            final AsyncDrawable asyncDrawable =
+                    new AsyncDrawable(mContext.getResources(), placeHolderBitmap, task);
+            viewHolder.vThumbnail.setImageDrawable(asyncDrawable);
+            task.execute(picFile);
+        }
     }
 
     /**

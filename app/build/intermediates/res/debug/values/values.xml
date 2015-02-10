@@ -323,7 +323,7 @@
     <string name="share">Share</string>
     <string name="signIn">Sign In</string>
     <string name="signup_activity_label">evoqe signup</string>
-    <string name="splash_activity_label">Forgot Password</string>
+    <string name="splash_activity_label">evoqe</string>
     <string name="splash_welcome">Welcome to evoqe</string>
     <string name="start_time_key">startTime</string>
     <string name="submit">Submit</string>

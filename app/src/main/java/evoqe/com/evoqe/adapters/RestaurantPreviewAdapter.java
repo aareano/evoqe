@@ -2,7 +2,6 @@ package evoqe.com.evoqe.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 
@@ -19,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import evoqe.com.evoqe.R;
+import evoqe.com.evoqe.objects.AsyncDrawable;
+import evoqe.com.evoqe.objects.BitmapWorkerTask;
 import evoqe.com.evoqe.utilities.DateTimeParser;
 
 public class RestaurantPreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -120,16 +120,28 @@ public class RestaurantPreviewAdapter extends RecyclerView.Adapter<RecyclerView.
         viewHolder.vDiscounts.setText("- " + viewHolder.currentItem.getString(DISCOUNTS_KEY));
 
         // thumbnail
-        ParseFile picture = viewHolder.currentItem.getParseFile(
-                mContext.getString(R.string.restaurant_picture_key));
-        try {
-            byte[] byteArray = picture.getData();
-            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            //Bitmap rounded = ImageHelper.getRoundedCornerBitmap(bmp, 100);
-            viewHolder.vThumbnail.setImageBitmap(bmp);
+        loadImageView(viewHolder);
+    }
 
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public void loadImageView(ViewHolder viewHolder) {
+        ParseFile picFile = viewHolder.currentItem.getParseFile(
+                mContext.getString(R.string.restaurant_picture_key));
+        Bitmap placeHolderBitmap = null;
+
+        if (picFile == null) {
+            return;
+        }
+
+        //  getData() throws ParseException
+        if (BitmapWorkerTask.cancelPotentialWork(viewHolder.vThumbnail, picFile)) {
+            final int height = viewHolder.vThumbnail.getHeight();
+            final int width = viewHolder.vThumbnail.getWidth();
+            final BitmapWorkerTask task = new BitmapWorkerTask(viewHolder.vThumbnail, mContext,
+                    width, height);
+            final AsyncDrawable asyncDrawable =
+                    new AsyncDrawable(mContext.getResources(), placeHolderBitmap, task);
+            viewHolder.vThumbnail.setImageDrawable(asyncDrawable);
+            task.execute(picFile);
         }
     }
 }

@@ -30,7 +30,7 @@ import evoqe.com.evoqe.objects.ToastWrapper;
  * TODO - sometimes activity context from fragments is null. weird.
  * TODO -
  * TODO - styles
- * TODO - Login page - onresume ends with calling Parse.initialize() twice
+ * TODO - Login page -
  *
  * Issues:
  *     Initial subscription check for JamboreeDetailActivity - Cloud code doesn't work?

@@ -6,10 +6,22 @@
             android:layout_gravity="center"
             android:orientation="vertical" >
 
+        <ImageView
+            android:id="@+id/IMG_logo"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="36dp"
+            android:src="@drawable/logo_circle_green"
+            android:contentDescription="@string/image_description" />
+
             <EditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
+                android:textAlignment="center"
                 android:hint="@string/usernameHint"
                 android:maxLines="1"
                 android:singleLine="true" />
@@ -19,6 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+
+                android:textAlignment="center"
                 android:hint="@string/prompt_password"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
@@ -37,7 +51,7 @@
             
 
             <TextView
-                android:id="@+id/orTV"
+                android:id="@+id/TV_or"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -54,8 +68,10 @@
 
             <Button
                 android:id="@+id/btn_ForgetPass"
-                android:layout_width="287dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Forget Password" />
 
 </LinearLayout><!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/layout/activity_login.xml -->
