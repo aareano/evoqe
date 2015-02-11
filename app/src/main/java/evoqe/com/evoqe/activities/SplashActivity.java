@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.ImageView;
 
 import evoqe.com.evoqe.R;
@@ -47,26 +49,37 @@ public class SplashActivity extends Activity {
              */
             @Override
             public void run() {
-                // Get shared view
-                ImageView logo = (ImageView) findViewById(R.id.IMG_logo);
-
                 // This method will be executed once the timer is over
                 // Start your app main activity
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
 
-                // create the transition animation - the images in the layouts
-                // of both activities are defined with android:transitionName="robot"
-                ActivityOptions options = ActivityOptions.
-                        makeSceneTransitionAnimation(SplashActivity.this, logo, "logo");
-                // start the new activity
-                startActivity(intent, options.toBundle());
+                // force the else
+                if (false && android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Log.d("SplashActivity", "Fancy Transition");
 
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    // Get shared view
+                    ImageView logo = (ImageView) findViewById(R.id.IMG_logo);
+
+                    // create the transition animation - the images in the layouts
+                    // of both activities are defined with android:transitionName="robot"
+                    ActivityOptions options = ActivityOptions.
+                            makeSceneTransitionAnimation(SplashActivity.this, logo, "logo");
+
+                    // start the new activity
+                    startActivity(intent, options.toBundle());
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                } else {
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
 
                 // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);
+    }
+
+    private void apiSensitiveTransition(Intent intent) {
     }
 
 }

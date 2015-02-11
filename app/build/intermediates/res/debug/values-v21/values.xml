@@ -271,7 +271,7 @@
     </style>
     <!-- From: file:/C:/Users/Isaac/Development/AndroidStudioProjects/evoqe/app/src/main/res/values-v21/styles.xml -->
     <eat-comment/>
-    <style name="Theme.MyApp" parent="Theme.AppCompat.Light">
+    <style name="Theme.MyApp" parent="android:Theme.Material">
         <!--We will be using the toolbar so no need to show ActionBar-->
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
@@ -288,5 +288,12 @@
         
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+
+
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions">true</item>
+        <!-- enable overlapping of exiting and entering activities-->
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
     </style>
 </resources>
